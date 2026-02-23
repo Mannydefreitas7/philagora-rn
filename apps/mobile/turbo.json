@@ -1,0 +1,31 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+    },
+    "build": {
+      "dependsOn": ["^build", "prebuild"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"],
+    },
+    "prebuild": {
+      "cache": false,
+      "outputs": ["ios", "android"],
+    },
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["ios", "android"],
+    },
+    "ios": {
+      "cache": true,
+    },
+    "android": {
+      "cache": true,
+    },
+  },
+}
