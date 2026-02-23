@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "heroui-native": {
+      "source": "heroui-inc/heroui",
+      "sourceType": "github",
+      "computedHash": "e92d38f7d624847f666ff8ea3e545d708551e8ed65f043ac6fd4a19bb3964767"
+    },
+    "migrate-nativewind-to-uniwind": {
+      "source": "uni-stack/uniwind",
+      "sourceType": "github",
+      "computedHash": "b4744b2223872aa2ea542c6f2dedf79893f7797decec348109a8278c05cb9ef2"
+    },
+    "turborepo": {
+      "source": "vercel/turborepo",
+      "sourceType": "github",
+      "computedHash": "836dfb7eca36cdde9025631062cff658cf37f359db7013c988d815d50225dc4d"
+    }
+  }
+}
