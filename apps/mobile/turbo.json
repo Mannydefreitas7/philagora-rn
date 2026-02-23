@@ -6,7 +6,7 @@
       "persistent": true,
     },
     "build": {
-      "dependsOn": ["^build", "prebuild"],
+      "dependsOn": ["^build", "ios"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
     },
     "check-types": {
@@ -18,11 +18,10 @@
     },
     "start": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["ios"],
+      "persistent": true
     },
     "ios": {
-      "cache": true,
+      "cache": true
     },
     "android": {
       "cache": true,

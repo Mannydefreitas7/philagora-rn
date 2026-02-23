@@ -7,7 +7,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean"
+    "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean",
+    "postinstall": "turbo run @repo/mobile#prebuild"
   },
   "devDependencies": {
     "turbo": "^2.8.10",
