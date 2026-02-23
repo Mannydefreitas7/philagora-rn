@@ -1,0 +1,19 @@
+{
+  "name": "@repo/configs",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./styles/shared": "./styles/shared-styles.css",
+    "./postcss": "./postcss.config.js",
+    "./typescript/base": "./ts/base.json",
+    "./typescript/react": "./ts/react.json"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.2.0"
+  }
+}
