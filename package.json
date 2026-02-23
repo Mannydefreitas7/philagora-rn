@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "start": "turbo run start",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "clean": "turbo run clean"
   },
   "devDependencies": {
     "turbo": "^2.8.10",
@@ -15,35 +17,47 @@
     "node": ">=18"
   },
   "packageManager": "bun@1.3.1",
+  "trustedDependencies": [
+    "uniwind"
+  ],
   "workspaces": {
-    "packages": ["packages/*", "apps/*"],
+    "packages": [
+      "packages/*",
+      "apps/*"
+    ],
     "catalogs": {
       "testing": {
         "jest": "^29.7.0",
         "testing-library": "^14.1.0"
       },
       "ui": {
-        "uniwind": "npm:uniwind-pro@rc",
         "postcss": "^8.5.6",
-        "tailwindcss": "^4.2.0"
+        "tailwindcss": "^4.2.0",
+        "heroui-native": "^1.0.0-rc.2",
+        "@gorhom/bottom-sheet": "^5",
+        "tailwind-merge": "^3.5.0",
+        "tailwind-variants": "^3.2.2"
       },
       "development": {
         "typescript": "^5.9.3",
         "@types/node": "^22.15.3",
         "@types/react": "19.2.2",
-        "@types/react-dom": "19.2.2"
+        "@types/react-dom": "19.2.2",
+        "immer": "^11.1.4",
+        "zustand": "^5.0.11"
       },
       "react": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-native": "^0.72.6",
-        "react-native-gesture-handler": "^2.12.0",
-        "react-native-reanimated": "^3.3.0",
-        "react-native-screens": "^3.20.0",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
+        "react-native": "^0.84.0",
+        "react-native-gesture-handler": "^2.30.0",
+        "react-native-reanimated": "^4.2.2",
+        "react-native-safe-area-context": "^5.6.2",
+        "react-native-screens": "^4.23.0",
+        "react-native-svg": "^15.15.3",
+        "react-native-web": "^0.21.2",
         "react-native-worklets": "^0.7.4",
-        "react-native-safe-area-context": "^4.5.0",
-        "react-native-web": "^0.19.0",
-        "react-native-svg": "^13.4.0"
+        "react-native-nitro-modules": "^0.33.9"
       }
     }
   }
