@@ -79,7 +79,13 @@
         }
       ],
       "expo-background-task",
-      "expo-video",
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ],
       [
         "expo-audio",
         {
