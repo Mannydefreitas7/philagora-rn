@@ -1,33 +1,23 @@
-import useUserStore from "@/stores/userStore";
+import useSessionStore from "@/stores/session";
 import "./../global.css";
-import { Stack, useRouter } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import "react-native-reanimated";
 import { useEffect } from "react";
 
-export default function RootLayout() {
+SplashScreen.preventAutoHideAsync();
 
-  const isLoggedIn = useUserStore(user => user.isLoggedIn);
-  const router = useRouter()
+export default function RootLayout() {
+  const session = useSessionStore((state) => state.token);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      router.navigate("/(tabs)")
-      return;
-    }
-    console.log("IS LOGGED", isLoggedIn)
-    router.navigate("/(auth)/login");
-  }, [isLoggedIn])
+    if (!session) SplashScreen.hideAsync();
+  }, [session]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <HeroUINativeProvider>
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(modal)" options={{ headerShown: false }} />
-        </Stack>
+        <Slot />
       </HeroUINativeProvider>
     </GestureHandlerRootView>
   );
