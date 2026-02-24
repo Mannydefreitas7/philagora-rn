@@ -75,7 +75,7 @@
       [
         "expo-asset",
         {
-          "assets": ["path/to/file.png", "path/to/directory"]
+          "assets": []
         }
       ],
       "expo-background-task",
