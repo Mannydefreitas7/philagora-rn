@@ -24,23 +24,10 @@ export type TPartialUser = Partial<IUser>;
 export interface IUserState {
   // current authenticated user (null when not authenticated)
   user: IUser | null;
-
-  // authentication token (if any)
-  token: string | null;
-
-  // derived boolean indicating whether the session is considered logged in
-  isLoggedIn: boolean;
-
   // setters / actions
   setUser: (user: IUser | null) => void;
   updateUser: (patch: TPartialUser) => void;
-  setToken: (token: string | null) => void;
-
-  // convenience flows
-  login: (user: IUser, token: string) => void;
-  logout: () => void;
   clearUser: () => void;
-
   // optional helpers that implementations may provide
   hasRole?: (role: string) => boolean;
 }
