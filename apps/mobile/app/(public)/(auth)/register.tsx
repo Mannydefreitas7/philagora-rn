@@ -63,79 +63,68 @@ export default function Register() {
   return (
     <KeyboardAvoidingView behavior={Platform.select({ ios: "padding", android: undefined })} style={{ flex: 1 }}>
       <View className="flex-1 px-5 py-8 justify-center bg-transparent">
+        <View className="space-y-3 mt-2">
+          <UITextfield
+            placeholder="John"
+            keyboardType="name-phone-pad"
+            autoCapitalize="none"
+            labelProps={{ value: "Full name" }}
+            value={fullName}
+            onChangeText={setFullName}
+          />
 
-          <Card.Body className="space-y-4">
-            <View className="space-y-3 mt-2">
-              <UITextfield
-                placeholder="John"
-                keyboardType="name-phone-pad"
-                autoCapitalize="none"
-                labelProps={{ value: "Full name" }}
-                value={fullName}
-                onChangeText={setFullName}
+          <UITextfield
+            placeholder="you@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            labelProps={{ value: "Email" }}
+            value={email}
+            onChangeText={setEmail}
+            returnKeyType="next"
+          />
 
-              />
-              <TextField
-                label="Full name"
-                placeholder="Your name"
-                value={fullName}
-                onChangeText={setFullName}
-                returnKeyType="next"
-              />
+          <UITextfield
+            placeholder="Password"
+            keyboardType="visible-password"
+            labelProps={{ value: "Password" }}
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
 
-              <TextField
-                label="Email"
-                placeholder="you@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                value={email}
-                onChangeText={setEmail}
-                returnKeyType="next"
-              />
+          <UITextfield
+            placeholder="Confirm Password"
+            keyboardType="visible-password"
+            labelProps={{ value: "Repeat password" }}
+            secureTextEntry
+            value={confirm}
+            onChangeText={setConfirm}
+            returnKeyType="done"
+          />
+        </View>
 
-              <TextField
-                label="Password"
-                placeholder="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-                returnKeyType="next"
-              />
+        {error ? <Text className="text-red-600 mt-3">{error}</Text> : null}
 
-              <TextField
-                label="Confirm password"
-                placeholder="Repeat password"
-                secureTextEntry
-                value={confirm}
-                onChangeText={setConfirm}
-                returnKeyType="done"
-              />
-            </View>
+        <View className="mt-4">
+          <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
+            {submitting ? "Creating..." : "Create account"}
+          </Button>
+        </View>
 
-            {error ? <Text className="text-red-600 mt-3">{error}</Text> : null}
+        <View>
+          <View className="mt-3 flex-row justify-center items-center">
+            <Text className="text-gray-500">Already have an account?</Text>
+            <TouchableOpacity className="ml-2" onPress={() => router.push("/(public)/(auth)/login")}>
+              <Text className="text-blue-600">Sign in</Text>
+            </TouchableOpacity>
+          </View>
 
-            <View className="mt-4">
-              <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
-                {submitting ? "Creating..." : "Create account"}
-              </Button>
-            </View>
-          </Card.Body>
-
-          <Card.Footer>
-            <View className="mt-3 flex-row justify-center items-center">
-              <Text className="text-gray-500">Already have an account?</Text>
-              <TouchableOpacity className="ml-2" onPress={() => router.push("/(public)/(auth)/login")}>
-                <Text className="text-blue-600">Sign in</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="mt-3 items-center">
-              <TouchableOpacity onPress={() => router.push("/(public)/(auth)/forgot-password")}>
-                <Text className="text-gray-500">Forgot password?</Text>
-              </TouchableOpacity>
-            </View>
-          </Card.Footer>
-        </Card>
+          <View className="mt-3 items-center">
+            <TouchableOpacity onPress={() => router.push("/(public)/(auth)/forgot-password")}>
+              <Text className="text-gray-500">Forgot password?</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

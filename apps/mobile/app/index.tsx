@@ -5,8 +5,8 @@ export default function Index() {
   const isLoggedIn = useSessionStore((state) => state.isLoggedIn);
 
   if (isLoggedIn) {
-    return <Redirect href="/(public)/(tabs)" />;
+    return <Redirect href="/" />;
   }
 
-  return <Redirect href="/(public)/(auth)/login" />;
+  return <Redirect href="/login" />;
 }

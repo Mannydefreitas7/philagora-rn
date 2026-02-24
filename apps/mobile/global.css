@@ -1,5 +1,19 @@
-@import 'tailwindcss';
-@import 'uniwind';
+@import "tailwindcss";
+@import "uniwind";
 
-@import 'heroui-native/styles';
+@import "heroui-native/styles";
 @source './node_modules/heroui-native/lib';
+
+@layer theme {
+    /* Dark theme variables */
+    @variant dark {
+        --accent: var(--color-white);
+        --accent-foreground: var(--color-black); /* Custom indigo accent */
+    }
+
+    /* Light theme variables */
+    @variant light {
+        --accent: var(--color-black);
+        --accent-foreground: var(--color-white); /* Custom indigo accent */
+    }
+}

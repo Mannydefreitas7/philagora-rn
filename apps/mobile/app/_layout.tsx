@@ -15,8 +15,14 @@ export default function RootLayout() {
   }, [initializing]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-background-secondary">
-      <HeroUINativeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-background">
+      <HeroUINativeProvider
+        config={{
+          devInfo: {
+            stylingPrinciples: false,
+          },
+        }}
+      >
         <Slot />
       </HeroUINativeProvider>
     </GestureHandlerRootView>
