@@ -2,9 +2,12 @@
   "name": "philagora",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "start": "turbo run start",
-    "dev": "turbo run dev",
+    "setup": "bun run clean && bun install",
+    "build": "dotenvx run -f .env.development -- turbo run build",
+    "start": "dotenvx run -f .env.development -- turbo run start",
+    "dev": "dotenvx run -f .env.development -- turbo run dev",
+    "encrypt": "dotenvx encrypt -f .env.*",
+    "decrypt": "dotenvx decrypt -fk .env.keys -f .env.*",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean",
@@ -12,7 +15,8 @@
   },
   "devDependencies": {
     "turbo": "^2.8.10",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@dotenvx/dotenvx": "^1.52.0"
   },
   "engines": {
     "node": ">=18"
