@@ -4,5 +4,4 @@ plugins = ["bun-plugin-tailwind"]
 smol = true
 logLevel = "debug" # "debug" | "warn" | "error"
 [install]
-linkWorkspacePackages = true
 linker = "isolated"

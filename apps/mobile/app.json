@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mannydefreitas7.mobile"
+      "bundleIdentifier": "com.philagora.mobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.mannydefreitas7.mobile"
+      "package": "com.philagora.mobile"
     },
     "plugins": [
       "expo-router",

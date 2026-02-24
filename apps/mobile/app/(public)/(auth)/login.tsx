@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Platform } from "react-native";
+import { View, KeyboardAvoidingView, Platform, Text } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, Card, TextField, Label, FieldError } from "heroui-native";
+import { Button, TextField, Label, FieldError, Input, Description } from "heroui-native";
+import { supabase } from "@/utils/supabase";
+import UITextfield from "@/components/texfield";
 
 /**
  * Login screen converted to use Tailwind (Uniwind) `className` instead of inline styles.
@@ -24,6 +26,7 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const validate = () => {
@@ -36,19 +39,27 @@ export default function LoginScreen() {
       next.password = "Password must be at least 6 characters";
 
     setErrors(next);
+    setSubmitError(null);
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate()) return;
     setLoading(true);
 
-    // Simulate auth call
-    setTimeout(() => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setSubmitError(error.message);
       setLoading(false);
-      // Navigate to app root on success; adjust as needed for your app
-      router.push("/");
-    }, 900);
+      return;
+    }
+
+    setLoading(false);
+    router.replace("/");
   };
 
   return (
@@ -56,45 +67,37 @@ export default function LoginScreen() {
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View className="flex-1 justify-center px-6 py-8 bg-transparent">
-        <Card className="w-full">
-          <Card.Header>
-            <Card.Title>Sign in</Card.Title>
-            <Card.Description>
-              Welcome back — please sign in to continue
-            </Card.Description>
-          </Card.Header>
+      <View className="flex-1 flex-col gap-y-4 justify-center px-6 py-8 bg-transparent">
 
-          <Card.Body className="space-y-4">
-            <View className="space-y-2">
-              <Label>Email</Label>
-              <TextField
-                value={email}
-                onChangeText={setEmail}
-                placeholder="you@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              {errors.email ? <FieldError>{errors.email}</FieldError> : null}
+        <View className="space-y-2">
+          <UITextfield
+            isRequired
+            placeholder="john@smith.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            labelProps={{ value: "Email" }}
+            value={email}
+            onChangeText={setEmail}
+            isInvalid={!!errors.email}
+          />
+
+          <UITextfield
+            isRequired
+            placeholder="***************"
+            keyboardType="visible-password"
+            autoCapitalize="none"
+            labelProps={{ value: "Password" }}
+            value={password}
+            onChangeText={setPassword}
+            isInvalid={!!errors.password}
+          />
+
             </View>
 
-            <View className="space-y-2">
-              <Label>Password</Label>
-              <TextField
-                value={password}
-                onChangeText={setPassword}
-                placeholder="●●●●●●●"
-                secureTextEntry
-                autoCapitalize="none"
-              />
-              {errors.password ? (
-                <FieldError>{errors.password}</FieldError>
-              ) : null}
-            </View>
-          </Card.Body>
+            {submitError ? (
+              <Text className="text-red-600">{submitError}</Text>
+            ) : null}
 
-          <Card.Footer className="space-y-3">
             <Button
               onPress={handleSubmit}
               variant="primary"
@@ -106,17 +109,16 @@ export default function LoginScreen() {
             <View className="flex-row justify-between items-center">
               <Button
                 variant="ghost"
-                onPress={() => router.push("forgot-password")}
+                onPress={() => router.push("/(public)/(auth)/forgot-password")}
               >
                 Forgot password?
               </Button>
 
-              <Button variant="outline" onPress={() => router.push("register")}>
+              <Button variant="outline" onPress={() => router.push("/(public)/(auth)/register")}>
                 Create account
               </Button>
             </View>
-          </Card.Footer>
-        </Card>
+
       </View>
     </KeyboardAvoidingView>
   );

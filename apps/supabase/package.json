@@ -1,0 +1,6 @@
+{
+  "name": "@repo/supabase",
+  "scripts": {
+    "start": "supabase start"
+  }
+}

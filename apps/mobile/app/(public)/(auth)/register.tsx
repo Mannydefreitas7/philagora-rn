@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Card, TextField } from "heroui-native";
+import { supabase } from "@/utils/supabase";
+import UITextfield from "@/components/texfield";
 
 /**
  * Register screen using Tailwind (Uniwind) `className`.
@@ -38,24 +40,41 @@ export default function Register() {
 
     setSubmitting(true);
 
-    // Simulate registration call. Replace with real API integration.
-    setTimeout(() => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+
+    if (error) {
+      setError(error.message);
       setSubmitting(false);
-      router.replace("/(public)/(auth)/login");
-    }, 900);
+      return;
+    }
+
+    setSubmitting(false);
+    router.replace("/");
   }
 
   return (
     <KeyboardAvoidingView behavior={Platform.select({ ios: "padding", android: undefined })} style={{ flex: 1 }}>
       <View className="flex-1 px-5 py-8 justify-center bg-transparent">
-        <Card className="w-full">
-          <Card.Header>
-            <Card.Title>Create an account</Card.Title>
-            <Card.Description>Sign up to get started</Card.Description>
-          </Card.Header>
 
           <Card.Body className="space-y-4">
             <View className="space-y-3 mt-2">
+              <UITextfield
+                placeholder="John"
+                keyboardType="name-phone-pad"
+                autoCapitalize="none"
+                labelProps={{ value: "Full name" }}
+                value={fullName}
+                onChangeText={setFullName}
+
+              />
               <TextField
                 label="Full name"
                 placeholder="Your name"
@@ -96,7 +115,7 @@ export default function Register() {
             {error ? <Text className="text-red-600 mt-3">{error}</Text> : null}
 
             <View className="mt-4">
-              <Button variant="primary" onPress={onRegister} disabled={submitting}>
+              <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
                 {submitting ? "Creating..." : "Create account"}
               </Button>
             </View>
