@@ -2,14 +2,7 @@ import React, { useState } from "react";
 import { Platform, KeyboardAvoidingView } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Button,
-  Card,
-  TextField,
-  Label,
-  FieldError,
-  Spinner,
-} from "heroui-native";
+import { Button, Card, TextField, Label, FieldError, Spinner } from "heroui-native";
 
 /**
  * Forgot Password screen converted to Tailwind (Uniwind) `className`.
@@ -69,8 +62,7 @@ export default function ForgotPassword() {
           <Card.Header>
             <Card.Title>Forgot password</Card.Title>
             <Card.Description>
-              Enter the email associated with your account and we'll send a
-              reset link.
+              Enter the email associated with your account and we'll send a reset link.
             </Card.Description>
           </Card.Header>
 
@@ -100,11 +92,7 @@ export default function ForgotPassword() {
           </Card.Body>
 
           <Card.Footer className="flex-row justify-between items-center">
-            <Button
-              variant="tertiary"
-              onPress={() => router.replace("/(auth)/login")}
-              isDisabled={loading}
-            >
+            <Button variant="tertiary" onPress={() => router.replace("/(public)/(auth)/login")} isDisabled={loading}>
               Back to login
             </Button>
 

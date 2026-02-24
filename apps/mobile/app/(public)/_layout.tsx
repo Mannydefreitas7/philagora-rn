@@ -1,26 +1,16 @@
 import useSessionStore from "@/stores/session";
-import useUserStore from "@/stores/user";
-import { Stack, useRouter } from "expo-router";
-import { useEffect } from "react";
+import { Redirect, Stack } from "expo-router";
 
 export default function PublicLayout() {
-  const user = useUserStore((user) => user.user);
-  const isLoggedIn = useSessionStore((state) => state);
-  const router = useRouter();
+  const isLoggedIn = useSessionStore((state) => state.isLoggedIn);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     router.navigate("/(public)/(tabs)");
-  //     return;
-  //   }
-  //   console.log("IS LOGGED", isLoggedIn);
-  //   router.navigate("/(public)/(auth)/login");
-  // }, [isLoggedIn]);
+  if (!isLoggedIn) {
+    return <Redirect href="/(public)/(tabs)" />;
+  }
 
   return (
     <Stack>
-      <Stack.Screen name="(auth)/login" />
-      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
     </Stack>
   );
 }

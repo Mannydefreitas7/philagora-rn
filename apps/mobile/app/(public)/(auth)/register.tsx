@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { Button, Card, TextField } from "heroui-native";
 
@@ -47,15 +41,12 @@ export default function Register() {
     // Simulate registration call. Replace with real API integration.
     setTimeout(() => {
       setSubmitting(false);
-      router.replace("/(auth)/login");
+      router.replace("/(public)/(auth)/login");
     }, 900);
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.select({ ios: "padding", android: undefined })}
-      style={{ flex: 1 }}
-    >
+    <KeyboardAvoidingView behavior={Platform.select({ ios: "padding", android: undefined })} style={{ flex: 1 }}>
       <View className="flex-1 px-5 py-8 justify-center bg-transparent">
         <Card className="w-full">
           <Card.Header>
@@ -105,11 +96,7 @@ export default function Register() {
             {error ? <Text className="text-red-600 mt-3">{error}</Text> : null}
 
             <View className="mt-4">
-              <Button
-                variant="primary"
-                onPress={onRegister}
-                disabled={submitting}
-              >
+              <Button variant="primary" onPress={onRegister} disabled={submitting}>
                 {submitting ? "Creating..." : "Create account"}
               </Button>
             </View>
@@ -118,18 +105,13 @@ export default function Register() {
           <Card.Footer>
             <View className="mt-3 flex-row justify-center items-center">
               <Text className="text-gray-500">Already have an account?</Text>
-              <TouchableOpacity
-                className="ml-2"
-                onPress={() => router.push("/(auth)/login")}
-              >
+              <TouchableOpacity className="ml-2" onPress={() => router.push("/(public)/(auth)/login")}>
                 <Text className="text-blue-600">Sign in</Text>
               </TouchableOpacity>
             </View>
 
             <View className="mt-3 items-center">
-              <TouchableOpacity
-                onPress={() => router.push("/(auth)/forgot-password")}
-              >
+              <TouchableOpacity onPress={() => router.push("/(public)/(auth)/forgot-password")}>
                 <Text className="text-gray-500">Forgot password?</Text>
               </TouchableOpacity>
             </View>
