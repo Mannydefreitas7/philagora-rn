@@ -1,0 +1,10 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "inputs": ["$TURBO_DEFAULT$", ".env.*"],
+    },
+  },
+}
