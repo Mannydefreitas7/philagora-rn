@@ -1,5 +1,13 @@
 {
-  "name": "@repo/supabase",
+  "name": "@repo/server",
+  "description": "Server backend package running the local supabase",
+  "version": "0.0.0",
+  "author": {
+    "name": "Emmanuel De Freitas",
+    "email": "emmanuel@philagora.io"
+  },
+  "private": true,
+  "type": "module",
   "scripts": {
     "start": "supabase start"
   }

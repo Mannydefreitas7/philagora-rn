@@ -5,7 +5,7 @@ export const tabs: ITab[] = [
   {
     id: uuid.v4(),
     name: "home",
-    route: "/",
+    route: "/home",
     icon: "home",
   },
   {

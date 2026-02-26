@@ -7,7 +7,6 @@
     },
     "build": {
       "dependsOn": ["^build", "ios"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
     },
     "check-types": {
       "dependsOn": ["^check-types"],
@@ -18,10 +17,11 @@
     },
     "start": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "with": ["@repo/server#start"],
     },
     "ios": {
-      "cache": true
+      "cache": true,
     },
     "android": {
       "cache": true,
