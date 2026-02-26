@@ -1,30 +1,28 @@
 {
+  "$schema": "https://turborepo.dev/schema.json",
   "extends": ["//"],
   "tasks": {
-    "dev": {
-      "cache": false,
-      "persistent": true,
-    },
     "build": {
-      "dependsOn": ["^build", "ios"],
+      "cache": true,
+      "dependsOn": ["^build", "ios"]
     },
     "check-types": {
-      "dependsOn": ["^check-types"],
+      "dependsOn": ["^check-types"]
     },
     "prebuild": {
-      "cache": false,
-      "outputs": ["ios", "android"],
+      "cache": true,
+      "outputs": ["ios", "android"]
     },
     "start": {
       "cache": false,
       "persistent": true,
-      "with": ["@repo/server#start"],
+      "with": ["@repo/server#start"]
     },
     "ios": {
-      "cache": true,
+      "cache": true
     },
     "android": {
-      "cache": true,
+      "cache": true
     },
   },
 }

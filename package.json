@@ -4,15 +4,14 @@
   "scripts": {
     "setup": "bun run clean && bun install",
     "build": "dotenvx run -f .env.development -- turbo run build",
-    "start": "dotenvx run -f .env.development -- turbo run start",
-    "dev": "dotenvx run -f .env.development -- turbo run dev",
+    "start": "dotenvx run -f .env.development -- turbo run start @repo/server#start --paralell",
     "encrypt": "dotenvx encrypt -f .env.*",
     "decrypt": "dotenvx decrypt -fk .env.keys -f .env.*",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "cache:clear": "watchman watch-del-all",
     "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean",
-    "postinstall": "turbo run @repo/mobile#prebuild"
+    "postinstall": "turbo run @repo/mobile#prebuild build"
   },
   "devDependencies": {
     "turbo": "^2.8.11",
