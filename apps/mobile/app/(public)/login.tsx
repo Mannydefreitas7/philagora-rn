@@ -1,13 +1,14 @@
-import React, {useState} from "react";
-import {KeyboardAvoidingView, Platform, Text, View} from "react-native";
+import React, {useEffect, useMemo, useState} from "react";
+import {ColorValue, KeyboardAvoidingView, Platform, Text, View} from "react-native";
 import {useRouter} from "expo-router";
-import {Button} from "heroui-native";
+import {Button, useIsOnSurface, useThemeColor} from "heroui-native";
 import {supabase} from "@/utils/supabase";
 import UITextfield from "@/components/texfield";
-import Logo from "../../assets/logo-philagora-black.svg";
+import Logo from "@/assets/logo-philagora-black.svg";
+import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller';
 import useValidation, {validationRules} from "@/hooks/use-validation";
 
-import {withUniwind} from "uniwind";
+import {useCSSVariable, useUniwind, withUniwind} from "uniwind";
 
 const StyledLogo = withUniwind(Logo);
 
@@ -26,13 +27,15 @@ const StyledLogo = withUniwind(Logo);
 
 export default function LoginScreen() {
     const router = useRouter();
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [values, setValues] = useState<{ email: string; password: string }>({email: "", password: ""});
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const source = require("../../assets/logo-philagora-black.svg");
+    const foreground = useThemeColor("foreground");
+    const isOnSurface = useIsOnSurface();
+
+  useEffect(() => {
+
+  }, [isOnSurface])
 
     const schema = {
         email: [validationRules.required("Email"), validationRules.email()],
@@ -61,16 +64,18 @@ export default function LoginScreen() {
     };
 
     return (
-        <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <KeyboardAwareScrollView bottomOffset={20} automaticallyAdjustKeyboardInsets enabled={false} >
             <View className="flex-1 flex-col gap-y-4 justify-center px-6 py-8 bg-transparent">
                 <View className="flex-col items-center">
-                    {source &&
-                        <StyledLogo className="stroke-black dark:stroke-white" width={150} height={150}/>}
+                    <Logo stroke={foreground} strokeWidth={45} width={150} height={150} strokeLinecap="round" />
                     <Text className="text-3xl font-bold mt-4 text-black dark:text-white">Philagora</Text>
                     <Text className="text-neutral-600 dark:text-neutral-300 text-lg">Sign in to your account</Text>
                 </View>
                 <View className=" flex gap-y-3">
                     <UITextfield
+                        clearTextOnFocus
+                        autoFocus
+                        clearButtonMode="while-editing"
                         isRequired
                         placeholder="john@smith.com"
                         keyboardType="email-address"
@@ -108,6 +113,6 @@ export default function LoginScreen() {
                     </Button>
                 </View>
             </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     );
 }

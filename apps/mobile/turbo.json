@@ -16,10 +16,12 @@
     "start": {
       "cache": false,
       "persistent": true,
+      "interactive": true,
       "with": ["@repo/server#start"]
     },
     "ios": {
-      "cache": true
+      "cache": true,
+      "dependsOn": ["prebuild"]
     },
     "android": {
       "cache": true

@@ -4,6 +4,7 @@ import {HeroUINativeProvider} from "heroui-native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {useEffect} from "react";
 import useSupabaseAuth from "@/hooks/use-supabase-auth";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,7 +17,8 @@ export default function RootLayout() {
     }, [initializing]);
 
     return (
-        <GestureHandlerRootView style={{flex: 1}} className="bg-white dark:bg-neutral-900">
+      <GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-neutral-900">
+        <KeyboardProvider>
             <HeroUINativeProvider
                 config={{
                     devInfo: {
@@ -25,7 +27,8 @@ export default function RootLayout() {
                 }}
             >
                 <Stack screenOptions={{headerShown: false}}/>
-            </HeroUINativeProvider>
+          </HeroUINativeProvider>
+        </KeyboardProvider>
         </GestureHandlerRootView>
     );
 }

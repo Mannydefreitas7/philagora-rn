@@ -4,19 +4,19 @@
   "scripts": {
     "setup": "bun run clean && bun install",
     "build": "dotenvx run -f .env.development -- turbo run build",
-    "start": "dotenvx run -f .env.development -- turbo run start @repo/server#start --paralell",
+    "start": "dotenvx run -f .env.development -- turbo run @repo/mobile#start",
     "encrypt": "dotenvx encrypt -f .env.*",
     "decrypt": "dotenvx decrypt -fk .env.keys -f .env.*",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "cache:clear": "watchman watch-del-all",
-    "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean",
-    "postinstall": "turbo run @repo/mobile#prebuild build"
+    "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
+    "supabase": "^2.76.15",
     "turbo": "^2.8.11",
-    "typescript": "^5.9.3",
-    "@dotenvx/dotenvx": "^1.52.0"
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18"
@@ -66,7 +66,8 @@
         "react-native-worklets": "0.5.1",
         "react-native-nitro-modules": "^0.33.9",
         "@react-native-async-storage/async-storage": "^3.0.1",
-        "react-native-svg-transformer": "^1.5.3"
+        "react-native-svg-transformer": "^1.5.3",
+        "react-native-keyboard-controller": "^1.20.7"
       }
     }
   }
