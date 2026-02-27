@@ -4,9 +4,9 @@ import { useSessionStore } from "@/stores/session";
 SplashScreen.preventAutoHideAsync();
 
 export function SplashScreenController() {
-  const { isLoading } = useSessionStore((state) => state);
+  const isLoggedIn = useSessionStore((state) => state.isLoggedIn);
 
-  if (!isLoading) {
+  if (typeof isLoggedIn === "boolean") {
     SplashScreen.hide();
   }
 
