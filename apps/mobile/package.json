@@ -92,9 +92,6 @@
     "typescript": "catalog:development",
     "zustand": "catalog:development"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "private": true,
   "trustedDependencies": [
     "uniwind"

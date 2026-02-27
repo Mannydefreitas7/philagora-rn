@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Text, View } from "react-native";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
@@ -15,6 +15,7 @@ export default function LoginFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
   const { values, loading, submitError, setField, login } = useLoginStore();
+
   const { TriggerButton } = useBottomSheetButton({
     modal: {
       title: "Forgot Password",
