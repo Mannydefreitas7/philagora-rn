@@ -16,6 +16,14 @@ metadata:
 
 Build system for JavaScript/TypeScript monorepos. Turborepo caches task outputs and runs tasks in parallel based on dependency graph.
 
+## MCP Guidance
+
+There is no dedicated Turborepo MCP in this environment.
+
+- Use shell commands (`turbo run ...`, `bun ...`, `npm ...`) for execution and verification.
+- Prefer fast local inspection commands for repo analysis (`find`, `sed`, `cat`, `rg` when available).
+- Use other MCP servers only when the task explicitly crosses into those domains (for example GitHub PR operations or Supabase DB operations).
+
 ## IMPORTANT: Package Tasks, Not Root Tasks
 
 **DO NOT create Root Tasks. ALWAYS create package tasks.**

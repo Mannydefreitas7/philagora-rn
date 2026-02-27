@@ -42,7 +42,7 @@ import "./styles.css"; // CSS files don't work in React Native
 import { Button } from "heroui-native";
 
 <Button variant="primary" onPress={() => console.log("Pressed!")}>
-	Click me
+  Click me
 </Button>;
 ```
 
@@ -62,6 +62,24 @@ import { Button } from "heroui-native";
 ## Accessing Documentation & Component Information
 
 **For component details, examples, props, and implementation patterns, always fetch documentation:**
+
+### Preferred MCP Tools (First Choice)
+
+When MCP tools are available, use these first:
+
+- `mcp__heroui-native__list_components`
+- `mcp__heroui-native__get_component_docs`
+- `mcp__heroui-native__get_docs`
+- `mcp__heroui-native__get_theme_variables`
+
+Recommended flow:
+
+1. `list_components`
+2. `get_component_docs` for exact components
+3. `get_docs` only for guides/releases
+4. `get_theme_variables` for theme tokens
+
+Do not guess component names or docs paths when MCP responses can provide the authoritative value.
 
 ### Using Scripts
 
@@ -141,13 +159,13 @@ import { HeroUINativeProvider } from "heroui-native";
 import "./global.css";
 
 export default function Layout() {
-	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
-			<HeroUINativeProvider>
-				<App />
-			</HeroUINativeProvider>
-		</GestureHandlerRootView>
-	);
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <HeroUINativeProvider>
+        <App />
+      </HeroUINativeProvider>
+    </GestureHandlerRootView>
+  );
 }
 ```
 
@@ -170,12 +188,12 @@ HeroUI Native uses **compound component patterns**. Each component has subcompon
 
 ```tsx
 <Card>
-	<Card.Header>
-		<Card.Title>Title</Card.Title>
-		<Card.Description>Description</Card.Description>
-	</Card.Header>
-	<Card.Body>{/* Content */}</Card.Body>
-	<Card.Footer>{/* Actions */}</Card.Footer>
+  <Card.Header>
+    <Card.Title>Title</Card.Title>
+    <Card.Description>Description</Card.Description>
+  </Card.Header>
+  <Card.Body>{/* Content */}</Card.Body>
+  <Card.Footer>{/* Actions */}</Card.Footer>
 </Card>
 ```
 
@@ -212,8 +230,8 @@ HeroUI Native uses CSS variables via Tailwind/Uniwind for theming. Theme colors 
 
 ```css
 @theme {
-	--color-accent: hsl(260, 100%, 70%);
-	--color-accent-foreground: hsl(0, 0%, 100%);
+  --color-accent: hsl(260, 100%, 70%);
+  --color-accent-foreground: hsl(0, 0%, 100%);
 }
 ```
 
