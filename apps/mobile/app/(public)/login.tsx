@@ -1,16 +1,16 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {ColorValue, KeyboardAvoidingView, Platform, Text, View} from "react-native";
-import {useRouter} from "expo-router";
-import {Button, useIsOnSurface, useThemeColor} from "heroui-native";
-import {supabase} from "@/utils/supabase";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Button, useIsOnSurface, useThemeColor } from "heroui-native";
+import { supabase } from "@/utils/supabase";
 import UITextfield from "@/components/texfield";
 import Logo from "@/assets/logo-philagora-black.svg";
-import { KeyboardAwareScrollView, KeyboardToolbar } from 'react-native-keyboard-controller';
-import useValidation, {validationRules} from "@/hooks/use-validation";
-
-import {useCSSVariable, useUniwind, withUniwind} from "uniwind";
-
-const StyledLogo = withUniwind(Logo);
+import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
+import useValidation, { validationRules } from "@/hooks/use-validation";
+import useSheetStore from "@/stores/sheet";
+import { ISheet } from "@/types/navigation";
+import { Password } from "@/components";
+import { useBottomSheetButton } from "@/components/molecules/sheet-button";
 
 /**
  * Login screen converted to use Tailwind (Uniwind) `className` instead of inline styles.
@@ -26,93 +26,114 @@ const StyledLogo = withUniwind(Logo);
  */
 
 export default function LoginScreen() {
-    const router = useRouter();
-    const [values, setValues] = useState<{ email: string; password: string }>({email: "", password: ""});
-    const [submitError, setSubmitError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const foreground = useThemeColor("foreground");
-    const isOnSurface = useIsOnSurface();
+  const router = useRouter();
+  const [values, setValues] = useState<{ email: string; password: string }>({ email: "", password: "" });
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const foreground = useThemeColor("foreground");
+  const isOnSurface = useIsOnSurface();
+  const toggleSheet = useSheetStore((state) => state.open);
+  const { onChange, TriggerButton } = useBottomSheetButton({
+    modal: {
+      title: "Forgot Password",
+      description: "Enter your email address and we'll send you a link to reset your password.",
+      component: <Password />,
+    },
+  });
 
-  useEffect(() => {
+  useEffect(() => {}, [isOnSurface]);
 
-  }, [isOnSurface])
+  const schema = {
+    email: [validationRules.required("Email"), validationRules.email()],
+    password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
+  };
 
-    const schema = {
-        email: [validationRules.required("Email"), validationRules.email()],
-        password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
+  const { errors: validationErrors, isSubmitDisabled, validateForm, hasErrors } = useValidation(values, schema);
+
+  const handleSubmit = async () => {
+    if (validateForm() && hasErrors) return;
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (error) {
+      setSubmitError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    router.replace("/home");
+  };
+
+  const handleSheetToggle = () => {
+    const sheet: ISheet = {
+      id: "forgot-password",
+      title: "Forgot Password",
+      content: <Password />,
     };
+    toggleSheet(sheet);
+  };
 
-    const {errors: validationErrors, validateField, validateForm, hasErrors} = useValidation(values, schema);
+  return (
+    <KeyboardAwareScrollView bottomOffset={40} automaticallyAdjustKeyboardInsets>
+      <View className="mt-safe-offset-8 flex-1 flex-col gap-y-4 justify-center px-6 py-8 bg-transparent">
+        <View className="flex-col items-center">
+          <Logo stroke={foreground} strokeWidth={45} width={120} height={120} strokeLinecap="round" />
+          <Text className="text-3xl font-bold mt-1 text-black dark:text-white">Philagora</Text>
+          <Text className="text-neutral-600 dark:text-neutral-300 text-md">Sign in to your account</Text>
+        </View>
+        <View className=" flex gap-y-3">
+          <UITextfield
+            clearTextOnFocus
+            autoFocus
+            clearButtonMode="while-editing"
+            isRequired
+            placeholder="john@smith.com"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            keyboardAppearance="default"
+            inputMode="email"
+            returnKeyLabel="Next"
+            returnKeyType="next"
+            autoCapitalize="none"
+            labelProps={{ value: "Email" }}
+            value={values.email}
+            error={validationErrors.email}
+            onChangeText={(value) => setValues({ ...values, email: value })}
+            isInvalid={!!validationErrors.email}
+          />
 
-    const handleSubmit = async () => {
-        if (validateForm() && hasErrors) return;
-        setLoading(true);
+          <UITextfield
+            isRequired
+            placeholder="***************"
+            keyboardType="visible-password"
+            returnKeyLabel="Login"
+            returnKeyType="join"
+            submitBehavior="blurAndSubmit"
+            onSubmitEditing={handleSubmit}
+            autoCapitalize="none"
+            labelProps={{ value: "Password" }}
+            value={values.password}
+            error={validationErrors.password}
+            onChangeText={(value) => setValues({ ...values, password: value })}
+            isInvalid={!!validationErrors.password}
+          />
+        </View>
+        <Button onPress={handleSheetToggle} variant="primary" className="mt-3" isDisabled={loading || isSubmitDisabled}>
+          {loading ? "Signing in..." : "Sign in"}
+        </Button>
 
-        const {error} = await supabase.auth.signInWithPassword({
-            email: values.email,
-            password: values.password,
-        });
-
-        if (error) {
-            setSubmitError(error.message);
-            setLoading(false);
-            return;
-        }
-
-        setLoading(false);
-        router.replace("/home");
-    };
-
-    return (
-      <KeyboardAwareScrollView bottomOffset={20} automaticallyAdjustKeyboardInsets enabled={false} >
-            <View className="flex-1 flex-col gap-y-4 justify-center px-6 py-8 bg-transparent">
-                <View className="flex-col items-center">
-                    <Logo stroke={foreground} strokeWidth={45} width={150} height={150} strokeLinecap="round" />
-                    <Text className="text-3xl font-bold mt-4 text-black dark:text-white">Philagora</Text>
-                    <Text className="text-neutral-600 dark:text-neutral-300 text-lg">Sign in to your account</Text>
-                </View>
-                <View className=" flex gap-y-3">
-                    <UITextfield
-                        clearTextOnFocus
-                        autoFocus
-                        clearButtonMode="while-editing"
-                        isRequired
-                        placeholder="john@smith.com"
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        labelProps={{value: "Email"}}
-                        value={values.email}
-                        error={validationErrors.email}
-                        onChangeText={(value) => setValues({...values, email: value})}
-                        isInvalid={!!validationErrors.email}
-                    />
-
-                    <UITextfield
-                        isRequired
-                        placeholder="***************"
-                        keyboardType="visible-password"
-                        autoCapitalize="none"
-                        labelProps={{value: "Password"}}
-                        value={values.password}
-                        error={validationErrors.password}
-                        onChangeText={(value) => setValues({...values, password: value})}
-                        isInvalid={!!validationErrors.password}
-                    />
-                </View>
-                <Button onPress={handleSubmit} variant="primary" className="mt-3" isDisabled={loading || hasErrors}>
-                    {loading ? "Signing in..." : "Sign in"}
-                </Button>
-
-                <View className="flex-row justify-between items-center">
-                    <Button variant="ghost" onPress={() => router.push("/forgot-password")}>
-                        Forgot password?
-                    </Button>
-
-                    <Button variant="outline" className={"border-accent"} onPress={() => router.push("/register")}>
-                        Create account
-                    </Button>
-                </View>
-            </View>
-        </KeyboardAwareScrollView>
-    );
+        <View className="flex-row justify-between items-center">
+          <TriggerButton variant="ghost">Forgot Password?</TriggerButton>
+          <Button variant="outline" className={"border-accent"} onPress={() => router.replace("/register")}>
+            Create account
+          </Button>
+        </View>
+      </View>
+    </KeyboardAwareScrollView>
+  );
 }
