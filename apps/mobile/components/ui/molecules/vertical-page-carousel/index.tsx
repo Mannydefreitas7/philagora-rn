@@ -22,7 +22,6 @@ const VerticalPageItemComponent = <ItemT extends VerticalPageItem>({
   index,
   scrollY,
   renderItem,
-  scaleRange,
   rotationRange,
   opacityRange,
   useBlur,
