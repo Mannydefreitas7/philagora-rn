@@ -1,5 +1,4 @@
 import Constants from "expo-constants";
-import * as ExpoLinking from "expo-linking";
 import { create } from "zustand";
 
 import { supabase } from "@/utils/supabase";
@@ -22,7 +21,7 @@ type ResetPasswordStore = {
 function getResetPasswordRedirectTo() {
   const configScheme = Constants.expoConfig?.scheme;
   const scheme = typeof configScheme === "string" ? configScheme : (configScheme?.[0] ?? "mobile");
-  return ExpoLinking.createURL("reset-password", { scheme });
+  return `${scheme}://reset-password`;
 }
 
 export const useResetPasswordStore = create<ResetPasswordStore>((set, get) => ({

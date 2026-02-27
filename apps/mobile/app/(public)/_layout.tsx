@@ -3,15 +3,26 @@ import { View } from "react-native";
 
 export default function PublicLayout() {
   return (
-    <Stack
-      screenOptions={{ headerShown: false }}
-      initialRouteName="login"
-      screenLayout={(layout) => {
-        return <View className="bg-white dark:bg-neutral-950 flex-1">{layout.children}</View>;
-      }}
-    >
-      <Stack.Screen name="login" />
-      <Stack.Screen name="register" />
+    <Stack screenOptions={{ headerShown: false }} initialRouteName="login">
+      <Stack.Screen
+        name="login"
+        options={{ presentation: "fullScreenModal", animation: "fade", animationDuration: 200 }}
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          animationMatchesGesture: true,
+          animation: "fade",
+          animationDuration: 200,
+          presentation: "fullScreenModal",
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
+          headerShadowVisible: false,
+          headerTitle: "",
+          headerShown: true,
+        }}
+      />
     </Stack>
   );
 }

@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Button } from "heroui-native";
 
-import { UITextfield } from "@/components";
+import UITextfield from "@/components/texfield";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 
 import useResetPasswordStore from "./store";

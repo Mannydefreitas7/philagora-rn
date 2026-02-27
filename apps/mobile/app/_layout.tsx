@@ -1,5 +1,6 @@
 import "./../global.css";
 import { SplashScreen, Stack } from "expo-router";
+import { LinkPreviewContextProvider } from "expo-router/build/link/preview/LinkPreviewContext";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
@@ -26,7 +27,9 @@ export default function RootLayout() {
             },
           }}
         >
-          <Stack screenOptions={{ headerShown: false, animation: "simple_push" }} />
+          <LinkPreviewContextProvider>
+            <Stack screenOptions={{ headerShown: false }} />
+          </LinkPreviewContextProvider>
         </HeroUINativeProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>

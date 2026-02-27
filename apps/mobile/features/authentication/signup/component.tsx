@@ -9,10 +9,12 @@ import { UITextfield } from "@/components";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 
 import useSignupStore from "./store";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignupFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
+  const { top } = useSafeAreaInsets();
   const { values, submitting, error, setField, signup } = useSignupStore();
 
   const schema = useMemo(
@@ -38,8 +40,8 @@ export default function SignupFeature() {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View className="h-screen flex-1 justify-center bg-transparent px-5 py-8">
+    <KeyboardAwareScrollView pinchGestureEnabled={false}>
+      <View className="justify-center bg-transparent px-5 py-8">
         <View className="mb-2 flex-row items-center gap-x-3 px-3">
           <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
           <View className="-mt-2">
@@ -121,7 +123,7 @@ export default function SignupFeature() {
 
         <View className="mt-3 flex-row items-center justify-center gap-x-2">
           <Text className="text-gray-500">Already have an account?</Text>
-          <Link href="/login">
+          <Link href="/login" dismissTo replace>
             <Text className="text-accent">Sign in</Text>
           </Link>
         </View>

@@ -4,13 +4,15 @@
   "version": "1.0.0",
   "scripts": {
     "prebuild": "expo prebuild --clean",
-    "start": "expo start --clear --ios --dev-client",
+    "start": "expo start -c --ios --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "lint": "expo lint",
+    "test": "jest --runInBand",
     "clean": "rm -rf .expo .expo-shared .turbo node_modules ios android"
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.6",
     "@expo/vector-icons": "^15.1.1",
     "@gorhom/bottom-sheet": "catalog:ui",
     "@gorhom/portal": "^1.0.14",
@@ -78,12 +80,17 @@
     "uniwind": "npm:uniwind-pro@rc"
   },
   "devDependencies": {
-    "@types/react": "catalog:development",
-    "typescript": "catalog:development",
     "@repo/typings": "workspace:*",
+    "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "29.5.14",
+    "@types/react": "catalog:development",
+    "@types/react-dom": "catalog:development",
     "immer": "^11.1.4",
-    "zustand": "catalog:development",
-    "@types/react-dom": "catalog:development"
+    "jest": "catalog:testing",
+    "jest-expo": "~54.0.17",
+    "react-native-web": "catalog:react",
+    "typescript": "catalog:development",
+    "zustand": "catalog:development"
   },
   "private": true,
   "trustedDependencies": [
