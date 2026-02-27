@@ -1,7 +1,19 @@
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
+import { useEffect } from "react";
 import { View } from "react-native";
+import { Uniwind } from "uniwind";
 
 export default function PublicLayout() {
+  const route = usePathname();
+  useEffect(() => {
+    if (route.includes("home")) {
+      console.log(route);
+      Uniwind.setTheme("dark");
+    } else {
+      Uniwind.setTheme("light");
+    }
+  }, [route]);
+
   return (
     <Stack screenOptions={{ headerShown: false }} initialRouteName="login">
       <Stack.Screen
@@ -22,6 +34,16 @@ export default function PublicLayout() {
           headerTitle: "",
           headerShown: true,
         }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={(params) => ({
+          headerTransparent: true,
+
+          headerTitle: params.route.name,
+          headerShadowVisible: false,
+          headerShown: true,
+        })}
       />
     </Stack>
   );

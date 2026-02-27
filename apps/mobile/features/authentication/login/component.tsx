@@ -34,11 +34,11 @@ export default function LoginFeature() {
   const { errors: validationErrors, validateForm, isSubmitDisabled } = useValidation(values, schema);
 
   const handleSubmit = async () => {
-    const isValid = validateForm();
-    if (!isValid) return;
-
-    const { error } = await login();
-    if (error) return;
+    // Disabling for testing purposes
+    // const isValid = validateForm();
+    // if (!isValid) return;
+    // const { error } = await login();
+    // if (error) return;
 
     router.replace("/home");
   };
@@ -92,7 +92,12 @@ export default function LoginFeature() {
 
         {submitError ? <Text className="text-sm text-red-600">{submitError}</Text> : null}
 
-        <Button onPress={handleSubmit} variant="primary" className="mt-3" isDisabled={loading || isSubmitDisabled}>
+        <Button
+          onPress={handleSubmit}
+          variant="primary"
+          className="mt-3"
+          isDisabled={loading /* disabling for testing purposes.. || isSubmitDisabled */}
+        >
           {loading ? "Signing in..." : "Sign in"}
         </Button>
 
