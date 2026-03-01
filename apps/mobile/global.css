@@ -8,12 +8,12 @@
     /* Dark theme variables */
     @variant dark {
         --accent: var(--color-white);
-        --accent-foreground: var(--color-black); /* Custom indigo accent */
+        --accent-foreground: var(--color-black);
     }
 
     /* Light theme variables */
     @variant light {
         --accent: var(--color-black);
-        --accent-foreground: var(--color-white); /* Custom indigo accent */
+        --accent-foreground: var(--color-white);
     }
 }
