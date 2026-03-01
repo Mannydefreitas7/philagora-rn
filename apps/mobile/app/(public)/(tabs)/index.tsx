@@ -13,7 +13,7 @@ export default function HomeScreen() {
 
   return (
     <View className="relative flex-1">
-      <ScrollShadow className="flex-1" LinearGradientComponent={LinearGradient}>
+      <ScrollShadow size={headerHeight * 2} className="flex-1" LinearGradientComponent={LinearGradient}>
         <PhCarousel {...rest} data={data} spacing={0} currentIndex={currentIndex} />
       </ScrollShadow>
     </View>

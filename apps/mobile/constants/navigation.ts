@@ -5,7 +5,7 @@ import { FONT_SIZE, SPACING } from "./size";
 export const tabs: ITab[] = [
   {
     id: uuid.v4(),
-    name: "home",
+    name: "agora",
     route: "/(public)/(tabs)",
     icon: "home",
   },
