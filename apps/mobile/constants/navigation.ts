@@ -1,11 +1,12 @@
 import { ITab } from "@/types/navigation";
 import uuid from "react-native-uuid";
+import { FONT_SIZE, SPACING } from "./size";
 
 export const tabs: ITab[] = [
   {
     id: uuid.v4(),
     name: "home",
-    route: "/home",
+    route: "/(public)/(tabs)",
     icon: "home",
   },
   {
@@ -27,3 +28,20 @@ export const tabs: ITab[] = [
     icon: "profile",
   },
 ];
+
+export const HEADER = {
+  spacing: {
+    paddingVertical: SPACING.md * 2,
+    paddingHorizontal: SPACING.md,
+  },
+};
+
+export const BOTTOM_TAB = {
+  tabs,
+  spacing: {
+    icon: SPACING.xl,
+    label: FONT_SIZE.sm,
+    paddingVertical: SPACING.lg * 2,
+    paddingHorizontal: SPACING.md,
+  },
+};
