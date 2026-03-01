@@ -31,7 +31,7 @@ export default function PublicLayout() {
         }}
       />
       <Stack.Screen name="(tabs)">
-        <Stack.Header transparent asChild>
+        <Stack.Header asChild>
           <Header title={title} />
         </Stack.Header>
       </Stack.Screen>

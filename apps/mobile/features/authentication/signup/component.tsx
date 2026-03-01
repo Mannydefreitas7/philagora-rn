@@ -36,7 +36,7 @@ export default function SignupFeature() {
     const { error: signupError } = await signup();
     if (signupError) return;
 
-    router.replace("/home");
+    router.replace("/(public)/(tabs)");
   };
 
   return (

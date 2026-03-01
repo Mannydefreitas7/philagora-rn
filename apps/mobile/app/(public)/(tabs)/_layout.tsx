@@ -7,6 +7,7 @@ import { oklabToHex } from "@/utils/convert";
 import { BlurView } from "expo-blur";
 import { useWindowDimensions, View } from "react-native";
 import useCurrentTab from "@/hooks/use-current-tab";
+import { GrainyGradient } from "@/components/ui/organisms/grainy-gradient";
 
 export default function TabLayout() {
   const { isHomeTab, activeColor, color } = useCurrentTab();
@@ -14,7 +15,8 @@ export default function TabLayout() {
   return (
     <ScopedTheme theme={isHomeTab ? "dark" : "light"}>
       <Tabs>
-        <View className="flex-1 bg-white dark:bg-black">
+        <View className="flex-1 bg-white dark:bg-black relative">
+          <GrainyGradient />
           <TabSlot />
         </View>
         <TabList asChild>

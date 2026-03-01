@@ -1,13 +1,15 @@
 import useCurrentTab from "@/hooks/use-current-tab";
 import { View, Text } from "react-native";
 import { cn } from "heroui-native";
+import useSpacing from "@/hooks/use-spacing";
 
 const Header = ({ title }: { title: string }) => {
   const { isHomeTab } = useCurrentTab();
+  const { headerHeight } = useSpacing();
 
   return (
-    <View className="top-safe-offset-10 bg-transparent absolute px-safe-offset-6 w-full">
-      <Text className={cn("font-black text-3xl capitalize", isHomeTab ? "text-white" : "text-black")}>{title}</Text>
+    <View className="top-safe bg-transparent absolute px-safe-offset-6 w-full" style={{ height: headerHeight }}>
+      <Text className={cn("font-bold text-3xl capitalize ml-2", isHomeTab ? "text-white" : "text-black")}>{title}</Text>
     </View>
   );
 };
