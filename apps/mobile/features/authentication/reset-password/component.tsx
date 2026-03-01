@@ -7,25 +7,22 @@ import useValidation, { validationRules } from "@/hooks/use-validation";
 import useResetPasswordStore from "./store";
 
 export default function ResetPasswordFeature() {
-  const { email, loading, error, sent, setEmail, reset } = useResetPasswordStore();
-  const { errors, validateForm } = useValidation(
-    { email },
-    {
-      email: [validationRules.email(), validationRules.required("Email")],
-    },
-  );
+  const { values, submitting, error, sent, setField, sendResetLink } = useResetPasswordStore();
+  const { errors, validateForm } = useValidation(values, {
+    email: [validationRules.email(), validationRules.required("Email")],
+  });
 
   const onResetPassword = async () => {
     const isValid = validateForm();
     if (!isValid) return;
-    await reset();
+    await sendResetLink();
   };
 
   return (
     <View className="flex-1 gap-y-3">
       <UITextfield
-        value={email}
-        onChangeText={setEmail}
+        value={values.email}
+        onChangeText={(value) => setField("email", value)}
         inputMode="email"
         textContentType="emailAddress"
         placeholder="Enter valid email"
@@ -46,8 +43,8 @@ export default function ResetPasswordFeature() {
         </Text>
       ) : null}
 
-      <Button onPress={onResetPassword} isDisabled={!!errors.email || !email.trim() || loading}>
-        {loading ? "Sending..." : "Send reset link"}
+      <Button onPress={onResetPassword} isDisabled={!!errors.email || !values.email.trim() || submitting}>
+        {submitting ? "Sending..." : "Send reset link"}
       </Button>
     </View>
   );

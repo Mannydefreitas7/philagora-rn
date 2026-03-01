@@ -2,20 +2,17 @@ import Constants from "expo-constants";
 import { create } from "zustand";
 
 import { supabase } from "@/utils/supabase";
-
-type ResetPasswordResult = {
-  error: Error | null;
-};
+import type { ResetPasswordResult, ResetPasswordValues } from "./types";
 
 type ResetPasswordStore = {
-  email: string;
-  loading: boolean;
+  values: ResetPasswordValues;
+  submitting: boolean;
   error: string | null;
   sent: boolean;
   resetPasswordRedirectTo: string;
-  setEmail: (value: string) => void;
-  reset: () => Promise<ResetPasswordResult>;
-  clear: () => void;
+  setField: <K extends keyof ResetPasswordValues>(field: K, value: ResetPasswordValues[K]) => void;
+  reset: () => void;
+  sendResetLink: () => Promise<ResetPasswordResult>;
 };
 
 function getResetPasswordRedirectTo() {
@@ -24,45 +21,49 @@ function getResetPasswordRedirectTo() {
   return `${scheme}://reset-password`;
 }
 
-export const useResetPasswordStore = create<ResetPasswordStore>((set, get) => ({
+const initialValues: ResetPasswordValues = {
   email: "",
-  loading: false,
+};
+
+export const useResetPasswordStore = create<ResetPasswordStore>((set, get) => ({
+  values: initialValues,
+  submitting: false,
   error: null,
   sent: false,
   resetPasswordRedirectTo: getResetPasswordRedirectTo(),
-  setEmail: (value) => {
-    set({ email: value });
+  setField: (field, value) => {
+    set((state) => ({ values: { ...state.values, [field]: value } }));
   },
-  clear: () => {
+  reset: () => {
     set({
-      email: "",
-      loading: false,
+      values: initialValues,
+      submitting: false,
       error: null,
       sent: false,
     });
   },
-  reset: async () => {
+  sendResetLink: async () => {
     set({ error: null, sent: false });
 
-    const normalizedEmail = get().email.trim().toLowerCase();
+    const normalizedEmail = get().values.email.trim().toLowerCase();
     if (!normalizedEmail) {
       const message = "Email is required.";
       set({ error: message });
       return { error: new Error(message) };
     }
 
-    set({ loading: true });
+    set({ submitting: true });
 
     const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
       redirectTo: get().resetPasswordRedirectTo,
     });
 
     if (error) {
-      set({ loading: false, error: error.message });
+      set({ submitting: false, error: error.message });
       return { error };
     }
 
-    set({ loading: false, sent: true });
+    set({ submitting: false, sent: true });
     return { error: null };
   },
 }));
