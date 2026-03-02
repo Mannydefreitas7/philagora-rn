@@ -5,6 +5,7 @@ export type TCardProps = ICardState & {
   scrollY: SharedValue<number>;
   focusedHeight: number;
   peekHeight: number;
+  snapInterval: number;
 };
 
 export interface ICardState {

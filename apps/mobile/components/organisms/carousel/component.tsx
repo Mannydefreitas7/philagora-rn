@@ -1,6 +1,6 @@
 import { useWindowDimensions, View, ViewabilityConfig, ViewToken } from "react-native";
 import useSpacing from "@/hooks/use-spacing";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { PhCard } from "@/components/molecules/card";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 import { DATA } from "./data";
@@ -19,23 +19,26 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const FOCUSED_HEIGHT = height * 0.7;
   const PEEK_HEIGHT = height * 0.15;
+  const ITEM_GAP = 16;
+  const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
   const { dispatch } = useCarousel();
 
   const animatedScrollY = useSharedValue(0);
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken<ICardState>[] }) => {
-      if (viewableItems.length > 1) {
-          const indexes = viewableItems.map(i => i.index);
-        const filtered = indexes.filter(i => i !== null);
-        const sliced = filtered.slice(0, 2);
-        dispatch({ type: 'UPDATE_VIEWABLE_ITEMS', payload: sliced })
-      }
-      // update current index;
-      if (viewableItems.length === 0 || !viewableItems[1] || viewableItems[1].index === null) return;
+      const indexes = viewableItems
+        .map((item) => item.index)
+        .filter((item): item is number => item !== null);
+
+      dispatch({ type: "UPDATE_VIEWABLE_ITEMS", payload: indexes.slice(0, 2) });
+
+      const nearestViewable = indexes[0];
+      if (nearestViewable === undefined) return;
+
       dispatch({
-        type: 'UPDATE_CURRENT_INDEX',
-        payload: viewableItems[1].index
+        type: "UPDATE_CURRENT_INDEX",
+        payload: nearestViewable,
       });
     },
     [],
@@ -49,13 +52,14 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
           id={item.id}
           peekHeight={PEEK_HEIGHT}
           focusedHeight={FOCUSED_HEIGHT}
+          snapInterval={SNAP_INTERVAL}
           scrollY={animatedScrollY}
           key={item.id}
           index={index}
         />
       );
     },
-    [FOCUSED_HEIGHT, PEEK_HEIGHT, animatedScrollY],
+    [FOCUSED_HEIGHT, PEEK_HEIGHT, SNAP_INTERVAL, animatedScrollY],
   );
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -65,25 +69,32 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
   });
 
   const keyExtractor = useCallback((item: ICardState) => item.id.toString(), []);
-  const snapOffsets = DATA.map((_, index) => index * FOCUSED_HEIGHT);
   const items = data.length > 0 && process.env.NODE_ENV !== "development" ? data : DATA;
+  const snapOffsets = useMemo(() => {
+    return items.map((_, index) => index * SNAP_INTERVAL);
+  }, [items, SNAP_INTERVAL]);
   return (
     <View className="flex-1">
       <Animated.FlatList
         {...props}
         data={DATA}
-        pagingEnabled
+        disableIntervalMomentum
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
         snapToAlignment="start"
         decelerationRate={"fast"}
         snapToOffsets={snapOffsets}
+        snapToInterval={SNAP_INTERVAL}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: tabHeight }}
+        contentContainerStyle={{
+          paddingTop: headerHeight,
+          paddingBottom: tabHeight,
+          rowGap: ITEM_GAP,
+        }}
         contentInsetAdjustmentBehavior="scrollableAxes"
         onScroll={scrollHandler}
-        contentContainerClassName="px-4 gap-y-4"
+        contentContainerClassName="px-4"
         // contentInset={{ top: tabHeight + headerHeight }} // ✅ iOS — offsets scroll origin// ✅ iOS — sets initial offset
         progressViewOffset={headerHeight}
         renderItem={renderItem}

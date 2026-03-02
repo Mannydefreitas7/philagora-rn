@@ -9,22 +9,19 @@ import { useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 const AnimatedCard = Animated.createAnimatedComponent(HerouiCard);
 
-export function PhCard({ index, scrollY, imageUri, title, description, focusedHeight, peekHeight, ...props }: TCardProps) {
+export function PhCard({ index, scrollY, imageUri, title, description, focusedHeight, peekHeight, snapInterval, ...props }: TCardProps) {
   const cardHeight = useDerivedValue(() => scrollY.value);
   const opacity = useSharedValue(0);
   const { state, isVisible } = useCarousel();
   const isCardVisible = useMemo(() => isVisible(props.id), [props.id, isVisible]);
 
   const animatedInnerStyle = useAnimatedStyle(() => {
-    if (state.visibleItems.length > 0 && !isCardVisible) {
-      return { opacity: withSpring(opacity.value), height: withSpring(opacity.value) }
-    }
 
-    const itemFocusedAt = index * focusedHeight;
+    const itemFocusedAt = index * snapInterval;
     const distance = cardHeight.value - itemFocusedAt;
 
-    const animatedHeight = interpolate(distance, [-focusedHeight, 0], [peekHeight, focusedHeight], Extrapolation.CLAMP);
-    const animatedScale = interpolate(distance, [-focusedHeight, 0], [0.8, 1], Extrapolation.CLAMP);
+    const animatedHeight = interpolate(distance, [-snapInterval, 0], [peekHeight, focusedHeight], Extrapolation.CLAMP);
+    const animatedScale = interpolate(distance, [-snapInterval, 0], [0.8, 1], Extrapolation.CLAMP);
 
     return {
       // velocity: initial speed, stiffness: spring strength, mass: weight, damping: friction

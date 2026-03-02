@@ -3,7 +3,7 @@ import { initialState } from "./data";
 import { createContext, useCallback, useContext } from "react";
 import { useImmerReducer } from 'use-immer';
 import { CarouselState, ICarouselContext, TAction } from "./types";
-import { TActionPrefix } from "@/types/reducer";
+
 import { ICardState } from "@/components/molecules/card/types";
 
 // Context for the carousel.
@@ -16,9 +16,10 @@ const reducer = (state: CarouselState, action: TAction) => {
     return state;
   }
   if (action.type === 'UPDATE_VIEWABLE_ITEMS' && Array.isArray(action.payload)) {
+    const payload = action.payload as number[];
     state.visibleItems = state.data.filter((_, index) => {
-      return Array(action.payload).includes(index);
-    })
+      return payload.includes(index);
+    });
     return state;
   }
   return state;
@@ -47,7 +48,10 @@ export const useCarousel = () => {
       return state.visibleItems.length > 0 && state.visibleItems.map(i => i.id).includes(item);
   }, [state.visibleItems]);
 
-  const isFirst = useCallback((item: ICardState['id']) => state.visibleItems.length > 0 && state.visibleItems[0].id === item, [state.visibleItems, state.data]);
+  const isFirst = useCallback(
+    (item: ICardState['id']) => state.visibleItems.length > 0 && state.visibleItems[0]?.id === item,
+    [state.visibleItems],
+  );
 
   //
   return { state, dispatch, isVisible, isFirst };
