@@ -51,6 +51,10 @@
         "@types/react": "~19.2.10",
         "@types/react-dom": "~19.1.7",
         "immer": "^11.1.4",
+        "add": "^2.0.6",
+        "zustand-x": "^6.2.1",
+        "use-immer": "^0.11.0",
+        "@davstack/store": "^1.4.6",
         "zustand": "^5.0.11"
       },
       "react": {

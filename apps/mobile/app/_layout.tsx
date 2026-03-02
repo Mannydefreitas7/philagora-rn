@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import useSupabaseAuth from "@/hooks/use-supabase-auth";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Provider } from "react-redux";
-import { store } from "@/stores/redux";
+//import { store } from "@/stores/main";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,9 +30,7 @@ export default function RootLayout() {
           }}
         >
           <LinkPreviewContextProvider>
-            <Provider store={store}>
               <Stack screenOptions={{ headerShown: false }} />
-            </Provider>
           </LinkPreviewContextProvider>
         </HeroUINativeProvider>
       </KeyboardProvider>

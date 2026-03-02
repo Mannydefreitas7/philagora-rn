@@ -1,29 +1,53 @@
-import useSpacing from "@/hooks/use-spacing";
-import { View, Image } from "react-native";
-import { Button, Chip, Card as HerouiCard } from "heroui-native";
+import { View, Image, ViewStyle, StyleSheet } from "react-native";
+import { Button, Chip, Card as HerouiCard, PressableFeedback } from "heroui-native";
 import DebateLikeButton from "@/features/debate/like";
 
-import Animated, { Extrapolation, interpolate, useAnimatedStyle, useDerivedValue } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import type { TCardProps } from "./types";
-
+import { useCarousel } from "@/components/organisms/carousel/context";
+import { useMemo } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 const AnimatedCard = Animated.createAnimatedComponent(HerouiCard);
 
-export function PhCard({ id, index, scrollY, imageUri, title, description, focusedHeight, peekHeight }: TCardProps) {
+export function PhCard({ index, scrollY, imageUri, title, description, focusedHeight, peekHeight, ...props }: TCardProps) {
   const cardHeight = useDerivedValue(() => scrollY.value);
+  const opacity = useSharedValue(0);
+  const { state, isVisible } = useCarousel();
+  const isCardVisible = useMemo(() => isVisible(props.id), [props.id, isVisible]);
+
   const animatedInnerStyle = useAnimatedStyle(() => {
+    if (state.visibleItems.length > 0 && !isCardVisible) {
+      return { opacity: withSpring(opacity.value), height: withSpring(opacity.value) }
+    }
+
     const itemFocusedAt = index * focusedHeight;
     const distance = cardHeight.value - itemFocusedAt;
 
     const animatedHeight = interpolate(distance, [-focusedHeight, 0], [peekHeight, focusedHeight], Extrapolation.CLAMP);
+    const animatedScale = interpolate(distance, [-focusedHeight, 0], [0.8, 1], Extrapolation.CLAMP);
 
-    return { height: animatedHeight };
+    return {
+      // velocity: initial speed, stiffness: spring strength, mass: weight, damping: friction
+      // smoother config: lower stiffness/mass and moderate damping for gentle motion
+      height: withSpring(animatedHeight, { velocity: 0, stiffness: 200, mass: 1, damping: 20 }),
+      transform: [
+        {
+          scaleX: withSpring(animatedScale)
+        }
+      ]
+    } as ViewStyle;
   });
 
   return (
-    <View className="overflow-hidden">
-      <AnimatedCard className="rounded-[48px]" style={animatedInnerStyle}>
-        <Image source={{ uri: imageUri }} className="absolute inset-0" />
-        <View className="bg-black/50 absolute inset-0" />
+    <PressableFeedback className="overflow-hidden w-full">
+      <AnimatedCard className="rounded-[48px]" style={[animatedInnerStyle]}>
+        <Image source={{ uri: imageUri }} className="absolute bg-cover inset-0" style={StyleSheet.absoluteFill}
+        />
+        <LinearGradient
+            colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0.1)']}
+            style={StyleSheet.absoluteFill}
+        />
+        <PressableFeedback.Highlight className="absolute inset-0"  />
         <View className="gap-4 items-start justify-end flex-col flex-1 h-full p-3 relative">
           <Chip variant="soft" color="danger" size="md" className="absolute top-1 right-1">
             Live
@@ -39,10 +63,11 @@ export function PhCard({ id, index, scrollY, imageUri, title, description, focus
             <Button size="sm" variant="secondary">
               Join
             </Button>
-            <DebateLikeButton debateId={id} userId={""} />
+            <DebateLikeButton debateId={props.id} userId={""} />
           </HerouiCard.Footer>
         </View>
       </AnimatedCard>
-    </View>
+
+    </PressableFeedback>
   );
 }

@@ -94,7 +94,11 @@
     "jest-expo": "~55.0.9",
     "react-native-web": "catalog:react",
     "typescript": "catalog:development",
-    "zustand": "catalog:development"
+    "zustand": "catalog:development",
+    "add": "catalog:development",
+    "zustand-x": "catalog:development",
+    "use-immer": "catalog:development",
+    "@davstack/store": "catalog:development"
   },
   "private": true,
   "trustedDependencies": [

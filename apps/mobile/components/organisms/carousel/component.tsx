@@ -1,41 +1,44 @@
 import { useWindowDimensions, View, ViewabilityConfig, ViewToken } from "react-native";
 import useSpacing from "@/hooks/use-spacing";
-import { HEADER } from "@/constants/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback } from "react";
 import { PhCard } from "@/components/molecules/card";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 import { DATA } from "./data";
 import { TCarouselProps } from "./types";
 import { ICardState } from "@/components/molecules/card/types";
+import { CarouselProvider, useCarousel } from "./context";
 
 const VIEWABILITY_CONFIG: ViewabilityConfig = {
   waitForInteraction: false,
-  minimumViewTime: 500,
-  itemVisiblePercentThreshold: 20,
+  itemVisiblePercentThreshold: 80,
 };
 
-export default function PhCarousel({ data, ...props }: TCarouselProps) {
+function InternalCarousel({ data, ...props }: TCarouselProps) {
   const { tabHeight, headerHeight } = useSpacing();
   const { height } = useWindowDimensions();
 
-  const FOCUSED_HEIGHT = height * 0.6;
-  const PEEK_HEIGHT = height * 0.2;
-  const [currentItem, setCurrentItem] = useState<ICardState>();
-  const animatedScrollY = useSharedValue(0);
+  const FOCUSED_HEIGHT = height * 0.7;
+  const PEEK_HEIGHT = height * 0.15;
+  const { dispatch } = useCarousel();
 
-  const offsetHeaderHeight = useMemo(() => {
-    const total = headerHeight - HEADER.spacing.paddingVertical;
-    return total;
-  }, [headerHeight]);
+  const animatedScrollY = useSharedValue(0);
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken<ICardState>[] }) => {
-      if (viewableItems.length > 1 && viewableItems[1].isViewable) {
-        console.log("Viewable items", viewableItems[1]);
-        setCurrentItem(viewableItems[1].item);
+      if (viewableItems.length > 1) {
+          const indexes = viewableItems.map(i => i.index);
+        const filtered = indexes.filter(i => i !== null);
+        const sliced = filtered.slice(0, 2);
+        dispatch({ type: 'UPDATE_VIEWABLE_ITEMS', payload: sliced })
       }
+      // update current index;
+      if (viewableItems.length === 0 || !viewableItems[1] || viewableItems[1].index === null) return;
+      dispatch({
+        type: 'UPDATE_CURRENT_INDEX',
+        payload: viewableItems[1].index
+      });
     },
-    [currentItem],
+    [],
   );
 
   const renderItem = useCallback(
@@ -43,10 +46,11 @@ export default function PhCarousel({ data, ...props }: TCarouselProps) {
       return (
         <PhCard
           {...item}
+          id={item.id}
           peekHeight={PEEK_HEIGHT}
           focusedHeight={FOCUSED_HEIGHT}
           scrollY={animatedScrollY}
-          key={index}
+          key={item.id}
           index={index}
         />
       );
@@ -56,7 +60,7 @@ export default function PhCarousel({ data, ...props }: TCarouselProps) {
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      animatedScrollY.value = event.contentOffset.y;
+      animatedScrollY.value = Math.round(event.contentOffset.y);
     },
   });
 
@@ -86,6 +90,11 @@ export default function PhCarousel({ data, ...props }: TCarouselProps) {
         pinchGestureEnabled={false}
         keyExtractor={keyExtractor}
       />
-    </View>
+      </View>
   );
 }
+
+
+export default (props: TCarouselProps) => <CarouselProvider>
+  <InternalCarousel {...props} />
+</CarouselProvider>

@@ -8,7 +8,7 @@ export const DATA: ICardState[] = [
     title: "Debate: Subject 1 vs Subject 2",
     description: "Dr. John and Dr. Phil",
     date: new Date(),
-    imageUri: "https://gemini.google.com/share/81087324368b",
+    imageUri: "https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/docs/neo2.jpeg",
     videoUri: "https://drive.google.com/file/d/1AF5RiQcnWnp4qbgNIH8FkYG5uDItpmTz/view",
   },
   {
@@ -54,8 +54,6 @@ export const DATA: ICardState[] = [
 ];
 
 export const initialState: CarouselState<ICardState> = {
-  initialIndex: 0,
   visibleItems: [],
-  data: DATA,
-  currentIndex: 0,
+  data: DATA
 };
