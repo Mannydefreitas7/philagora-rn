@@ -2,7 +2,7 @@ import { View, Image, ViewStyle, StyleSheet } from "react-native";
 import { Button, Chip, Card as HerouiCard, PressableFeedback } from "heroui-native";
 import DebateLikeButton from "@/features/debate/like";
 
-import Animated, { Extrapolation, interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSequence, withSpring, withTiming } from "react-native-reanimated";
 import type { TCardProps } from "./types";
 import { useCarousel } from "@/components/organisms/carousel/context";
 import { useMemo } from "react";
@@ -23,10 +23,12 @@ export function PhCard({ index, scrollY, imageUri, title, description, focusedHe
     const animatedHeight = interpolate(distance, [-snapInterval, 0], [peekHeight, focusedHeight], Extrapolation.CLAMP);
     const animatedScale = interpolate(distance, [-snapInterval, 0], [0.8, 1], Extrapolation.CLAMP);
 
+    const conditional = animatedHeight > focusedHeight * 0.4 ? focusedHeight : animatedHeight
+
     return {
       // velocity: initial speed, stiffness: spring strength, mass: weight, damping: friction
       // smoother config: lower stiffness/mass and moderate damping for gentle motion
-      height: withSpring(animatedHeight, { velocity: 0, stiffness: 200, mass: 1, damping: 20 }),
+      height: withSpring(conditional, { velocity: 10, stiffness: 200, mass: 1, damping: 100 }),
       transform: [
         {
           scaleX: withSpring(animatedScale)

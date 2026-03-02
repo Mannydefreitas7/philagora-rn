@@ -1,4 +1,4 @@
-import { useWindowDimensions, View, ViewabilityConfig, ViewToken } from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, useWindowDimensions, View, ViewabilityConfig, ViewToken } from "react-native";
 import useSpacing from "@/hooks/use-spacing";
 import { useCallback, useMemo } from "react";
 import { PhCard } from "@/components/molecules/card";
@@ -73,11 +73,61 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
   const snapOffsets = useMemo(() => {
     return items.map((_, index) => index * SNAP_INTERVAL);
   }, [items, SNAP_INTERVAL]);
+
+  const VELOCITY_THRESHOLD = 1.6;
+
+  const clampIndex = useCallback(
+    (index: number) => {
+      const maxIndex = Math.max(items.length - 1, 0);
+      return Math.min(Math.max(index, 0), maxIndex);
+    },
+    [items.length],
+  );
+
+  const getClosestIndex = useCallback(
+    (offsetY: number) => {
+      return clampIndex(Math.round(offsetY / SNAP_INTERVAL));
+    },
+    [SNAP_INTERVAL, clampIndex],
+  );
+
+  const getTargetIndexFromVelocity = useCallback(
+    (offsetY: number, velocityY: number) => {
+      const closestIndex = getClosestIndex(offsetY);
+
+      if (velocityY >= VELOCITY_THRESHOLD) return clampIndex(closestIndex + 1);
+      if (velocityY <= -VELOCITY_THRESHOLD) return clampIndex(closestIndex - 1);
+
+      return closestIndex;
+    },
+    [VELOCITY_THRESHOLD, clampIndex, getClosestIndex],
+  );
+
+  const onScrollEndDrag = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const offsetY = event.nativeEvent.contentOffset.y;
+      const velocityY = event.nativeEvent.velocity?.y ?? 0;
+      const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
+
+      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
+    },
+    [dispatch, getTargetIndexFromVelocity],
+  );
+
+  const onMomentumScrollEnd = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const offsetY = event.nativeEvent.contentOffset.y;
+      const finalIndex = getClosestIndex(offsetY);
+
+      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
+    },
+    [dispatch, getClosestIndex],
+  );
   return (
     <View className="flex-1">
       <Animated.FlatList
         {...props}
-        data={DATA}
+        data={items}
         disableIntervalMomentum
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
@@ -94,6 +144,8 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
         }}
         contentInsetAdjustmentBehavior="scrollableAxes"
         onScroll={scrollHandler}
+        onScrollEndDrag={onScrollEndDrag}
+        onMomentumScrollEnd={onMomentumScrollEnd}
         contentContainerClassName="px-4"
         // contentInset={{ top: tabHeight + headerHeight }} // ✅ iOS — offsets scroll origin// ✅ iOS — sets initial offset
         progressViewOffset={headerHeight}
