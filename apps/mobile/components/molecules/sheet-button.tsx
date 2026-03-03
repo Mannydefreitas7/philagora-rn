@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { BottomSheet, useBottomSheet } from "heroui-native/bottom-sheet";
-import { Button, ButtonRootProps, ButtonVariant } from "heroui-native";
+import { Button, ButtonRootProps } from "heroui-native";
 import { IconProps } from "iconsax-react-nativejs";
 import { View } from "react-native";
 

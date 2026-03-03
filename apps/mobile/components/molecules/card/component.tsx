@@ -1,18 +1,9 @@
-import { View, ViewStyle, StyleSheet } from "react-native";
-import { Button, Chip, Card as HerouiCard, PressableFeedback, useThemeColor } from "heroui-native";
+import { View, StyleSheet } from "react-native";
+import { Button, Chip, Card as HerouiCard, useThemeColor } from "heroui-native";
 import DebateLikeButton from "@/features/debate/like";
 import { Image } from "expo-image";
 
-import Animated, {
-  Easing,
-  Extrapolation,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  withDelay,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import type { TCardProps } from "./types";
 import { useCarousel } from "@/components/organisms/carousel/context";
 import { useMemo } from "react";
@@ -33,33 +24,10 @@ export function PhCard({
   snapInterval,
   ...props
 }: TCardProps) {
-  const cardHeight = useDerivedValue(() => scrollY.value);
   const [mutedColor, accentColor] = useThemeColor(["muted", "accent"]);
   const { isVisible, isFirst, isScrolling } = useCarousel();
   const isCardVisible = useMemo(() => isVisible(props.id), [props.id, isVisible]);
   const isActive = useMemo(() => isFirst(props.id) && isCardVisible, [props.id, isFirst, isCardVisible]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const itemFocusedAt = index * snapInterval;
-    const distance = cardHeight.value - itemFocusedAt;
-    const animatedHeight = interpolate(
-      distance,
-      [-snapInterval, 0, -snapInterval],
-      [peekHeight, focusedHeight, peekHeight],
-      Extrapolation.CLAMP,
-    );
-    return {
-      // velocity: initial speed, stiffness: spring strength, mass: weight, damping: friction
-      // smoother config: lower stiffness/mass and moderate damping for gentle motion
-      height: withSpring(animatedHeight, {
-        velocity: 1,
-        stiffness: 400,
-        mass: 1.5,
-        damping: 40,
-        energyThreshold: 0.01,
-      }),
-    } as ViewStyle;
-  });
 
   return (
     <Glow
