@@ -9,7 +9,7 @@ import {
 import useSpacing from "@/hooks/use-spacing";
 import { useCallback, useMemo } from "react";
 import { PhCard } from "@/components/molecules/card";
-import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
+import Animated, { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 import { DATA } from "./data";
 import { TCarouselProps } from "./types";
 import { ICardState } from "@/components/molecules/card/types";
@@ -19,29 +19,26 @@ import { FlatList } from "react-native-gesture-handler";
 
 const VIEWABILITY_CONFIG: ViewabilityConfig = {
   waitForInteraction: false,
-  itemVisiblePercentThreshold: 80,
+  viewAreaCoveragePercentThreshold: 50,
 };
 
 function InternalCarousel({ data, ...props }: TCarouselProps) {
   const { tabHeight, headerHeight } = useSpacing();
   const { height } = useWindowDimensions();
 
-  const FOCUSED_HEIGHT = height * 0.7;
-  const PEEK_HEIGHT = height * 0.15;
+  const PEEK_HEIGHT = height * 0.2;
   const ITEM_GAP = SPACING.md;
+  const FOCUSED_HEIGHT = height * 0.7 - ITEM_GAP;
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
-  const { dispatch, isFirst } = useCarousel();
+  const { dispatch, isVisible, state, isFirst } = useCarousel();
 
   const animatedScrollY = useSharedValue(0);
 
   const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken<ICardState>[] }) => {
     const indexes = viewableItems.map((item) => item.index).filter((item): item is number => item !== null);
-
     dispatch({ type: "UPDATE_VIEWABLE_ITEMS", payload: indexes.slice(0, 2) });
-
     const nearestViewable = indexes[0];
     if (nearestViewable === undefined) return;
-
     dispatch({
       type: "UPDATE_CURRENT_INDEX",
       payload: nearestViewable,
@@ -68,7 +65,7 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      animatedScrollY.value = event.contentOffset.y;
+      animatedScrollY.value = withTiming(event.contentOffset.y, { duration: 10 });
     },
   });
 
@@ -105,10 +102,10 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const onScrollEndDrag = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      // const offsetY = event.nativeEvent.contentOffset.y;
-      // const velocityY = event.nativeEvent.velocity?.y ?? 0;
-      // const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
-      // dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
+      const offsetY = event.nativeEvent.contentOffset.y;
+      const velocityY = event.nativeEvent.velocity?.y ?? 0;
+      const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
+      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
       dispatch({ type: "IS_SCROLLING", payload: false });
     },
     [dispatch],
@@ -122,7 +119,7 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const offsetY = event.nativeEvent.contentOffset.y;
       const finalIndex = getClosestIndex(offsetY);
-      // dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
+      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
     },
     [dispatch, getClosestIndex],
   );
@@ -134,13 +131,13 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
         disableIntervalMomentum
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
-        decelerationRate={"fast"}
+        decelerationRate={0}
         snapToOffsets={snapOffsets}
-        scrollEventThrottle={16}
+        scrollEventThrottle={8}
         onScrollBeginDrag={onScrollBeginDrag}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: headerHeight - SPACING.lg,
+          paddingTop: headerHeight,
           paddingBottom: tabHeight,
           rowGap: ITEM_GAP,
         }}

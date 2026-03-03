@@ -1,6 +1,7 @@
-import { View, Image, ViewStyle, StyleSheet } from "react-native";
+import { View, ViewStyle, StyleSheet } from "react-native";
 import { Button, Chip, Card as HerouiCard, PressableFeedback, useThemeColor } from "heroui-native";
 import DebateLikeButton from "@/features/debate/like";
+import { Image } from "expo-image";
 
 import Animated, {
   Easing,
@@ -38,31 +39,26 @@ export function PhCard({
   const isCardVisible = useMemo(() => isVisible(props.id), [props.id, isVisible]);
   const isActive = useMemo(() => isFirst(props.id) && isCardVisible, [props.id, isFirst, isCardVisible]);
 
-  const animatedInnerStyle = useAnimatedStyle(() => {
+  const animatedStyle = useAnimatedStyle(() => {
     const itemFocusedAt = index * snapInterval;
     const distance = cardHeight.value - itemFocusedAt;
-    const animatedHeight = interpolate(distance, [-snapInterval, 0], [peekHeight, focusedHeight], Extrapolation.CLAMP);
+    const animatedHeight = interpolate(
+      distance,
+      [-snapInterval, 0, -snapInterval],
+      [peekHeight, focusedHeight, peekHeight],
+      Extrapolation.CLAMP,
+    );
     return {
       // velocity: initial speed, stiffness: spring strength, mass: weight, damping: friction
       // smoother config: lower stiffness/mass and moderate damping for gentle motion
       height: withSpring(animatedHeight, {
-        velocity: 20,
-        stiffness: 100,
-        mass: 0.5,
-        damping: 50,
-        energyThreshold: 1.01,
+        velocity: 1,
+        stiffness: 400,
+        mass: 1.5,
+        damping: 40,
+        energyThreshold: 0.01,
       }),
     } as ViewStyle;
-  });
-
-  const animatedInnerImageStyle = useAnimatedStyle(() => {
-    const itemFocusedAt = index * snapInterval;
-    const distance = cardHeight.value - itemFocusedAt;
-    const animatedY = interpolate(distance, [-snapInterval, 0, snapInterval], [50, 0, 50], Extrapolation.CLAMP);
-    return {
-      top: -animatedY,
-      transform: [{ translateY: animatedY }],
-    };
   });
 
   return (
@@ -77,11 +73,16 @@ export function PhCard({
       secondaryColor={accentColor}
       animated={isScrolling}
     >
-      <PressableFeedback className="overflow-hidden w-full">
-        <AnimatedCard className="rounded-[48px]" style={animatedInnerStyle}>
-          <Image source={{ uri: imageUri }} style={StyleSheet.absoluteFill} />
+      <Animated.View className="overflow-hidden">
+        <AnimatedCard className="rounded-[48px]" style={{ height: snapInterval }}>
+          <Image
+            source={{ uri: imageUri }}
+            style={[StyleSheet.absoluteFill, { aspectRatio: isActive ? 9 / 16 : 4 / 3 }]}
+            contentFit="cover"
+            cachePolicy={"memory-disk"}
+          />
           <LinearGradient colors={["rgba(0,0,0,0.8)", "rgba(0,0,0,0.1)"]} style={StyleSheet.absoluteFill} />
-          <PressableFeedback.Highlight className="absolute inset-0" />
+
           <View className="gap-4 items-start justify-end flex-col flex-1 h-full relative">
             <Chip
               variant={isActive ? "primary" : "soft"}
@@ -119,7 +120,7 @@ export function PhCard({
             </BlurView>
           </View>
         </AnimatedCard>
-      </PressableFeedback>
+      </Animated.View>
     </Glow>
   );
 }
