@@ -15,7 +15,6 @@ export default function RootLayout() {
   const { initializing } = useSupabaseAuth();
 
   useEffect(() => {
-    console.log("RootLayout useEffect", initializing);
     if (initializing) SplashScreen.hide();
   }, [initializing]);
 
@@ -30,7 +29,7 @@ export default function RootLayout() {
           }}
         >
           <LinkPreviewContextProvider>
-              <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }} />
           </LinkPreviewContextProvider>
         </HeroUINativeProvider>
       </KeyboardProvider>

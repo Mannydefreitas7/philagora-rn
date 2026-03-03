@@ -3,9 +3,14 @@ import { Card } from "heroui-native";
 import { Image, Text, StyleSheet, useWindowDimensions, View } from "react-native";
 import { Image as ExpoImage } from "expo-image";
 import PagerView from "react-native-pager-view";
+import { SPACING } from "@/constants/size";
+import useSpacing from "@/hooks/use-spacing";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
   const { height, width } = useWindowDimensions();
+  const { top } = useSafeAreaInsets();
+  const { headerHeight } = useSpacing();
 
   const FOCUSED_HEIGHT = height * 0.6;
   const PEEK_HEIGHT = height * 0.15;
@@ -13,17 +18,27 @@ export default function ExploreScreen() {
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
 
   return (
-    <View className="flex-1">
-      <PagerView className="flex-1">
+    <View className="flex-1 justify-items-center" style={{ height }}>
+      <PagerView
+        initialPage={0}
+        orientation="vertical"
+        offscreenPageLimit={3}
+        style={{ flex: 1, justifyContent: "center", overflow: "scroll", maxHeight: FOCUSED_HEIGHT }}
+        pageMargin={20}
+        overScrollMode="always"
+      >
         {DATA.map((item) => (
-          <View key={item.id} className="overflow-hidden">
-            <Card style={{ height: FOCUSED_HEIGHT, width }}>
-              <ExpoImage
+          <View key={item.id} className="h-full w-full">
+            <Card variant="transparent" style={{ height: FOCUSED_HEIGHT }}>
+              <Image
                 source={{ uri: item.imageUri }}
                 className="inset-0 absolute object-cover"
                 style={StyleSheet.absoluteFill}
               />
-              <Card.Title>{item.title}</Card.Title>
+              <Card.Header></Card.Header>
+              <Card.Body>
+                <Card.Title>{item.title}</Card.Title>
+              </Card.Body>
             </Card>
           </View>
         ))}

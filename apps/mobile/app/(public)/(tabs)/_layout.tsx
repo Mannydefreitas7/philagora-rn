@@ -5,15 +5,18 @@ import { tabs } from "@/constants/navigation";
 import { ScopedTheme } from "uniwind";
 import { oklabToHex } from "@/utils/convert";
 import { BlurView } from "expo-blur";
-import { useWindowDimensions, View } from "react-native";
+import { useColorScheme, useWindowDimensions, View } from "react-native";
 import useCurrentTab from "@/hooks/use-current-tab";
 import { GrainyGradient } from "@/components/ui/organisms/grainy-gradient";
+import { useMemo } from "react";
 
 export default function TabLayout() {
   const { isHomeTab, activeColor, color } = useCurrentTab();
+  const scheme = useColorScheme();
+  const isDark = useMemo(() => scheme === "dark", [scheme]);
   const { width } = useWindowDimensions();
   return (
-    <ScopedTheme theme={isHomeTab ? "dark" : "light"}>
+    <ScopedTheme theme={isHomeTab || isDark ? "dark" : "light"}>
       <Tabs>
         <View className="flex-1 bg-white dark:bg-black relative">
           <GrainyGradient />
