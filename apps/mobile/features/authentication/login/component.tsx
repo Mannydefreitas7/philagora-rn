@@ -10,6 +10,8 @@ import { useBottomSheetButton } from "@/components/molecules/sheet-button";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 
 import useLoginStore from "./store";
+import { Aurora } from "@/components/ui/molecules/aurora";
+import { GrainyGradient } from "@/components/ui/organisms/grainy-gradient";
 
 export default function LoginFeature() {
   const router = useRouter();

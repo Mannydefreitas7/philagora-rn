@@ -3,11 +3,12 @@ import useCurrentTab from "./use-current-tab";
 
 const useHeaderTitle = () => {
   const { isHomeTab, lastSegment, current } = useCurrentTab();
-
-  if (isHomeTab) return { title: "Agora", icon: "home" as (typeof tabs)[number]["icon"] };
-
+  const titles = tabs.map((tab) => tab.name);
+  const currentIndex = titles.findIndex((title) => title === lastSegment);
   return {
-    title: lastSegment ? lastSegment : "Philagora",
+    title: isHomeTab ? "Agora" : current?.name ? current.name : "Philagora",
+    titles,
+    index: currentIndex,
     icon: current?.icon ?? ("home" as (typeof tabs)[number]["icon"]),
   };
 };

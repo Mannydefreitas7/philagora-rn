@@ -11,19 +11,19 @@ export const tabs: ITab[] = [
   },
   {
     id: uuid.v4(),
-    name: "explore",
+    name: "Explore",
     route: "/explore",
     icon: "search",
   },
   {
     id: uuid.v4(),
-    name: "events",
+    name: "Events",
     route: "/calendar",
     icon: "calendar",
   },
   {
     id: uuid.v4(),
-    name: "profile",
+    name: "Profile",
     route: "/profile",
     icon: "profile",
   },
