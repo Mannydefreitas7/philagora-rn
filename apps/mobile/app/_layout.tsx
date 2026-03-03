@@ -6,8 +6,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
 import useSupabaseAuth from "@/hooks/use-supabase-auth";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { Provider } from "react-redux";
-//import { store } from "@/stores/main";
 
 SplashScreen.preventAutoHideAsync();
 

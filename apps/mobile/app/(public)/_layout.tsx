@@ -1,13 +1,9 @@
 import Header from "@/components/navigation/header";
-import useCurrentTab from "@/hooks/use-current-tab";
 import useHeaderTitle from "@/hooks/use-header-title";
-import { Stack, usePathname } from "expo-router";
-import { Text, View } from "react-native";
-import { useCSSVariable } from "uniwind";
+import { Stack } from "expo-router";
 
 export default function PublicLayout() {
   const { title } = useHeaderTitle();
-  const { isHomeTab } = useCurrentTab();
 
   return (
     <Stack initialRouteName="login">
