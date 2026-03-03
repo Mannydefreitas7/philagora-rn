@@ -10,7 +10,8 @@ export default function HomeScreen() {
   return (
     <View className="relative flex-1">
       <ScrollShadow
-        size={headerHeight * 3}
+        size={headerHeight * 1.5}
+        visibility="top"
         className="flex-1"
         LinearGradientComponent={LinearGradient}
       >

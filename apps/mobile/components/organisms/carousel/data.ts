@@ -55,5 +55,6 @@ export const DATA: ICardState[] = [
 
 export const initialState: CarouselState<ICardState> = {
   visibleItems: [],
-  data: DATA
+  isScrolling: false,
+  data: DATA,
 };

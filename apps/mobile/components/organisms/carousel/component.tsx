@@ -1,4 +1,11 @@
-import { NativeScrollEvent, NativeSyntheticEvent, useWindowDimensions, View, ViewabilityConfig, ViewToken } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  useWindowDimensions,
+  View,
+  ViewabilityConfig,
+  ViewToken,
+} from "react-native";
 import useSpacing from "@/hooks/use-spacing";
 import { useCallback, useMemo } from "react";
 import { PhCard } from "@/components/molecules/card";
@@ -7,6 +14,8 @@ import { DATA } from "./data";
 import { TCarouselProps } from "./types";
 import { ICardState } from "@/components/molecules/card/types";
 import { CarouselProvider, useCarousel } from "./context";
+import { SPACING } from "@/constants/size";
+import { FlatList } from "react-native-gesture-handler";
 
 const VIEWABILITY_CONFIG: ViewabilityConfig = {
   waitForInteraction: false,
@@ -19,30 +28,25 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const FOCUSED_HEIGHT = height * 0.7;
   const PEEK_HEIGHT = height * 0.15;
-  const ITEM_GAP = 16;
+  const ITEM_GAP = SPACING.md;
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
-  const { dispatch } = useCarousel();
+  const { dispatch, isFirst } = useCarousel();
 
   const animatedScrollY = useSharedValue(0);
 
-  const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: ViewToken<ICardState>[] }) => {
-      const indexes = viewableItems
-        .map((item) => item.index)
-        .filter((item): item is number => item !== null);
+  const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken<ICardState>[] }) => {
+    const indexes = viewableItems.map((item) => item.index).filter((item): item is number => item !== null);
 
-      dispatch({ type: "UPDATE_VIEWABLE_ITEMS", payload: indexes.slice(0, 2) });
+    dispatch({ type: "UPDATE_VIEWABLE_ITEMS", payload: indexes.slice(0, 2) });
 
-      const nearestViewable = indexes[0];
-      if (nearestViewable === undefined) return;
+    const nearestViewable = indexes[0];
+    if (nearestViewable === undefined) return;
 
-      dispatch({
-        type: "UPDATE_CURRENT_INDEX",
-        payload: nearestViewable,
-      });
-    },
-    [],
-  );
+    dispatch({
+      type: "UPDATE_CURRENT_INDEX",
+      payload: nearestViewable,
+    });
+  }, []);
 
   const renderItem = useCallback(
     ({ item, index }: { item: ICardState; index: number }) => {
@@ -64,7 +68,7 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      animatedScrollY.value = Math.round(event.contentOffset.y);
+      animatedScrollY.value = event.contentOffset.y;
     },
   });
 
@@ -74,7 +78,7 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
     return items.map((_, index) => index * SNAP_INTERVAL);
   }, [items, SNAP_INTERVAL]);
 
-  const VELOCITY_THRESHOLD = 1.6;
+  const VELOCITY_THRESHOLD = 1.8;
 
   const clampIndex = useCallback(
     (index: number) => {
@@ -85,19 +89,15 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
   );
 
   const getClosestIndex = useCallback(
-    (offsetY: number) => {
-      return clampIndex(Math.round(offsetY / SNAP_INTERVAL));
-    },
+    (offsetY: number) => clampIndex(Math.round(offsetY / SNAP_INTERVAL)),
     [SNAP_INTERVAL, clampIndex],
   );
 
   const getTargetIndexFromVelocity = useCallback(
     (offsetY: number, velocityY: number) => {
       const closestIndex = getClosestIndex(offsetY);
-
       if (velocityY >= VELOCITY_THRESHOLD) return clampIndex(closestIndex + 1);
       if (velocityY <= -VELOCITY_THRESHOLD) return clampIndex(closestIndex - 1);
-
       return closestIndex;
     },
     [VELOCITY_THRESHOLD, clampIndex, getClosestIndex],
@@ -105,21 +105,24 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
 
   const onScrollEndDrag = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const offsetY = event.nativeEvent.contentOffset.y;
-      const velocityY = event.nativeEvent.velocity?.y ?? 0;
-      const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
-
-      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
+      // const offsetY = event.nativeEvent.contentOffset.y;
+      // const velocityY = event.nativeEvent.velocity?.y ?? 0;
+      // const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
+      // dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
+      dispatch({ type: "IS_SCROLLING", payload: false });
     },
-    [dispatch, getTargetIndexFromVelocity],
+    [dispatch],
   );
+
+  const onScrollBeginDrag = useCallback(() => {
+    dispatch({ type: "IS_SCROLLING", payload: true });
+  }, [dispatch]);
 
   const onMomentumScrollEnd = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const offsetY = event.nativeEvent.contentOffset.y;
       const finalIndex = getClosestIndex(offsetY);
-
-      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
+      // dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
     },
     [dispatch, getClosestIndex],
   );
@@ -131,33 +134,34 @@ function InternalCarousel({ data, ...props }: TCarouselProps) {
         disableIntervalMomentum
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
-        snapToAlignment="start"
         decelerationRate={"fast"}
         snapToOffsets={snapOffsets}
-        snapToInterval={SNAP_INTERVAL}
         scrollEventThrottle={16}
+        onScrollBeginDrag={onScrollBeginDrag}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: headerHeight,
+          paddingTop: headerHeight - SPACING.lg,
           paddingBottom: tabHeight,
           rowGap: ITEM_GAP,
         }}
-        contentInsetAdjustmentBehavior="scrollableAxes"
+        contentInsetAdjustmentBehavior="automatic"
+        contentOffset={{ x: 0, y: headerHeight }}
         onScroll={scrollHandler}
         onScrollEndDrag={onScrollEndDrag}
         onMomentumScrollEnd={onMomentumScrollEnd}
         contentContainerClassName="px-4"
-        // contentInset={{ top: tabHeight + headerHeight }} // ✅ iOS — offsets scroll origin// ✅ iOS — sets initial offset
+        //contentInset={{ top: headerHeight }} // ✅ iOS — offsets scroll origin// ✅ iOS — sets initial offset
         progressViewOffset={headerHeight}
         renderItem={renderItem}
         pinchGestureEnabled={false}
         keyExtractor={keyExtractor}
       />
-      </View>
+    </View>
   );
 }
 
-
-export default (props: TCarouselProps) => <CarouselProvider>
-  <InternalCarousel {...props} />
-</CarouselProvider>
+export default (props: TCarouselProps) => (
+  <CarouselProvider>
+    <InternalCarousel {...props} />
+  </CarouselProvider>
+);

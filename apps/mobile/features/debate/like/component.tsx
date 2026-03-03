@@ -1,4 +1,4 @@
-import { Button } from "heroui-native";
+import { Button, useThemeColor } from "heroui-native";
 
 import useDebateLikeStore from "./store";
 import { Heart } from "iconsax-react-nativejs";
@@ -12,14 +12,15 @@ export default function DebateLikeButton({ debateId, userId }: DebateLikeButtonP
   const toggleLike = useDebateLikeStore((state) => state.toggleLike);
   const key = `${debateId}:${userId}`;
   const liked = useDebateLikeStore((state) => state.likes[key] ?? false);
+  const accentColor = useThemeColor("accent");
 
   const handleToggleLike = async () => {
     await toggleLike(debateId, userId);
   };
 
   return (
-    <Button size="sm" isIconOnly variant={"ghost"} onPress={handleToggleLike}>
-      <Heart size={20} color={"red"} variant={liked ? "Bold" : "Outline"} />
+    <Button size="sm" isIconOnly feedbackVariant="scale-ripple" variant={"ghost"} onPress={handleToggleLike}>
+      <Heart size={18} color={accentColor} variant={liked ? "Bold" : "Outline"} />
     </Button>
   );
 }
