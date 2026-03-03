@@ -3,32 +3,33 @@ import { create } from "zustand";
 import useSessionStore from "@/stores/session";
 import useUserStore from "@/stores/user";
 import { supabase } from "@/utils/supabase";
-
-type LogoutResult = {
-  error: Error | null;
-};
+import type { LogoutResult } from "./types";
 
 type LogoutStore = {
-  loading: boolean;
+  submitting: boolean;
   error: string | null;
+  reset: () => void;
   logout: () => Promise<LogoutResult>;
 };
 
 export const useLogoutStore = create<LogoutStore>((set) => ({
-  loading: false,
+  submitting: false,
   error: null,
+  reset: () => {
+    set({ submitting: false, error: null });
+  },
   logout: async () => {
-    set({ loading: true, error: null });
+    set({ submitting: true, error: null });
 
     const { error } = await supabase.auth.signOut();
     if (error) {
-      set({ loading: false, error: error.message });
+      set({ submitting: false, error: error.message });
       return { error };
     }
 
     useSessionStore.getState().logout();
     useUserStore.getState().clearUser();
-    set({ loading: false });
+    set({ submitting: false });
     return { error: null };
   },
 }));

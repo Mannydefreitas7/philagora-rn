@@ -14,7 +14,7 @@ import useLoginStore from "./store";
 export default function LoginFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
-  const { values, loading, submitError, setField, login } = useLoginStore();
+  const { values, submitting, error, setField, login } = useLoginStore();
 
   const { TriggerButton } = useBottomSheetButton({
     modal: {
@@ -41,7 +41,7 @@ export default function LoginFeature() {
     // const { error } = await login();
     // if (error) return;
 
-    router.replace("/home");
+    router.replace("/(public)/(tabs)");
   };
 
   return (
@@ -91,15 +91,15 @@ export default function LoginFeature() {
           />
         </View>
 
-        {submitError ? <Text className="text-sm text-red-600">{submitError}</Text> : null}
+        {error ? <Text className="text-sm text-red-600">{error}</Text> : null}
 
         <Button
           onPress={handleSubmit}
           variant="primary"
           className="mt-3"
-          isDisabled={loading /* disabling for testing purposes.. || isSubmitDisabled */}
+          isDisabled={submitting /* disabling for testing purposes.. || isSubmitDisabled */}
         >
-          {loading ? "Signing in..." : "Sign in"}
+          {submitting ? "Signing in..." : "Sign in"}
         </Button>
 
         <View className="flex-row items-center justify-between">

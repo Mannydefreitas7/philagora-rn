@@ -6,12 +6,14 @@ import {
   PlayCircle,
   PlayCricle,
   ProfileCircle,
+  SearchStatus1,
+  Story,
   VideoPlay,
 } from "iconsax-react-nativejs";
 
 export const tabIcons = {
-  home: Home2,
-  search: PlayCricle,
+  home: Story,
+  search: SearchStatus1,
   calendar: NotificationStatus,
   profile: ProfileCircle,
 };

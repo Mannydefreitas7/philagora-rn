@@ -1,17 +1,7 @@
 import { create } from "zustand";
 
 import { supabase } from "@/utils/supabase";
-
-type SignupValues = {
-  email: string;
-  password: string;
-  confirm: string;
-  fullName: string;
-};
-
-type SignupResult = {
-  error: Error | null;
-};
+import type { SignupResult, SignupValues } from "./types";
 
 type SignupStore = {
   values: SignupValues;

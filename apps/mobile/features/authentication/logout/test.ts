@@ -12,6 +12,7 @@ import { supabase } from "@/utils/supabase";
 import useSessionStore from "@/stores/session";
 import useUserStore from "@/stores/user";
 
+import { logoutSeeds } from "./data";
 import useLogoutStore from "./store";
 
 const mockSignOut = supabase.auth.signOut as jest.Mock;
@@ -19,11 +20,11 @@ const mockSignOut = supabase.auth.signOut as jest.Mock;
 describe("logout feature store", () => {
   beforeEach(() => {
     mockSignOut.mockReset();
-    useLogoutStore.setState({ loading: false, error: null });
+    useLogoutStore.getState().reset();
 
     useSessionStore.getState().setToken("token-123");
     useUserStore.setState({
-      user: { id: "user-1", email: "john@smith.com" },
+      user: { id: logoutSeeds[0].userId, email: "john@smith.com" },
       token: "token-123",
       isLoggedIn: true,
     });
@@ -55,8 +56,8 @@ describe("logout feature store", () => {
     });
 
     expect(result.current.error).toBe("network issue");
-    expect(result.current.loading).toBe(false);
+    expect(result.current.submitting).toBe(false);
     expect(useSessionStore.getState().token).toBe("token-123");
-    expect(useUserStore.getState().user?.id).toBe("user-1");
+    expect(useUserStore.getState().user?.id).toBe(logoutSeeds[0].userId);
   });
 });

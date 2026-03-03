@@ -7,7 +7,7 @@ import useLogoutStore from "./store";
 
 export default function LogoutFeature() {
   const router = useRouter();
-  const { loading, error, logout } = useLogoutStore();
+  const { submitting, error, logout } = useLogoutStore();
 
   const handleLogout = async () => {
     const { error: logoutError } = await logout();
@@ -23,11 +23,11 @@ export default function LogoutFeature() {
   return (
     <View className="flex-1 items-center justify-center gap-y-3 px-6">
       <Text className="text-base text-neutral-700 dark:text-neutral-200">
-        {loading ? "Signing out..." : "Signed out."}
+        {submitting ? "Signing out..." : "Signed out."}
       </Text>
       {error ? <Text className="text-sm text-red-600">{error}</Text> : null}
       {error ? (
-        <Button onPress={handleLogout} variant="primary" isDisabled={loading}>
+        <Button onPress={handleLogout} variant="primary" isDisabled={submitting}>
           Try again
         </Button>
       ) : null}

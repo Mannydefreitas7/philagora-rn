@@ -1,13 +1,19 @@
+import Header from "@/components/navigation/header";
+import useCurrentTab from "@/hooks/use-current-tab";
+import useHeaderTitle from "@/hooks/use-header-title";
 import { Stack, usePathname } from "expo-router";
+import { Text, View } from "react-native";
+import { useCSSVariable } from "uniwind";
 
 export default function PublicLayout() {
-  const route = usePathname();
+  const title = useHeaderTitle();
+  const { isHomeTab } = useCurrentTab();
 
   return (
-    <Stack screenOptions={{ headerShown: false }} initialRouteName="login">
+    <Stack initialRouteName="login">
       <Stack.Screen
         name="login"
-        options={{ presentation: "fullScreenModal", animation: "fade", animationDuration: 200 }}
+        options={{ presentation: "fullScreenModal", animation: "fade", animationDuration: 200, headerShown: false }}
       />
       <Stack.Screen
         name="register"
@@ -24,16 +30,11 @@ export default function PublicLayout() {
           headerShown: true,
         }}
       />
-      <Stack.Screen
-        name="(tabs)"
-        options={(params) => ({
-          headerTransparent: true,
-          headerTintColor: "white",
-          headerLargeTitleEnabled: true,
-          headerShadowVisible: false,
-          headerShown: true,
-        })}
-      />
+      <Stack.Screen name="(tabs)">
+        <Stack.Header asChild>
+          <Header title={title} />
+        </Stack.Header>
+      </Stack.Screen>
     </Stack>
   );
 }

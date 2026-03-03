@@ -5,6 +5,7 @@ import { useResolveClassNames } from "uniwind";
 import { TabTriggerSlotProps } from "expo-router/ui";
 import { GlassView } from "expo-glass-effect";
 import React, { useMemo } from "react";
+import { SPACING } from "@/constants/size";
 
 type TabButtonProps = TabTriggerSlotProps & {
   icon: ITab["icon"];
@@ -21,8 +22,8 @@ const TabButton = ({ icon, label, isFocused, ...props }: TabButtonProps) => {
   return (
     <Pressable {...props}>
       <View className="flex-col items-center gap-1">
-        <Icon size={24} variant={isFocused ? "Bold" : "Outline"} color={color} />
-        <Text style={{ color }} className="font-semibold capitalize">
+        <Icon size={SPACING.lg} variant={isFocused ? "Bold" : "Outline"} color={color} />
+        <Text style={{ color }} className="font-semibold capitalize text-xs">
           {label}
         </Text>
       </View>

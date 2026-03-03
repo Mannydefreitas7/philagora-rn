@@ -30,13 +30,13 @@ export default function SignupFeature() {
   const { errors: validationErrors, validateForm } = useValidation(values, schema);
 
   const onRegister = async () => {
-    const isValid = validateForm();
-    if (!isValid) return;
+    // const isValid = validateForm();
+    // if (!isValid) return;
 
-    const { error: signupError } = await signup();
-    if (signupError) return;
+    // const { error: signupError } = await signup();
+    // if (signupError) return;
 
-    router.replace("/home");
+    router.replace("/(public)/(tabs)");
   };
 
   return (

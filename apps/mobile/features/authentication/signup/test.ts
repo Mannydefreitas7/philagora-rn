@@ -9,6 +9,7 @@ jest.mock("@/utils/supabase", () => ({
 }));
 
 import { supabase } from "@/utils/supabase";
+import { signupSeeds } from "./data";
 import useSignupStore from "./store";
 
 const mockSignUp = supabase.auth.signUp as jest.Mock;
@@ -23,17 +24,17 @@ describe("signup feature store", () => {
     const { result } = renderHook(() => useSignupStore());
 
     act(() => {
-      result.current.setField("email", "john@smith.com");
+      result.current.setField("email", signupSeeds[0].email);
       result.current.setField("password", "secret123");
       result.current.setField("confirm", "secret123");
-      result.current.setField("fullName", "John Smith");
+      result.current.setField("fullName", signupSeeds[0].fullName);
     });
 
     expect(result.current.values).toEqual({
-      email: "john@smith.com",
+      email: signupSeeds[0].email,
       password: "secret123",
       confirm: "secret123",
-      fullName: "John Smith",
+      fullName: signupSeeds[0].fullName,
     });
   });
 
@@ -42,10 +43,10 @@ describe("signup feature store", () => {
     const { result } = renderHook(() => useSignupStore());
 
     act(() => {
-      result.current.setField("email", "  john@smith.com ");
+      result.current.setField("email", `  ${signupSeeds[0].email} `);
       result.current.setField("password", "secret123");
       result.current.setField("confirm", "secret123");
-      result.current.setField("fullName", "  John Smith ");
+      result.current.setField("fullName", `  ${signupSeeds[0].fullName} `);
     });
 
     await act(async () => {
@@ -54,11 +55,11 @@ describe("signup feature store", () => {
     });
 
     expect(mockSignUp).toHaveBeenCalledWith({
-      email: "john@smith.com",
+      email: signupSeeds[0].email,
       password: "secret123",
       options: {
         data: {
-          full_name: "John Smith",
+          full_name: signupSeeds[0].fullName,
         },
       },
     });
@@ -71,10 +72,10 @@ describe("signup feature store", () => {
     const { result } = renderHook(() => useSignupStore());
 
     act(() => {
-      result.current.setField("email", "john@smith.com");
+      result.current.setField("email", signupSeeds[0].email);
       result.current.setField("password", "secret123");
       result.current.setField("confirm", "secret123");
-      result.current.setField("fullName", "John Smith");
+      result.current.setField("fullName", signupSeeds[0].fullName);
     });
 
     await act(async () => {
