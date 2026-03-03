@@ -19,7 +19,7 @@ const useSpacing = () => {
   }, [useSafeAreaFrame]);
 
   const headerHeight = useMemo(() => {
-    return top * 2 + SPACING.lg + HEADER.spacing.paddingVertical;
+    return top + SPACING.xxl + HEADER.spacing.paddingVertical;
   }, [useSafeAreaInsets]);
 
   const primaryCardHeight = useMemo(() => {

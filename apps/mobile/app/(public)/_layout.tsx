@@ -6,7 +6,7 @@ import { Text, View } from "react-native";
 import { useCSSVariable } from "uniwind";
 
 export default function PublicLayout() {
-  const title = useHeaderTitle();
+  const { title } = useHeaderTitle();
   const { isHomeTab } = useCurrentTab();
 
   return (
