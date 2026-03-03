@@ -1,6 +1,5 @@
 import useCurrentTab from "@/hooks/use-current-tab";
-import { View, Text, useColorScheme } from "react-native";
-import { cn, useThemeColor } from "heroui-native";
+import { View, useColorScheme } from "react-native";
 import useSpacing from "@/hooks/use-spacing";
 import { FONT_SIZE, SPACING } from "@/constants/size";
 import useHeaderTitle from "@/hooks/use-header-title";
