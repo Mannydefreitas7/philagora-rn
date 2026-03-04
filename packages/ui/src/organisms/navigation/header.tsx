@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { FONT_SIZE, HEADER } from "@/atoms/spacing";
+import { FONT_SIZE, HEADER } from "@/base/spacing";
 import AnimatedText from "@/organisms/animated-text";
 
 type TProps = {
