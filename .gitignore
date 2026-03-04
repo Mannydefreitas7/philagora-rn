@@ -22,6 +22,8 @@ coverage
 out/
 build
 dist
+lib
+*.log
 
 
 # Debug
