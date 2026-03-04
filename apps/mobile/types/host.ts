@@ -1,8 +1,8 @@
-import { User } from "./user";
+import type { User } from "./user";
 
 export interface Host {
-  id: string;
-  user: User;
-  createdAt: Date;
-  updatedAt: Date;
+	id: string;
+	user: User;
+	createdAt: Date;
+	updatedAt: Date;
 }

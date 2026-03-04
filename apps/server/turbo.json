@@ -1,11 +1,11 @@
 {
-  "extends": ["//"],
-  "$schema": "https://turborepo.dev/schema.json",
-  "tasks": {
-    "start": {
-      "cache": false,
-      "interactive": true,
-      "persistent": true,
-    },
-  },
+	"extends": ["//"],
+	"$schema": "https://turborepo.dev/schema.json",
+	"tasks": {
+		"start": {
+			"cache": false,
+			"interactive": true,
+			"persistent": true
+		}
+	}
 }

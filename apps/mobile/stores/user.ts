@@ -23,62 +23,62 @@ import { create } from "zustand";
  * Create the Zustand store hook.
  */
 export const useUserStore = create<IUserState>((set, get) => ({
-  user: null,
-  token: null,
-  isLoggedIn: false,
+	user: null,
+	token: null,
+	isLoggedIn: false,
 
-  setUser: (user) => {
-    const token = get().token;
-    set({
-      user,
-      isLoggedIn: Boolean(user) || Boolean(token),
-    });
-  },
+	setUser: (user) => {
+		const token = get().token;
+		set({
+			user,
+			isLoggedIn: Boolean(user) || Boolean(token),
+		});
+	},
 
-  updateUser: (patch) => {
-    set((state) => {
-      const current = state.user ?? {};
-      const updated = { ...current, ...patch } as IUser;
-      return {
-        user: updated,
-        // if we have some user object or token, consider logged-in
-        isLoggedIn: Boolean(updated) || Boolean(state.token),
-      };
-    });
-  },
+	updateUser: (patch) => {
+		set((state) => {
+			const current = state.user ?? {};
+			const updated = { ...current, ...patch } as IUser;
+			return {
+				user: updated,
+				// if we have some user object or token, consider logged-in
+				isLoggedIn: Boolean(updated) || Boolean(state.token),
+			};
+		});
+	},
 
-  setToken: (token) => {
-    const user = get().user;
-    set({
-      token,
-      isLoggedIn: Boolean(user) || Boolean(token),
-    });
-  },
+	setToken: (token) => {
+		const user = get().user;
+		set({
+			token,
+			isLoggedIn: Boolean(user) || Boolean(token),
+		});
+	},
 
-  login: (user, token) => {
-    set({
-      user,
-      token,
-      isLoggedIn: true,
-    });
-  },
+	login: (user, token) => {
+		set({
+			user,
+			token,
+			isLoggedIn: true,
+		});
+	},
 
-  logout: () => {
-    set({
-      user: null,
-      token: null,
-      isLoggedIn: false,
-    });
-  },
+	logout: () => {
+		set({
+			user: null,
+			token: null,
+			isLoggedIn: false,
+		});
+	},
 
-  clearUser: () => {
-    // alias for logout
-    set({
-      user: null,
-      token: null,
-      isLoggedIn: false,
-    });
-  },
+	clearUser: () => {
+		// alias for logout
+		set({
+			user: null,
+			token: null,
+			isLoggedIn: false,
+		});
+	},
 }));
 
 export default useUserStore;

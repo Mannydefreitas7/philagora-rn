@@ -1,9 +1,24 @@
 import type { SignupItem } from "./types";
 
 export const signupSeeds: SignupItem[] = [
-  { id: "seed-signup-1", email: "john@smith.com", fullName: "John Smith", createdAt: "2024-01-01T00:00:00.000Z" },
-  { id: "seed-signup-2", email: "jane@example.com", fullName: "Jane Example", createdAt: "2024-01-02T00:00:00.000Z" },
-  { id: "seed-signup-3", email: "a@b.co", fullName: "A B", createdAt: "2024-01-03T00:00:00.000Z" },
+	{
+		id: "seed-signup-1",
+		email: "john@smith.com",
+		fullName: "John Smith",
+		createdAt: "2024-01-01T00:00:00.000Z",
+	},
+	{
+		id: "seed-signup-2",
+		email: "jane@example.com",
+		fullName: "Jane Example",
+		createdAt: "2024-01-02T00:00:00.000Z",
+	},
+	{
+		id: "seed-signup-3",
+		email: "a@b.co",
+		fullName: "A B",
+		createdAt: "2024-01-03T00:00:00.000Z",
+	},
 ];
 
 export const signupSeedSQL = `

@@ -44,7 +44,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * @returns Trimmed string representation
  */
 function toInputValue(value: Primitive): string {
-  return String(value ?? "").trim();
+	return String(value ?? "").trim();
 }
 
 /**
@@ -55,11 +55,11 @@ function toInputValue(value: Primitive): string {
  * @returns First error message or undefined if all rules pass
  */
 function runRules<T extends FormValues>(value: string, values: T, rules: ValidationRule<T>[] = []): ValidationError {
-  for (const rule of rules) {
-    const error = rule(value, values);
-    if (error) return error;
-  }
-  return undefined;
+	for (const rule of rules) {
+		const error = rule(value, values);
+		if (error) return error;
+	}
+	return undefined;
 }
 
 /**
@@ -74,58 +74,58 @@ function runRules<T extends FormValues>(value: string, values: T, rules: Validat
  * ```
  */
 export const validationRules = {
-  /**
-   * Validates that a field is not empty.
-   * @param label - Field label for error message (default: "This field")
-   * @returns Validation rule function
-   */
-  required:
-    <T extends FormValues>(label = "This field"): ValidationRule<T> =>
-    (value) =>
-      value.length === 0 ? `${label} is required.` : undefined,
+	/**
+	 * Validates that a field is not empty.
+	 * @param label - Field label for error message (default: "This field")
+	 * @returns Validation rule function
+	 */
+	required:
+		<T extends FormValues>(label = "This field"): ValidationRule<T> =>
+		(value) =>
+			value.length === 0 ? `${label} is required.` : undefined,
 
-  /**
-   * Validates email format.
-   * @param label - Field label for error message (default: "Email")
-   * @returns Validation rule function
-   */
-  email:
-    <T extends FormValues>(label = "Email"): ValidationRule<T> =>
-    (value) =>
-      value.length > 0 && !EMAIL_REGEX.test(value) ? `Please enter a valid ${label.toLowerCase()}.` : undefined,
+	/**
+	 * Validates email format.
+	 * @param label - Field label for error message (default: "Email")
+	 * @returns Validation rule function
+	 */
+	email:
+		<T extends FormValues>(label = "Email"): ValidationRule<T> =>
+		(value) =>
+			value.length > 0 && !EMAIL_REGEX.test(value) ? `Please enter a valid ${label.toLowerCase()}.` : undefined,
 
-  /**
-   * Validates minimum length requirement.
-   * @param length - Minimum required length
-   * @param label - Field label for error message (default: "This field")
-   * @returns Validation rule function
-   */
-  minLength:
-    <T extends FormValues>(length: number, label = "This field"): ValidationRule<T> =>
-    (value) =>
-      value.length > 0 && value.length < length ? `${label} must be at least ${length} characters.` : undefined,
+	/**
+	 * Validates minimum length requirement.
+	 * @param length - Minimum required length
+	 * @param label - Field label for error message (default: "This field")
+	 * @returns Validation rule function
+	 */
+	minLength:
+		<T extends FormValues>(length: number, label = "This field"): ValidationRule<T> =>
+		(value) =>
+			value.length > 0 && value.length < length ? `${label} must be at least ${length} characters.` : undefined,
 
-  /**
-   * Validates maximum length constraint.
-   * @param length - Maximum allowed length
-   * @param label - Field label for error message (default: "This field")
-   * @returns Validation rule function
-   */
-  maxLength:
-    <T extends FormValues>(length: number, label = "This field"): ValidationRule<T> =>
-    (value) =>
-      value.length > length ? `${label} must be at most ${length} characters.` : undefined,
+	/**
+	 * Validates maximum length constraint.
+	 * @param length - Maximum allowed length
+	 * @param label - Field label for error message (default: "This field")
+	 * @returns Validation rule function
+	 */
+	maxLength:
+		<T extends FormValues>(length: number, label = "This field"): ValidationRule<T> =>
+		(value) =>
+			value.length > length ? `${label} must be at most ${length} characters.` : undefined,
 
-  /**
-   * Validates that a field matches another field's value (e.g., password confirmation).
-   * @param otherField - The field to match against
-   * @param message - Custom error message (default: "Values do not match.")
-   * @returns Validation rule function
-   */
-  matchesField:
-    <T extends FormValues>(otherField: keyof T, message = "Values do not match."): ValidationRule<T> =>
-    (value, values) =>
-      value !== toInputValue(values[otherField]) ? message : undefined,
+	/**
+	 * Validates that a field matches another field's value (e.g., password confirmation).
+	 * @param otherField - The field to match against
+	 * @param message - Custom error message (default: "Values do not match.")
+	 * @returns Validation rule function
+	 */
+	matchesField:
+		<T extends FormValues>(otherField: keyof T, message = "Values do not match."): ValidationRule<T> =>
+		(value, values) =>
+			value !== toInputValue(values[otherField]) ? message : undefined,
 };
 
 /**
@@ -162,76 +162,76 @@ export const validationRules = {
  * ```
  */
 export function useValidation<T extends FormValues>(values: T, schema: ValidationSchema<T>) {
-  const [errors, setErrors] = useState<ValidationErrors<T>>({});
+	const [errors, setErrors] = useState<ValidationErrors<T>>({});
 
-  const validateField = useCallback(
-    (field: keyof T) => {
-      const rules = schema[field] ?? [];
-      const fieldValue = toInputValue(values[field]);
-      const nextError = runRules(fieldValue, values, rules);
+	const validateField = useCallback(
+		(field: keyof T) => {
+			const rules = schema[field] ?? [];
+			const fieldValue = toInputValue(values[field]);
+			const nextError = runRules(fieldValue, values, rules);
 
-      setErrors((prev) => {
-        if (!nextError && !(field in prev)) return prev;
-        return {
-          ...prev,
-          [field]: nextError,
-        };
-      });
+			setErrors((prev) => {
+				if (!nextError && !(field in prev)) return prev;
+				return {
+					...prev,
+					[field]: nextError,
+				};
+			});
 
-      return !nextError;
-    },
-    [schema, values],
-  );
+			return !nextError;
+		},
+		[schema, values],
+	);
 
-  const validateForm = useCallback(() => {
-    const nextErrors: ValidationErrors<T> = {};
+	const validateForm = useCallback(() => {
+		const nextErrors: ValidationErrors<T> = {};
 
-    for (const key of Object.keys(schema) as Array<keyof T>) {
-      const rules = schema[key] ?? [];
-      const fieldValue = toInputValue(values[key]);
-      const nextError = runRules(fieldValue, values, rules);
-      if (nextError) nextErrors[key] = nextError;
-    }
+		for (const key of Object.keys(schema) as Array<keyof T>) {
+			const rules = schema[key] ?? [];
+			const fieldValue = toInputValue(values[key]);
+			const nextError = runRules(fieldValue, values, rules);
+			if (nextError) nextErrors[key] = nextError;
+		}
 
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  }, [schema, values]);
+		setErrors(nextErrors);
+		return Object.keys(nextErrors).length === 0;
+	}, [schema, values]);
 
-  const clearFieldError = useCallback((field: keyof T) => {
-    setErrors((prev) => {
-      if (!(field in prev)) return prev;
-      return {
-        ...prev,
-        [field]: undefined,
-      };
-    });
-  }, []);
+	const clearFieldError = useCallback((field: keyof T) => {
+		setErrors((prev) => {
+			if (!(field in prev)) return prev;
+			return {
+				...prev,
+				[field]: undefined,
+			};
+		});
+	}, []);
 
-  const resetErrors = useCallback(() => {
-    setErrors({});
-  }, []);
+	const resetErrors = useCallback(() => {
+		setErrors({});
+	}, []);
 
-  const hasErrors = useMemo(() => Object.values(errors).some(Boolean), [errors]);
-  const isSubmitDisabled = useMemo(() => {
-    for (const key of Object.keys(schema) as Array<keyof T>) {
-      const rules = schema[key] ?? [];
-      const fieldValue = toInputValue(values[key]);
-      const nextError = runRules(fieldValue, values, rules);
-      if (nextError) return true;
-    }
+	const hasErrors = useMemo(() => Object.values(errors).some(Boolean), [errors]);
+	const isSubmitDisabled = useMemo(() => {
+		for (const key of Object.keys(schema) as Array<keyof T>) {
+			const rules = schema[key] ?? [];
+			const fieldValue = toInputValue(values[key]);
+			const nextError = runRules(fieldValue, values, rules);
+			if (nextError) return true;
+		}
 
-    return false;
-  }, [schema, values]);
+		return false;
+	}, [schema, values]);
 
-  return {
-    errors,
-    hasErrors,
-    isSubmitDisabled,
-    validateField,
-    validateForm,
-    clearFieldError,
-    resetErrors,
-  };
+	return {
+		errors,
+		hasErrors,
+		isSubmitDisabled,
+		validateField,
+		validateForm,
+		clearFieldError,
+		resetErrors,
+	};
 }
 
 export default useValidation;

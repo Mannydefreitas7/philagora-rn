@@ -1,1 +1,1 @@
-import { store } from '@davstack/store';
+export {};

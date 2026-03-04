@@ -2,19 +2,19 @@
 @import "uniwind";
 
 @import "heroui-native/styles";
-@source './node_modules/heroui-native/lib';
-@source '../../packages/ui/lib';
+@source "./node_modules/heroui-native/lib";
+@source "../../packages/ui/lib";
 
 @layer theme {
-    /* Dark theme variables */
-    @variant dark {
-        --accent: var(--color-white);
-        --accent-foreground: var(--color-black);
-    }
+	/* Dark theme variables */
+	@variant dark {
+		--accent: var(--color-white);
+		--accent-foreground: var(--color-black);
+	}
 
-    /* Light theme variables */
-    @variant light {
-        --accent: var(--color-black);
-        --accent-foreground: var(--color-white);
-    }
+	/* Light theme variables */
+	@variant light {
+		--accent: var(--color-black);
+		--accent-foreground: var(--color-white);
+	}
 }

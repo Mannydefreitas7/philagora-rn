@@ -1,2 +1,1 @@
-
-export type TActionPrefix = 'ADD_' | 'UPDATE_' | 'DELETE_' | 'READ_';
+export type TActionPrefix = "ADD_" | "UPDATE_" | "DELETE_" | "READ_";

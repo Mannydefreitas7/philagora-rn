@@ -1,9 +1,27 @@
 import type { LikeItem } from "./types";
 
 export const likeSeeds: LikeItem[] = [
-  { id: "seed-like-1", debateId: "seed-debate-card-1", userId: "user-1", like: true, createdAt: "2024-01-01T00:00:00.000Z" },
-  { id: "seed-like-2", debateId: "seed-debate-card-2", userId: "user-1", like: false, createdAt: "2024-01-02T00:00:00.000Z" },
-  { id: "seed-like-3", debateId: "seed-debate-card-1", userId: "user-2", like: true, createdAt: "2024-01-03T00:00:00.000Z" },
+	{
+		id: "seed-like-1",
+		debateId: "seed-debate-card-1",
+		userId: "user-1",
+		like: true,
+		createdAt: "2024-01-01T00:00:00.000Z",
+	},
+	{
+		id: "seed-like-2",
+		debateId: "seed-debate-card-2",
+		userId: "user-1",
+		like: false,
+		createdAt: "2024-01-02T00:00:00.000Z",
+	},
+	{
+		id: "seed-like-3",
+		debateId: "seed-debate-card-1",
+		userId: "user-2",
+		like: true,
+		createdAt: "2024-01-03T00:00:00.000Z",
+	},
 ];
 
 export const likeSeedSQL = `

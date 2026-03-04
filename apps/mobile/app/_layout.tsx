@@ -2,35 +2,34 @@ import "./../global.css";
 import { SplashScreen, Stack } from "expo-router";
 import { LinkPreviewContextProvider } from "expo-router/build/link/preview/LinkPreviewContext";
 import { HeroUINativeProvider } from "heroui-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
-import useSupabaseAuth from "@/hooks/use-supabase-auth";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import useSupabaseAuth from "@/hooks/use-supabase-auth";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { initializing } = useSupabaseAuth();
+	const { initializing } = useSupabaseAuth();
 
-  useEffect(() => {
-    if (initializing) SplashScreen.hide();
-  }, [initializing]);
+	useEffect(() => {
+		if (initializing) SplashScreen.hide();
+	}, [initializing]);
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-neutral-900">
-      <KeyboardProvider>
-        <HeroUINativeProvider
-          config={{
-            devInfo: {
-              stylingPrinciples: false,
-            },
-          }}
-        >
-          <LinkPreviewContextProvider>
-            <Stack screenOptions={{ headerShown: false }} />
-          </LinkPreviewContextProvider>
-        </HeroUINativeProvider>
-      </KeyboardProvider>
-    </GestureHandlerRootView>
-  );
+	return (
+		<GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-neutral-900">
+			<KeyboardProvider>
+				<HeroUINativeProvider
+					config={{
+						devInfo: {
+							stylingPrinciples: false,
+						},
+					}}>
+					<LinkPreviewContextProvider>
+						<Stack screenOptions={{ headerShown: false }} />
+					</LinkPreviewContextProvider>
+				</HeroUINativeProvider>
+			</KeyboardProvider>
+		</GestureHandlerRootView>
+	);
 }
