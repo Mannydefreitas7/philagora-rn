@@ -9,6 +9,7 @@ import { useColorScheme, useWindowDimensions, View } from "react-native";
 import useCurrentTab from "@/hooks/use-current-tab";
 import { GrainyGradient } from "@/components/ui/organisms/grainy-gradient";
 import { useMemo } from "react";
+import Animated, { BounceIn, BounceOut } from "react-native-reanimated";
 
 export default function TabLayout() {
   const { isHomeTab, activeColor, color } = useCurrentTab();
@@ -18,10 +19,10 @@ export default function TabLayout() {
   return (
     <ScopedTheme theme={isHomeTab || isDark ? "dark" : "light"}>
       <Tabs>
-        <View className="flex-1 bg-white dark:bg-black relative">
+        <Animated.View className="flex-1 bg-white dark:bg-black relative" entering={BounceIn} exiting={BounceOut}>
           <GrainyGradient />
           <TabSlot />
-        </View>
+        </Animated.View>
         <TabList asChild>
           <BlurView
             className="bottom-safe translate-y-3 flex-1 absolute py-3 px-8 rounded-full border border-neutral-200 dark:border-neutral-700"

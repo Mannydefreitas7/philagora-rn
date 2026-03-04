@@ -6,7 +6,7 @@ import useHeaderTitle from "@/hooks/use-header-title";
 import { tabIcons } from "@/constants/icons";
 import { HEADER } from "@/constants/navigation";
 import { useMemo } from "react";
-import AnimatedText from "../ui/organisms/animated-text";
+import AnimatedText from "@/components/ui/organisms/animated-text";
 
 const Header = ({ title }: { title: string }) => {
   const { isHomeTab } = useCurrentTab();
@@ -24,7 +24,7 @@ const Header = ({ title }: { title: string }) => {
         style={{
           fontWeight: "600",
           fontSize: FONT_SIZE.xxl,
-          color: isDark ? "white" : "black",
+          color: isHomeTab || isDark ? "white" : "black",
         }}
       />
     );
