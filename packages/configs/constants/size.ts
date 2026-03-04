@@ -22,21 +22,21 @@
  * is required.
  */
 export const SPACING = {
-  xs: 4 /* 4px */,
-  sm: 8 /* 8px */,
-  base: 12 /* 12px */,
-  md: 16 /* 16px */,
-  lg: 24 /* 24px */,
-  xl: 32 /* 32px */,
-  xxl: 48 /* 48px */,
+	xs: 4 /* 4px */,
+	sm: 8 /* 8px */,
+	base: 12 /* 12px */,
+	md: 16 /* 16px */,
+	lg: 24 /* 24px */,
+	xl: 32 /* 32px */,
+	xxl: 48 /* 48px */,
 };
 
 export const FONT_SIZE = {
-  xs: 12 /* 12px */,
-  sm: 14 /* 14px */,
-  base: 16 /* 16px */,
-  md: 18 /* 18px */,
-  lg: 20 /* 20px */,
-  xl: 24 /* 24px */,
-  xxl: 32 /* 32px */,
+	xs: 12 /* 12px */,
+	sm: 14 /* 14px */,
+	base: 16 /* 16px */,
+	md: 18 /* 18px */,
+	lg: 20 /* 20px */,
+	xl: 24 /* 24px */,
+	xxl: 32 /* 32px */,
 };

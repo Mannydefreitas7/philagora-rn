@@ -1,16 +1,15 @@
-import { tabIcons } from "@repo/configs/icons";
-import { TabTriggerProps } from "expo-router/ui";
-import { ReactNode } from "react";
+import type { TabTriggerProps } from "expo-router/ui";
+import type { ReactNode } from "react";
 
-export interface ITab {
-  id: string;
-  name: string;
-  route: TabTriggerProps["href"];
-  icon: keyof typeof tabIcons;
+export interface ITab<T> {
+	id: string;
+	name: string;
+	route: TabTriggerProps["href"];
+	icon: T;
 }
 
 export interface ISheet {
-  id: string;
-  title: string;
-  content: ReactNode | null;
+	id: string;
+	title: string;
+	content: ReactNode | null;
 }

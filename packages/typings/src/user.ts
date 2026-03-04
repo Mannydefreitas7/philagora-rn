@@ -2,13 +2,13 @@
  * Basic user shape. Extend as needed across your apps.
  */
 export interface IUser {
-  id: string;
-  name?: string;
-  email?: string;
-  avatarUrl?: string;
-  roles?: string[];
-  // Allow extra properties for forward/third-party fields
-  [key: string]: any;
+	id: string;
+	name?: string;
+	email?: string;
+	avatarUrl?: string;
+	roles?: string[];
+	// Allow extra properties for forward/third-party fields
+	[key: string]: any;
 }
 
 /** A convenience alias for a partial user patch. */
@@ -22,17 +22,17 @@ export type TPartialUser = Partial<IUser>;
  * state manager implementation.
  */
 export interface IUserState {
-  // current authenticated user (null when not authenticated)
-  user: IUser | null;
-  token?: string | null;
-  isLoggedIn?: boolean;
-  // setters / actions
-  setUser: (user: IUser | null) => void;
-  updateUser: (patch: TPartialUser) => void;
-  setToken?: (token: string | null) => void;
-  login?: (user: IUser, token: string) => void;
-  logout?: () => void;
-  clearUser: () => void;
-  // optional helpers that implementations may provide
-  hasRole?: (role: string) => boolean;
+	// current authenticated user (null when not authenticated)
+	user: IUser | null;
+	token?: string | null;
+	isLoggedIn?: boolean;
+	// setters / actions
+	setUser: (user: IUser | null) => void;
+	updateUser: (patch: TPartialUser) => void;
+	setToken?: (token: string | null) => void;
+	login?: (user: IUser, token: string) => void;
+	logout?: () => void;
+	clearUser: () => void;
+	// optional helpers that implementations may provide
+	hasRole?: (role: string) => boolean;
 }

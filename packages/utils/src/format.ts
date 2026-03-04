@@ -6,11 +6,11 @@
  * @returns A formatted date string
  */
 export function formatDate(date: Date, locale: string = "en-US"): string {
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
+	return new Intl.DateTimeFormat(locale, {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	}).format(date);
 }
 
 /**
@@ -21,15 +21,11 @@ export function formatDate(date: Date, locale: string = "en-US"): string {
  * @param locale - The locale to use for formatting (defaults to "en-US")
  * @returns A formatted currency string
  */
-export function formatCurrency(
-  amount: number,
-  currency: string = "USD",
-  locale: string = "en-US"
-): string {
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-  }).format(amount);
+export function formatCurrency(amount: number, currency: string = "USD", locale: string = "en-US"): string {
+	return new Intl.NumberFormat(locale, {
+		style: "currency",
+		currency,
+	}).format(amount);
 }
 
 /**
@@ -39,10 +35,10 @@ export function formatCurrency(
  * @returns A URL-friendly slug
  */
 export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/-+/g, "-");
+	return text
+		.toLowerCase()
+		.trim()
+		.replace(/[^\w\s-]/g, "")
+		.replace(/[\s_]+/g, "-")
+		.replace(/-+/g, "-");
 }

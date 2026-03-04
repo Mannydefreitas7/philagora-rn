@@ -12,9 +12,10 @@
  * serializable shapes and simple function signatures (avoid framework-specific
  * runtime types).
  */
-import { IUser, IUserState } from "./user";
-import { IAuthPayload } from "./auth";
-import { ITab } from "@/types/navigation";
+
+import type { ITab } from "@/types/navigation";
+import type { IAuthPayload } from "./auth";
+import type { IUser, IUserState } from "./user";
 /**
  * Export a small namespace of types that might be helpful when consuming
  * the typings package from JavaScript (e.g. for runtime validation).

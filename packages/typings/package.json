@@ -1,28 +1,27 @@
 {
-  "name": "@repo/typings",
-  "description": "Typings for the project",
-  "version": "0.0.0",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts",
-    "./user": "./src/user.ts",
-    "./auth": "./src/auth.ts"
-  },
-  "scripts": {
-    "clean": "rm -rf .turbo node_modules"
-  },
-  "dependencies": {
-    "expo-router": "catalog:expo"
-  },
-  "devDependencies": {
-    "tailwindcss": "catalog:ui",
-    "react": "catalog:react",
-    "react-dom": "catalog:react",
-    "react-native": "catalog:react",
-    "typescript": "catalog:development",
-    "@types/node": "catalog:development",
-    "@types/react": "catalog:development",
-    "@types/react-dom": "catalog:development",
-    "@repo/configs": "workspace:*"
-  }
+	"name": "@repo/typings",
+	"description": "Typings for the project",
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./user": "./src/user.ts",
+		"./auth": "./src/auth.ts"
+	},
+	"scripts": {
+		"clean": "rm -rf .turbo node_modules"
+	},
+	"dependencies": {
+		"expo-router": "catalog:expo"
+	},
+	"devDependencies": {
+		"tailwindcss": "catalog:ui",
+		"react": "catalog:react",
+		"react-dom": "catalog:react",
+		"react-native": "catalog:react",
+		"typescript": "catalog:development",
+		"@types/node": "catalog:development",
+		"@types/react": "catalog:development",
+		"@types/react-dom": "catalog:development"
+	}
 }

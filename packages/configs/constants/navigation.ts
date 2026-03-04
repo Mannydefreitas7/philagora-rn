@@ -3,45 +3,45 @@ import uuid from "react-native-uuid";
 import { FONT_SIZE, SPACING } from "./size";
 
 export const tabs: ITab[] = [
-  {
-    id: uuid.v4(),
-    name: "agora",
-    route: "/(public)/(tabs)",
-    icon: "home",
-  },
-  {
-    id: uuid.v4(),
-    name: "Explore",
-    route: "/explore",
-    icon: "search",
-  },
-  {
-    id: uuid.v4(),
-    name: "Events",
-    route: "/calendar",
-    icon: "calendar",
-  },
-  {
-    id: uuid.v4(),
-    name: "Profile",
-    route: "/profile",
-    icon: "profile",
-  },
+	{
+		id: uuid.v4(),
+		name: "agora",
+		route: "/(public)/(tabs)",
+		icon: "home",
+	},
+	{
+		id: uuid.v4(),
+		name: "Explore",
+		route: "/explore",
+		icon: "search",
+	},
+	{
+		id: uuid.v4(),
+		name: "Events",
+		route: "/calendar",
+		icon: "calendar",
+	},
+	{
+		id: uuid.v4(),
+		name: "Profile",
+		route: "/profile",
+		icon: "profile",
+	},
 ];
 
 export const HEADER = {
-  spacing: {
-    paddingVertical: SPACING.md * 2,
-    paddingHorizontal: SPACING.md,
-  },
+	spacing: {
+		paddingVertical: SPACING.md * 2,
+		paddingHorizontal: SPACING.md,
+	},
 };
 
 export const BOTTOM_TAB = {
-  tabs,
-  spacing: {
-    icon: SPACING.xl,
-    label: FONT_SIZE.sm,
-    paddingVertical: SPACING.lg * 2,
-    paddingHorizontal: SPACING.md,
-  },
+	tabs,
+	spacing: {
+		icon: SPACING.xl,
+		label: FONT_SIZE.sm,
+		paddingVertical: SPACING.lg * 2,
+		paddingHorizontal: SPACING.md,
+	},
 };
