@@ -1,17 +1,21 @@
 {
-	"extends": "expo/tsconfig.base",
-	"compilerOptions": {
-		"strict": true,
-		"paths": {
-			"@/*": ["./*"]
-		}
-	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		".expo/types/**/*.ts",
-		"expo-env.d.ts",
-		"types/*.d.ts",
-		"docs/contents/audio-waveform.mdx"
-	]
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "../../packages/ui/src/**/*.ts",
+    "../../packages/ui/src/**/*.tsx",
+    "expo-env.d.ts",
+    "types/*.d.ts",
+    "docs/contents/audio-waveform.mdx"
+  ]
 }
