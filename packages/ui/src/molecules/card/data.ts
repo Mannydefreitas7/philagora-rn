@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-import type { ICardState } from "./types.js";
+import type { ICardState } from "./types";
 
 export const initialState: ICardState = {
   id: uuid.v4(),

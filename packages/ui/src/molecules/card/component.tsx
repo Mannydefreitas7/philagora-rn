@@ -6,8 +6,8 @@ import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { useCarousel } from "@/organisms/carousel/context";
-import { Glow } from "@/atoms/glow";
-import { SPACING } from "@/atoms/spacing";
+import { Glow } from "@/base/glow";
+import { SPACING } from "@/base/spacing";
 import type { TCardProps } from "./types";
 
 const AnimatedCard = Animated.createAnimatedComponent(HerouiCard);
