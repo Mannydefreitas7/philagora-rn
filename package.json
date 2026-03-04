@@ -5,8 +5,8 @@
     "setup": "bun run clean && bun install",
     "build": "dotenvx run -f .env.development -- turbo run build",
     "start": "dotenvx run -f .env.development -- turbo run @repo/mobile#start",
-    "encrypt": "dotenvx encrypt -f .env.*",
-    "decrypt": "dotenvx decrypt -fk .env.keys -f .env.*",
+    "encrypt": "dotenvx encrypt -f .env.development",
+    "decrypt": "dotenvx decrypt -fk .env.keys -f .env.development",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "cache:clear": "watchman watch-del-all",
@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.52.0",
-    "supabase": "^2.76.15",
-    "turbo": "^2.8.11",
+    "supabase": "^2.76.16",
+    "turbo": "^2.8.13",
     "typescript": "^5.9.3"
   },
   "engines": {
@@ -44,6 +44,9 @@
         "tailwind-variants": "^3.2.2",
         "iconsax-react-nativejs": "^0.0.8",
         "@shopify/react-native-skia": "^2.4.21"
+      },
+      "expo": {
+        "expo-router": "~55.0.3"
       },
       "development": {
         "typescript": "^5.9.3",
