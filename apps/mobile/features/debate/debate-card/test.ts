@@ -1,64 +1,73 @@
 import { act, renderHook } from "@testing-library/react-native";
 
 import { debateCardSeeds } from "./data";
-import useDebateCardStore from "./store";
+import debateCardStore from "./store";
+import { useStoreState, useStoreValue } from "zustand-x";
 
 describe("debate-card store", () => {
   beforeEach(() => {
-    useDebateCardStore.getState().reset();
+    debateCardStore.store.devtools.cleanup();
   });
 
   it("initialises with an empty debates list", () => {
-    const { result } = renderHook(() => useDebateCardStore());
-    expect(result.current.debates).toHaveLength(0);
+    const { result } = renderHook(() => useStoreValue(debateCardStore, "debates"));
+    expect(result.current).toHaveLength(0);
   });
 
   it("populates debates via setDebates", () => {
-    const { result } = renderHook(() => useDebateCardStore());
-
+    const { result } = renderHook(() => useStoreState(debateCardStore, "debates"));
+    const [debates, setDebates] = result.current;
     act(() => {
-      result.current.setDebates(debateCardSeeds);
+      setDebates(debateCardSeeds);
     });
 
-    expect(result.current.debates).toHaveLength(debateCardSeeds.length);
-    expect(result.current.debates[0]?.id).toBe("seed-debate-card-1");
+    expect(debates).toHaveLength(debateCardSeeds.length);
+    expect(debates[0]?.id).toBe("seed-debate-card-1");
   });
 
   it("preserves debate fields after setDebates", () => {
-    const { result } = renderHook(() => useDebateCardStore());
-
+    const { result } = renderHook(() => useStoreState(debateCardStore, "debates"));
+    const [debates, setDebates] = result.current;
     act(() => {
-      result.current.setDebates(debateCardSeeds);
+      setDebates(debateCardSeeds);
     });
 
-    const first = result.current.debates[0];
+    const first = debates[0];
     expect(first?.status).toBe("live");
     expect(first?.participants).toHaveLength(3);
   });
 
-  it("tracks selected debate via setField", () => {
-    const { result } = renderHook(() => useDebateCardStore());
-
+  it("tracks selected debate via setSelectedId", () => {
+    const { result } = renderHook(() => useStoreState(debateCardStore, "selectedId"));
+    const [selectedId, setSelectedId] = result.current;
     act(() => {
-      result.current.setField("selectedId", "seed-debate-card-1");
+      setSelectedId("seed-debate-card-1");
     });
 
-    expect(result.current.values.selectedId).toBe("seed-debate-card-1");
+    expect(selectedId).toBe("seed-debate-card-1");
   });
 
   it("resets all state on reset()", () => {
-    const { result } = renderHook(() => useDebateCardStore());
-
+    const {
+      result: {
+        current: [debates, setDebates],
+      },
+    } = renderHook(() => useStoreState(debateCardStore, "debates"));
+    const {
+      result: {
+        current: [selectedId, setSelectedId],
+      },
+    } = renderHook(() => useStoreState(debateCardStore, "selectedId"));
     act(() => {
-      result.current.setDebates(debateCardSeeds);
-      result.current.setField("selectedId", "seed-debate-card-1");
+      setDebates(debateCardSeeds);
+      setSelectedId("seed-debate-card-1");
     });
 
     act(() => {
-      result.current.reset();
+      debateCardStore.store.devtools.cleanup();
     });
 
-    expect(result.current.debates).toHaveLength(0);
-    expect(result.current.values.selectedId).toBeNull();
+    expect(debates).toHaveLength(0);
+    expect(selectedId).toBeUndefined();
   });
 });

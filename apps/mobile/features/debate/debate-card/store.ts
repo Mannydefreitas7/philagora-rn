@@ -4,23 +4,23 @@ import type { DebateCardItem, DebateCardValues } from "./types";
 
 type DebateCardStore = {
   debates: DebateCardItem[];
-  values: DebateCardValues;
+  selectedId?: string;
 };
 
-const initialValues: DebateCardValues = {
-  selectedId: null,
+const initialValues: DebateCardStore = {
+  selectedId: undefined,
+  debates: [],
 };
 
-export const useDebateCardStore = createStore<DebateCardStore>(
+export const debateCardStore = createStore<DebateCardStore>(
   {
-    debates: [],
-    values: initialValues
+    ...initialValues,
   },
   {
-    name: 'debate-card',
+    name: "debate-card",
     immer: true,
-    devtools: true
-  }
+    devtools: true,
+  },
 );
 
-export default useDebateCardStore;
+export default debateCardStore;

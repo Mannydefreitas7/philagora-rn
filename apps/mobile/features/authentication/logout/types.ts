@@ -4,6 +4,8 @@ export type LogoutItem = {
   createdAt: string;
 };
 
+export type LogoutValues = Record<string, never>;
+
 export type LogoutResult = {
   error: Error | null;
 };

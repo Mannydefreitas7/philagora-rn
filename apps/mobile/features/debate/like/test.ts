@@ -7,23 +7,18 @@ jest.mock("@/utils/supabase", () => ({
 }));
 
 import { supabase } from "@/utils/supabase";
+import { likeSeeds } from "./data";
 import useDebateLikeStore from "./store";
 
 const mockFrom = supabase.from as jest.Mock;
 
 describe("debate like feature store", () => {
-  const debateId = "debate-1";
-  const userId = "user-1";
+  const debateId = likeSeeds[0].debateId;
+  const userId = likeSeeds[0].userId;
 
   beforeEach(() => {
-    const upsertMock = jest.fn();
-    mockFrom.mockReturnValue({ upsert: upsertMock });
-    mockFrom.mockClear();
-    useDebateLikeStore.setState({
-      likes: {},
-      loadingByKey: {},
-      errorByKey: {},
-    });
+    mockFrom.mockReset();
+    useDebateLikeStore.getState().reset();
   });
 
   it("toggles like on and persists to database", async () => {

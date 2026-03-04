@@ -1,7 +1,8 @@
 import { Image, Text, View } from "react-native";
 
-import useDebateCardStore from "./store";
+import { debateCardStore } from "./store";
 import type { DebateCardItem, DebateCardParticipant, DebateStatus } from "./types";
+import { useStoreState, useStoreValue } from "zustand-x";
 
 const STATUS_LABEL: Record<DebateStatus, string> = {
   live: "Live",
@@ -30,25 +31,21 @@ type DebateCardProps = {
 };
 
 export default function DebateCardFeature({ item }: DebateCardProps) {
-  const { setField, values } = useDebateCardStore();
+  const [selectedId, setSelectedId] = useStoreState(debateCardStore, "selectedId");
   const { title, description, image, status, participants, startsAt } = item;
-  const isSelected = values.selectedId === item.id;
+  const isSelected = selectedId === item.id;
 
   const statusLabel =
-    status === "starting_in" && startsAt
-      ? `Starting in ${formatCountdown(startsAt)}`
-      : STATUS_LABEL[status];
+    status === "starting_in" && startsAt ? `Starting in ${formatCountdown(startsAt)}` : STATUS_LABEL[status];
 
   return (
     <View
       className={`rounded-2xl bg-content1 overflow-hidden shadow-sm ${isSelected ? "ring-2 ring-primary" : ""}`}
-      onTouchEnd={() => setField("selectedId", item.id)}
+      onTouchEnd={() => setSelectedId(item.id)}
     >
       {/* Cover image */}
       <View className="h-44 bg-default-100">
-        {image ? (
-          <Image source={{ uri: image }} className="w-full h-full" resizeMode="cover" />
-        ) : null}
+        {image ? <Image source={{ uri: image }} className="w-full h-full" resizeMode="cover" /> : null}
       </View>
 
       {/* Status badge */}
@@ -75,9 +72,7 @@ export default function DebateCardFeature({ item }: DebateCardProps) {
               <ParticipantAvatar key={p.id} participant={p} index={i} />
             ))}
             {participants.length > 4 ? (
-              <Text className="text-default-500 text-xs ml-3">
-                +{participants.length - 4} more
-              </Text>
+              <Text className="text-default-500 text-xs ml-3">+{participants.length - 4} more</Text>
             ) : null}
           </View>
         ) : null}
@@ -100,9 +95,7 @@ function ParticipantAvatar({ participant, index }: ParticipantAvatarProps) {
         <Image source={{ uri: participant.avatarUrl }} className="w-full h-full" />
       ) : (
         <View className="w-full h-full items-center justify-center bg-primary-100">
-          <Text className="text-primary-600 text-xs font-semibold">
-            {participant.name.charAt(0).toUpperCase()}
-          </Text>
+          <Text className="text-primary-600 text-xs font-semibold">{participant.name.charAt(0).toUpperCase()}</Text>
         </View>
       )}
     </View>

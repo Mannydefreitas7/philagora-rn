@@ -1,8 +1,7 @@
 import { create } from "zustand";
 
 import { supabase } from "@/utils/supabase";
-
-type LikeKey = string;
+import type { LikeKey, LikeResult } from "./types";
 
 function buildKey(debateId: string, userId: string): LikeKey {
   return `${debateId}:${userId}`;
@@ -15,14 +14,18 @@ type DebateLikeStore = {
   getLike: (debateId: string, userId: string) => boolean;
   getLoading: (debateId: string, userId: string) => boolean;
   getError: (debateId: string, userId: string) => string | null;
-  toggleLike: (debateId: string, userId: string) => Promise<{ error: Error | null; like: boolean }>;
+  reset: () => void;
   setLike: (debateId: string, userId: string, like: boolean) => void;
+  toggleLike: (debateId: string, userId: string) => Promise<LikeResult>;
 };
 
 export const useDebateLikeStore = create<DebateLikeStore>((set, get) => ({
   likes: {},
   loadingByKey: {},
   errorByKey: {},
+  reset: () => {
+    set({ likes: {}, loadingByKey: {}, errorByKey: {} });
+  },
   getLike: (debateId, userId) => {
     const key = buildKey(debateId, userId);
     return get().likes[key] ?? false;
