@@ -17,7 +17,7 @@ Six canonical files:
 |---|---|
 | `types.ts` | Single source of truth for all types |
 | `data.ts` | Seed array + SQL seed |
-| `store.ts` | Zustand store — imports types from `types.ts` |
+| `store.ts` | Zustand-X store — imports types from `types.ts` |
 | `component.tsx` | UI — Tailwind classes, HeroUI Native |
 | `test.ts` | Jest — uses seeds from `data.ts` |
 | `index.ts` | Re-exports component, store hook, and types |
@@ -47,12 +47,12 @@ For every file, determine its status:
 Report the audit to the user before making any changes. Format:
 
 ```
-types.ts    — MISSING
-data.ts     — MISSING
-store.ts    — Non-compliant: types declared inline (not imported from types.ts)
-component.tsx — Non-compliant: uses StyleSheet.create for layout
-test.ts     — Non-compliant: inlines raw values instead of importing from data.ts
-index.ts    — Non-compliant: missing type re-exports
+types.ts      — MISSING
+data.ts       — MISSING
+store.ts      — Non-compliant: uses plain `create` from "zustand" instead of `createStore` from "zustand-x"
+component.tsx — Non-compliant: calls use<Feature>Store() as hook instead of useStoreValue()
+test.ts       — Non-compliant: resets store via .getState().reset() instead of store.set("reset")
+index.ts      — Non-compliant: missing type re-exports
 ```
 
 ### 4. Update files in dependency order
@@ -72,7 +72,7 @@ Always process in this order so each file exists before it is imported:
 
 When updating a non-compliant file:
 - **Keep** all existing action implementations, Supabase calls, field names, validation logic
-- **Only change** what violates the standard (inline types → import, `StyleSheet.create` → `className`, etc.)
+- **Only change** what violates the standard (inline types → import, `create` → `createStore`, etc.)
 - **Never rename** exported identifiers that are used outside the feature folder without checking all callers first
 
 ---
@@ -87,6 +87,8 @@ Checklist:
 - [ ] `export type <Feature>Item` — domain entity mirroring Supabase table (camelCase columns)
 - [ ] `export type <Feature>Values` — form/input fields
 - [ ] `export type <Feature>Result = { error: Error | null }`
+- [ ] `export type <Feature>State` — state-only shape (values, submitting, error); NO actions
+  - This is the type passed as `createStore<Feature>State>()` — actions are inferred from `extendActions`
 - [ ] All exports use `export type` (not `export interface` or bare `export`)
 
 ---
@@ -105,34 +107,73 @@ Checklist:
 
 ---
 
-### `store.ts` — Inline types, missing imports
+### `store.ts` — Wrong library, inline types, missing structure
 
 Checklist:
-- [ ] Imports `<Feature>Values`, `<Feature>Result` from `"./types"` — no local type declarations
-- [ ] `create<<Feature>Store>(...)` — typed generic, not plain `create(...)`
+- [ ] Uses `createStore` from `"zustand-x"` — NOT `create` from `"zustand"`
+- [ ] State defined as plain object passed to `createStore<Feature>State>(state, options)`
+- [ ] Options include `immer: true` and `devtools: true`
+- [ ] Actions defined in `.extendActions(({ get, set }) => ({...}))` — not inside `create()`
+- [ ] Imports `<Feature>Values`, `<Feature>Result`, `<Feature>State` from `"./types"` — no local type declarations
 - [ ] Both named export (`export const use<Feature>Store`) and `export default`
-- [ ] `setField` uses generic key constraint `<K extends keyof <Feature>Values>`
-- [ ] Every async action: sets `submitting: true` before call, `false` in both branches
-- [ ] No Immer unless state has deeply nested objects requiring mutation
+- [ ] `setField` uses generic key constraint `<K extends keyof <Feature>Values>` and mutates via immer draft
+- [ ] Every async action: `set("submitting", true)` before call, `set("submitting", false)` in both branches
+- [ ] Async actions use `set("key", value)` directly — not spread state updates
+
+**Migration pattern** (when converting from plain `zustand`):
+
+```
+// Before (non-compliant)
+import { create } from "zustand";
+export const useLoginStore = create<LoginStore>((set, get) => ({
+  values: initialValues,
+  submitting: false,
+  error: null,
+  setField: (field, value) => set((s) => ({ values: { ...s.values, [field]: value } })),
+  reset: () => set({ values: initialValues, submitting: false, error: null }),
+  login: async () => { ... }
+}));
+
+// After (compliant)
+import { createStore } from "zustand-x";
+import type { LoginValues, LoginResult, LoginState } from "./types";
+export const useLoginStore = createStore<LoginState>(
+  { values: initialValues, submitting: false, error: null },
+  { name: "login", immer: true, devtools: true }
+).extendActions(({ get, set }) => ({
+  setField: <K extends keyof LoginValues>(field: K, value: LoginValues[K]) => {
+    set("state", (draft) => { draft.values[field] = value; return draft; });
+  },
+  reset: () => {
+    set("state", (draft) => { draft.values = initialValues; draft.submitting = false; draft.error = null; return draft; });
+  },
+  login: async (): Promise<LoginResult> => { ... }
+}));
+```
 
 ---
 
-### `component.tsx` — Styling, imports
+### `component.tsx` — Styling, wrong store access pattern
 
 Checklist:
 - [ ] Zero `StyleSheet.create` calls — all layout via `className`
 - [ ] HeroUI Native used for interactive elements (`Button`, `Input`, etc.)
-- [ ] No `useState` for field values — reads from store
+- [ ] No `useState` for field values — reads from store via `useStoreValue`
+- [ ] Imports `useStoreValue` from `"zustand-x"` — does NOT call `use<Feature>Store()` as a hook
+- [ ] State read via `useStoreValue(use<Feature>Store, "key")` for each field
+- [ ] Actions called via `use<Feature>Store.set("actionName", ...args)`
 - [ ] Imports store from `"./store"` (relative, not `@/features/...`)
-- [ ] Error string rendered conditionally: `{error ? <Text className="...text-red-600">{error}</Text> : null}`
+- [ ] Error string rendered conditionally: `{error ? <Text className="...text-danger">{error}</Text> : null}`
 
 ---
 
-### `test.ts` — Mock order, seed usage, coverage
+### `test.ts` — Mock order, seed usage, store access, coverage
 
 Checklist:
 - [ ] `jest.mock("@/utils/supabase", ...)` appears before any `import` of the store
-- [ ] `beforeEach` resets mocks and calls `use<Feature>Store.getState().reset()`
+- [ ] `beforeEach` resets mocks and calls `use<Feature>Store.set("reset")` — NOT `.getState().reset()`
+- [ ] State read via `use<Feature>Store.get("key")` — NOT `.getState().key`
+- [ ] Actions called directly (`use<Feature>Store.set("action")`) — no `renderHook` needed for store-level tests
 - [ ] Test values sourced from `<feature>Seeds` in `"./data"` — no inlined raw literals
 - [ ] Covers: field updates, success path, error path (minimum 3 test cases)
 - [ ] Uses `await act(async () => ...)` for async store actions
@@ -146,6 +187,7 @@ Checklist:
 - [ ] `export { default as <Feature>Feature } from "./component"`
 - [ ] `export { default as use<Feature>Store } from "./store"`
 - [ ] `export type { <Feature>Item, <Feature>Values } from "./types"`
+- [ ] Does NOT re-export from `"./data"` — seed data is dev/test-only
 
 ---
 
@@ -153,7 +195,7 @@ Checklist:
 
 - Supabase table names, column names, query logic
 - Field names in `<Feature>Values` (changing these would break the store and component in tandem)
-- Any logic inside async actions beyond moving types to `types.ts`
+- Any logic inside async actions beyond migrating the store structure
 - File names or folder path unless explicitly requested
 - Existing test cases that are already passing — only add missing ones, don't rewrite passing ones
 
@@ -162,7 +204,11 @@ Checklist:
 | Mistake | Fix |
 |---|---|
 | Moving types to `types.ts` but leaving the old declarations in `store.ts` | Delete the originals after confirming `types.ts` exports them |
-| Rewriting action logic while fixing types | Separate concerns — change types first, logic never |
+| Rewriting action logic while fixing store structure | Migrate the shell (`createStore` + `extendActions`), keep the action bodies identical |
 | Updating `index.ts` before `types.ts` exists | Always follow dependency order |
-| Adding Immer "while you're in there" | Only add Immer if the existing store actually needs nested mutation |
+| Adding `immer: true` but forgetting `return draft` in updaters | Every immer draft callback must `return draft` even when mutating in-place |
+| Leaving `use<Feature>Store()` hook calls in component after migrating store | Replace all with `useStoreValue(store, "key")` |
+| Leaving `.getState().reset()` in tests after migrating store | Replace with `store.set("reset")` |
+| Declaring `<Feature>Store` type with actions | Rename to `<Feature>State`; remove actions — zustand-x infers them |
 | Renaming `use<Feature>Store` without checking callers | Grep for usages outside the folder first |
+| Re-exporting `./data` from `index.ts` | Seed data is internal; never part of the public API |
