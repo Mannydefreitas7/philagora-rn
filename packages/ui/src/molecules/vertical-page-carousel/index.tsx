@@ -8,7 +8,7 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 } from "react-native-reanimated";
-import type { VerticalPageItem, VerticalPageItemProps, VerticalPageProps } from "./types";
+import type { VerticalPageItem, VerticalPageItemProps, VerticalPageProps } from "./types.js";
 
 const { height } = Dimensions.get("window");
 

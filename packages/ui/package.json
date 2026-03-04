@@ -1,31 +1,41 @@
 {
-	"name": "@repo/ui",
-	"version": "0.0.0",
-	"private": true,
-	"type": "module",
-	"exports": {
-		"./*": "./src/**/*.tsx"
-	},
-	"scripts": {
-		"lint": "biome check",
-		"build": "tsc",
-		"start": "bun run build",
-		"generate:component": "turbo gen react-component",
-		"check-types": "tsc --noEmit",
-		"clean": "rm -rf lib .turbo node_modules"
-	},
-	"devDependencies": {
-		"typescript": "catalog:development",
-		"@types/node": "catalog:development",
-		"@types/react": "catalog:development",
-		"@types/react-dom": "catalog:development",
-		"@repo/configs": "workspace:*"
-	},
-	"dependencies": {
-		"react": "catalog:react",
-		"react-dom": "catalog:react",
-		"heroui-native": "catalog:ui",
-		"react-native": "catalog:react",
-		"iconsax-react-nativejs": "catalog:ui"
-	}
+  "name": "@repo/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/**/*.tsx"
+  },
+  "scripts": {
+    "lint": "biome check",
+    "build": "tsc",
+    "start": "bun run build",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf lib .turbo node_modules"
+  },
+  "devDependencies": {
+    "typescript": "catalog:development",
+    "@types/node": "catalog:development",
+    "@types/react": "catalog:development",
+    "@types/react-dom": "catalog:development",
+    "@repo/configs": "workspace:*",
+    "use-immer": "catalog:development"
+  },
+  "dependencies": {
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "heroui-native": "catalog:ui",
+    "react-native": "catalog:react",
+    "react-native-reanimated": "catalog:react",
+    "@shopify/react-native-skia": "catalog:ui",
+    "expo-blur": "catalog:expo",
+    "react-native-worklets": "catalog:react",
+    "expo": "catalog:expo",
+    "expo-image": "catalog:expo",
+    "expo-linear-gradient": "catalog:expo",
+    "react-native-pager-view": "8.0.0",
+    "react-native-uuid": "catalog:react",
+    "iconsax-react-nativejs": "catalog:ui"
+  }
 }

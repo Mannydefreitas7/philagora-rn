@@ -1,4 +1,4 @@
-import { MAX_BLUR, MIN_FRACTION } from "./conf";
+import { MAX_BLUR, MIN_FRACTION } from "./conf.js";
 
 function calculateBlur<F extends number>(fraction: F): number {
 	"worklet";

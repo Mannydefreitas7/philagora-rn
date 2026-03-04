@@ -1,20 +1,22 @@
-import type { ICardState } from "@/components/molecules/card/types";
+import type { ICardState } from "@/molecules/card/types";
 
 export type TCarouselProps = Omit<
-	CarouselState,
-	"visibleItems" | "currentIndex" | "nextIndex" | "previousIndex" | "isScrolling"
+  CarouselState,
+  "visibleItems" | "currentIndex" | "nextIndex" | "previousIndex" | "isScrolling"
 > & {
-	className?: string;
-	initialIndex?: Readonly<number>;
+  className?: string;
+  initialIndex?: Readonly<number>;
+  tabHeight: number;
+  headerHeight: number;
 };
 
 export interface CarouselState<T extends ICardState = ICardState> {
-	data: T[];
-	currentIndex?: number;
-	visibleItems: T[];
-	isScrolling: boolean;
-	previousIndex?: number;
-	nextIndex?: number;
+  data: T[];
+  currentIndex?: number;
+  visibleItems: T[];
+  isScrolling: boolean;
+  previousIndex?: number;
+  nextIndex?: number;
 }
 
 // Actions
@@ -22,12 +24,12 @@ export interface CarouselState<T extends ICardState = ICardState> {
 type TMutableKey = "UPDATE_CURRENT_INDEX" | "UPDATE_VIEWABLE_ITEMS" | "IS_SCROLLING";
 /// Carousel Actions.
 export type TAction = {
-	type: TMutableKey;
-	payload: number | number[] | boolean;
+  type: TMutableKey;
+  payload: number | number[] | boolean;
 };
 
 // Context
 export interface ICarouselContext {
-	state: CarouselState;
-	dispatch: React.Dispatch<TAction>;
+  state: CarouselState;
+  dispatch: React.Dispatch<TAction>;
 }

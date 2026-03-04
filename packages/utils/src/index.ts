@@ -1,1 +1,1 @@
-export { formatCurrency, formatDate, slugify } from "./format.js";
+export { formatCurrency, formatDate, slugify } from "./format";

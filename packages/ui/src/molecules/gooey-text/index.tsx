@@ -3,9 +3,9 @@ import type React from "react";
 import { memo, useEffect, useMemo } from "react";
 import { Platform, StyleSheet, type TextStyle, View } from "react-native";
 import { cancelAnimation, Easing, useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
-import { THRESHOLD_MATRIX } from "./conf";
-import { calculateBlur, calculateOpacity } from "./helpers";
-import type { IGooeyText, IGooeyTextItem } from "./types";
+import { THRESHOLD_MATRIX } from "./conf.js";
+import { calculateBlur, calculateOpacity } from "./helpers.js";
+import type { IGooeyText, IGooeyTextItem } from "./types.js";
 
 const GooeyTextItem: React.FC<IGooeyTextItem> & React.FunctionComponent<IGooeyTextItem> = ({
 	text,
@@ -176,7 +176,7 @@ export const GooeyText: React.FC<IGooeyText> & React.FunctionComponent<IGooeyTex
 						}>
 						<GooeyTextItem
 							key={`${texts}-${index}`}
-							text={index === 0 ? texts[index].toUpperCase() : texts[index]}
+							text={index === 0 ? texts[index]!.toUpperCase() : texts[index]!}
 							index={index}
 							totalTexts={texts.length}
 							masterClock={masterClock}

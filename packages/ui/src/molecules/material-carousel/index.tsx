@@ -9,8 +9,8 @@ import {
 	type ViewStyle,
 } from "react-native";
 import Animated, { Extrapolation, interpolate, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import { IMAGE_WIDTH, MEDIUM_IMAGE, SCREEN_WIDTH, SMALL_IMAGE } from "./const";
-import type { ICarouselItem, IMaterialCarousel } from "./types";
+import { IMAGE_WIDTH, MEDIUM_IMAGE, SCREEN_WIDTH, SMALL_IMAGE } from "./const.js";
+import type { ICarouselItem, IMaterialCarousel } from "./types.js";
 
 const AnimatedImage = Animated.createAnimatedComponent<ImageProps>(Image);
 

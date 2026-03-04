@@ -1,5 +1,5 @@
+import { Button, type ButtonRootProps } from "heroui-native";
 import { BottomSheet, useBottomSheet } from "heroui-native/bottom-sheet";
-import { Button, type ButtonRootProps } from "heroui-native/button";
 import type { IconProps } from "iconsax-react-nativejs";
 import { useCallback } from "react";
 import { View } from "react-native";
@@ -15,12 +15,12 @@ import { View } from "react-native";
  * implementation also exposes an `onChange` function matching this signature.
  */
 type TUseBottomSheetButton = {
-	modal?: {
-		title: string;
-		component: React.ReactNode;
-		description: string;
-		snapPoints?: string[];
-	};
+  modal?: {
+    title: string;
+    component: React.ReactNode;
+    description: string;
+    snapPoints?: string[];
+  };
 };
 
 /**
@@ -31,8 +31,8 @@ type TUseBottomSheetButton = {
  * - `onChange`: Callback signature describing the sheet state; returns either "opened" or "closed".
  */
 type TProps = TUseBottomSheetButton & {
-	Trigger: React.FC<ButtonRootProps>;
-	onChange?: (open: boolean) => "opened" | "closed";
+  Trigger: React.FC<ButtonRootProps>;
+  onChange?: (open: boolean) => "opened" | "closed";
 };
 
 /**
@@ -50,41 +50,41 @@ type TProps = TUseBottomSheetButton & {
  * @returns JSX.Element rendering the bottom sheet and its trigger.
  */
 const BottomSheetButton = ({ modal, Trigger }: TProps) => {
-	return (
-		<BottomSheet>
-			<BottomSheet.Trigger asChild>
-				<Trigger />
-			</BottomSheet.Trigger>
-			<BottomSheet.Portal>
-				<BottomSheet.Overlay isCloseOnPress className="flex-1 bg-neutral-950/90 backdrop-blur-lg" />
-				<BottomSheet.Content
-					backgroundClassName="rounded-[48px] bg-white dark:bg-neutral-900"
-					snapPoints={modal?.snapPoints}
-					enableDynamicSizing={!modal?.snapPoints}
-					detached
-					bottomInset={16}
-					handleClassName="h-4"
-					className="mx-4 pt-1">
-					<View className="flex-row justify-between relative">
-						<View className="flex-col px-3">
-							{modal?.title && (
-								<BottomSheet.Title className="text-black dark:text-white text-lg font-bold">
-									{modal.title}
-								</BottomSheet.Title>
-							)}
-							{modal?.description && (
-								<BottomSheet.Description className="text-neutral-500 text-2xs">
-									{modal.description}
-								</BottomSheet.Description>
-							)}
-						</View>
-						<BottomSheet.Close className="absolute right-0 -top-5" size="sm" feedbackVariant="scale-ripple" />
-					</View>
-					<View className="mx-2 mt-4">{modal?.component}</View>
-				</BottomSheet.Content>
-			</BottomSheet.Portal>
-		</BottomSheet>
-	);
+  return (
+    <BottomSheet>
+      <BottomSheet.Trigger asChild>
+        <Trigger />
+      </BottomSheet.Trigger>
+      <BottomSheet.Portal>
+        <BottomSheet.Overlay isCloseOnPress className="flex-1 bg-neutral-950/90 backdrop-blur-lg" />
+        <BottomSheet.Content
+          backgroundClassName="rounded-[48px] bg-white dark:bg-neutral-900"
+          snapPoints={modal?.snapPoints}
+          enableDynamicSizing={!modal?.snapPoints}
+          detached
+          bottomInset={16}
+          handleClassName="h-4"
+          className="mx-4 pt-1">
+          <View className="flex-row justify-between relative">
+            <View className="flex-col px-3">
+              {modal?.title && (
+                <BottomSheet.Title className="text-black dark:text-white text-lg font-bold">
+                  {modal.title}
+                </BottomSheet.Title>
+              )}
+              {modal?.description && (
+                <BottomSheet.Description className="text-neutral-500 text-2xs">
+                  {modal.description}
+                </BottomSheet.Description>
+              )}
+            </View>
+            <BottomSheet.Close className="absolute right-0 -top-5" size="sm" feedbackVariant="scale-ripple" />
+          </View>
+          <View className="mx-2 mt-4">{modal?.component}</View>
+        </BottomSheet.Content>
+      </BottomSheet.Portal>
+    </BottomSheet>
+  );
 };
 
 /**
@@ -101,26 +101,27 @@ const BottomSheetButton = ({ modal, Trigger }: TProps) => {
  * @returns JSX.Element a Button configured with icon and/or label.
  */
 const InternalTriggerButton = ({
-	isIconOnly,
-	Icon,
-	onChange,
-	children,
-	...props
+  isIconOnly,
+  Icon,
+  onChange,
+  children,
+  variant,
+  feedbackVariant
 }: Pick<ButtonRootProps, "isIconOnly" | "variant" | "feedbackVariant" | "children"> & {
-	Icon?: React.FC<IconProps>;
-	onChange: (open: boolean) => void;
+  Icon?: React.FC<IconProps>;
+  onChange: (open: boolean) => void;
 }) => {
-	const { isOpen, onOpenChange } = useBottomSheet();
-	const handleOnChange = useCallback(() => {
-		onOpenChange(true);
-		onChange(isOpen);
-	}, [isOpen]);
-	return (
-		<Button {...props} onPress={handleOnChange}>
-			{Icon && !isIconOnly && <Icon />}
-			{Icon && isIconOnly ? <Icon /> : <Button.Label>{children}</Button.Label>}
-		</Button>
-	);
+  const { isOpen, onOpenChange } = useBottomSheet();
+  const handleOnChange = useCallback(() => {
+    onOpenChange(true);
+    onChange(isOpen);
+  }, [isOpen]);
+  return (
+    <Button isIconOnly variant={variant} feedbackVariant={feedbackVariant} onPress={handleOnChange}>
+      {Icon && !isIconOnly && <Icon />}
+      {Icon && isIconOnly ? <Icon /> : <Button.Label>{children}</Button.Label>}
+    </Button>
+  );
 };
 
 /**
@@ -138,23 +139,23 @@ const InternalTriggerButton = ({
  * @returns An object with `TriggerButton` (JSX) and `onChange` (state inspector).
  */
 const useBottomSheetButton = ({ modal }: TUseBottomSheetButton) => {
-	const onChange = useCallback((isOpen: boolean): "opened" | "closed" => {
-		return isOpen ? "opened" : "closed";
-	}, []);
+  const onChange = useCallback((isOpen: boolean): "opened" | "closed" => {
+    return isOpen ? "opened" : "closed";
+  }, []);
 
-	const TriggerButton = ({ ...props }: ButtonRootProps) => (
-		<BottomSheetButton
-			{...props}
-			modal={modal}
-			Trigger={() => <InternalTriggerButton {...props} onChange={onChange} />}
-			onChange={onChange}
-		/>
-	);
+  const TriggerButton = ({ ...props }: ButtonRootProps) => (
+    <BottomSheetButton
+      {...props}
+      modal={modal}
+      Trigger={() => <InternalTriggerButton {...props} onChange={onChange} />}
+      onChange={onChange}
+    />
+  );
 
-	return {
-		TriggerButton,
-		onChange,
-	};
+  return {
+    TriggerButton,
+    onChange,
+  };
 };
 
 export { BottomSheetButton, useBottomSheetButton };

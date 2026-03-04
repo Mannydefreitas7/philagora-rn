@@ -1,26 +1,26 @@
 {
-	"name": "@repo/configs",
-	"version": "0.0.0",
-	"type": "module",
-	"private": true,
-	"exports": {
-		"./styles/shared": "./styles/shared.css",
-		"./postcss": "./postcss.config.js",
-		"./*": "./constants/*.ts",
-		"./typescript/base": "./ts/base.json",
-		"./typescript/react": "./ts/react.json"
-	},
-	"scripts": {
-		"clean": "rm -rf .turbo node_modules"
-	},
-	"devDependencies": {
-		"@repo/typings": "workspace:*",
-		"postcss": "^8.5.8",
-		"tailwindcss": "^4.2.1",
-		"react": "catalog:react",
-		"react-dom": "catalog:react",
-		"react-native": "catalog:react",
-		"iconsax-react-nativejs": "catalog:ui",
-		"react-native-uuid": "catalog:react"
-	}
+  "name": "@repo/configs",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./styles/shared": "./styles/shared.css",
+    "./postcss": "./postcss.config.js",
+    "./*": "./constants/*.ts",
+    "./typescript/base": "./ts/base.json",
+    "./typescript/react": "./ts/react.json"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules"
+  },
+  "devDependencies": {
+    "@repo/typings": "workspace:*",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "react-native": "catalog:react",
+    "iconsax-react-nativejs": "catalog:ui",
+    "react-native-uuid": "catalog:react"
+  }
 }

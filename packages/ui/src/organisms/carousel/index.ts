@@ -1,3 +1,3 @@
-import PhCarousel from "./component";
+import PhCarousel from "./component.js";
 
 export { PhCarousel };

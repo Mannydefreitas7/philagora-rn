@@ -5,9 +5,9 @@ import type React from "react";
 import { memo, useMemo } from "react";
 import { useWindowDimensions } from "react-native";
 import { type FrameInfo, useDerivedValue, useFrameCallback, useSharedValue } from "react-native-reanimated";
-import { GRAINY_GRADIENT_SHADER } from "./conf";
-import { hexToRgba } from "./helper";
-import type { IGrainyGradient } from "./types";
+import { GRAINY_GRADIENT_SHADER } from "./conf.js";
+import { hexToRgba } from "./helper.js";
+import type { IGrainyGradient } from "./types.js";
 
 export const GrainyGradient: React.FC<IGrainyGradient> & React.FunctionComponent<IGrainyGradient> = memo<
 	React.ComponentProps<typeof GrainyGradient> | IGrainyGradient

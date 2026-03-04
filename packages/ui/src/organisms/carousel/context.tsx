@@ -2,9 +2,9 @@
 
 import { createContext, useCallback, useContext, useMemo } from "react";
 import { useImmerReducer } from "use-immer";
-import type { ICardState } from "@/components/molecules/card/types";
-import { initialState } from "./data";
-import type { CarouselState, ICarouselContext, TAction } from "./types";
+import type { ICardState } from "../../molecules/card/types.js";
+import { initialState } from "./data.js";
+import type { CarouselState, ICarouselContext, TAction } from "./types.js";
 
 // Context for the carousel.
 const CarouselContext = createContext<ICarouselContext | undefined>(undefined);
