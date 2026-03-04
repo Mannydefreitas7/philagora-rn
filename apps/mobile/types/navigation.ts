@@ -1,6 +1,6 @@
-import { tabIcons } from "@/constants/icons";
+import { tabIcons } from "@repo/configs/icons";
 import { TabTriggerProps } from "expo-router/ui";
-import { FunctionComponent, ReactElement, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export interface ITab {
   id: string;
