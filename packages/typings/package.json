@@ -12,6 +12,17 @@
     "clean": "rm -rf .turbo node_modules"
   },
   "dependencies": {
-    "typescript": "catalog:development"
+    "expo-router": "catalog:expo"
+  },
+  "devDependencies": {
+    "tailwindcss": "catalog:ui",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "react-native": "catalog:react",
+    "typescript": "catalog:development",
+    "@types/node": "catalog:development",
+    "@types/react": "catalog:development",
+    "@types/react-dom": "catalog:development",
+    "@repo/configs": "workspace:*"
   }
 }

@@ -14,8 +14,9 @@
  */
 import { IUser, IUserState } from "./user";
 import { IAuthPayload } from "./auth";
+import { ITab } from "@/types/navigation";
 /**
  * Export a small namespace of types that might be helpful when consuming
  * the typings package from JavaScript (e.g. for runtime validation).
  */
-export type { IUser, IUserState, IAuthPayload };
+export type { IUser, IUserState, IAuthPayload, ITab };
