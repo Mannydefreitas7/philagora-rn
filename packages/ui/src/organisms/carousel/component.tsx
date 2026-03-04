@@ -8,7 +8,7 @@ import {
   type ViewToken,
 } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
-import { SPACING } from "@/atoms/spacing";
+import { SPACING } from "@/base/spacing";
 import { PhCard } from "@/molecules/card";
 import type { ICardState } from "@/molecules/card/types";
 import { CarouselProvider, useCarousel } from "./context";
@@ -27,7 +27,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
   const ITEM_GAP = SPACING.md;
   const FOCUSED_HEIGHT = height * 0.7 - ITEM_GAP;
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
-  const { dispatch, isVisible, state, isFirst } = useCarousel();
+  const { dispatch } = useCarousel();
 
   const animatedScrollY = useSharedValue(0);
 
