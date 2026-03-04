@@ -48,6 +48,7 @@
         "tailwind-merge": "^3.5.0",
         "tailwind-variants": "^3.2.2",
         "iconsax-react-nativejs": "^0.0.8",
+        "lottie-react-native": "^7.3.6",
         "@shopify/react-native-skia": "^2.4.21"
       },
       "expo": {
@@ -89,5 +90,8 @@
         "react-native-keyboard-controller": "^1.20.7"
       }
     }
+  },
+  "dependencies": {
+    "lottie-react-native": "^7.3.6"
   }
 }

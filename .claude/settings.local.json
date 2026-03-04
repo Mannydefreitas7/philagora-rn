@@ -7,7 +7,8 @@
       "Bash(bun install:*)",
       "Bash(bunx expo-doctor:*)",
       "Bash(echo -n \"Use when creating a new feature module in the Philagora mobile app. Triggers on requests like \"\"create a feature\"\", \"\"add a feature\"\", \"\"scaffold feature\"\", \"\"new feature module\"\". Creates the full folder and file structure under apps/mobile/features/ with generated component, store, test, and index files.\")",
-      "Bash(bun run check-types)"
+      "Bash(bun run check-types)",
+      "Bash(/bin/mv --version)"
     ]
   },
   "enabledPlugins": {
