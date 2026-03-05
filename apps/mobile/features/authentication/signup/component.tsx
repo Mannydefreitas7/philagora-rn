@@ -97,6 +97,7 @@ export default function SignupFeature() {
 						isInvalid={!!validationErrors.password}
 					/>
 
+<<<<<<< Updated upstream
 					<UITextfield
 						placeholder="Confirm Password"
 						keyboardType="visible-password"
@@ -110,6 +111,20 @@ export default function SignupFeature() {
 						isInvalid={!!validationErrors.confirm}
 					/>
 				</View>
+=======
+          <UITextfield
+            placeholder="Confirm Password"
+            keyboardType="visible-password"
+            secureTextEntry
+            enterKeyHint="next"
+            value={values.confirm}
+            onChangeText={(text) => setField("confirm", text)}
+            returnKeyType="done"
+            error={validationErrors.confirm}
+            isInvalid={!!validationErrors.confirm}
+          />
+        </View>
+>>>>>>> Stashed changes
 
 				{error ? <Text className="mt-3 text-red-600">{error}</Text> : null}
 

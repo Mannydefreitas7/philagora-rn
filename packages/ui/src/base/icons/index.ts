@@ -9,7 +9,7 @@
  *
  * Keep the list sorted alphabetically for easier maintenance.
  */
-
+export { default as Agora } from "./agora";
 export { default as Bell } from "./bell";
 export { default as Github } from "./github";
 export { default as Google } from "./google";
