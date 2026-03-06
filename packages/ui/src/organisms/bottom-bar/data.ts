@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-import type { TIconName, TIconProps, TIconVariant } from "#molecules";
+import type { TIconName, TIconProps, TIconVariant } from "~/molecules/icon";
 import type { TTab } from "./types";
 
 const tabIcon = <T extends TIconVariant>(name: TIconName<T>): TIconProps<T> => {

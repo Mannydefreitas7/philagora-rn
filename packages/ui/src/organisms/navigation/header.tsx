@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { View } from "react-native";
-import { FONT_SIZE, HEADER } from "#base";
-import { AnimatedText } from "#organisms";
+import { FONT_SIZE, HEADER } from "~/base/spacing";
+import { AnimatedText } from "~/organisms/animated-text";
 import type { THeaderProps } from "./types";
 
 

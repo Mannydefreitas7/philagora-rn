@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-import type { ICardState } from "#molecules";
+import type { ICardState } from "~/molecules/card";
 import type { CarouselState } from "./types";
 
 export const DATA: ICardState[] = [

@@ -1,4 +1,4 @@
-import type { ICardState } from "#molecules";
+import type { ICardState } from "~/molecules/card";
 
 export type TCarouselProps = Omit<
   CarouselState,

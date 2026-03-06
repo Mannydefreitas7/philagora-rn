@@ -10,7 +10,7 @@ import type { IAurora } from "./types";
 
 const SHADER = Skia.RuntimeEffect.Make(AURORA_VERTEX_SHADER);
 
-export const Aurora = ({
+const Aurora = ({
   width: paramsWidth,
   height: paramsHeight,
   auroraColors = DEFAULT_AURORA_COLORS as string[],

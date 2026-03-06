@@ -1,3 +1,4 @@
+import React from "react";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -5,8 +6,9 @@ import { Chip, Card as HerouiCard, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
-import { Glow, SPACING } from "#base";
-import { useCarousel } from "#organisms";
+import { Glow } from "~/base/glow";
+import { SPACING } from "~/base/spacing";
+import { useCarousel } from "~/organisms/carousel";
 import type { TCardProps } from "./types";
 
 const AnimatedCard = Animated.createAnimatedComponent(HerouiCard);

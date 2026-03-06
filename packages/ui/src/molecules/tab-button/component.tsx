@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
-import { SPACING } from "#base";
-import type { TIconVariant } from "#molecules";
-import { Icon } from "#molecules";
+import { SPACING } from "~/base/spacing";
+import type { TIconVariant } from "~/molecules/icon";
+import { Icon } from "~/molecules/icon";
 import type { TabButtonProps } from "./types";
 
 const TabButton = ({ icon, label, isFocused, ...props }: TabButtonProps<TIconVariant>) => {

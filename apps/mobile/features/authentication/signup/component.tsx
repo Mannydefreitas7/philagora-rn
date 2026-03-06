@@ -1,3 +1,4 @@
+import { UITextfield } from "@repo/ui";
 import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
@@ -5,7 +6,6 @@ import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Logo from "@/assets/logo-philagora-black.svg";
-import { UITextfield } from "@repo/ui";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 import useSignupStore from "./store";
 

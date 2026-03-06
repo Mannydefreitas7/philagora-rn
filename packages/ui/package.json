@@ -4,43 +4,22 @@
   "private": true,
   "main": "dist/index.js",
   "types": "lib/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./lib/index.d.ts"
-    },
-    "./base/*": "./dist/base/*",
-    "./molecules/*": "./dist/molecules/*",
-    "./organisms/*": "./dist/organisms/*"
+    }
   },
   "files": [
     "dist",
     "lib"
   ],
-  "imports": {
-    ".": [
-      "./src/index.ts"
-    ],
-    "#base": [
-      "./src/base/index.ts"
-    ],
-    "#base/icons": [
-      "./src/base/icons/index.ts"
-    ],
-    "#molecules": [
-      "./src/molecules/index.ts"
-    ],
-    "#organisms": [
-      "./src/organisms/index.ts"
-    ]
-  },
   "scripts": {
     "build": "tsc",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
-    "clean": "rm -rf .turbo node_modules"
+    "clean": "rm -rf dist lib .turbo node_modules"
   },
   "devDependencies": {
     "typescript": "catalog:development",
@@ -50,6 +29,10 @@
     "@repo/configs": "workspace:*",
     "@repo/typings": "workspace:*",
     "@repo/utils": "workspace:*",
+    "@testing-library/react-native": "catalog:testing",
+    "jest": "catalog:testing",
+    "jest-expo": "catalog:testing",
+    "@types/jest": "catalog:testing",
     "use-immer": "catalog:development"
   },
   "dependencies": {

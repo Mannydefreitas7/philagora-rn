@@ -16,9 +16,9 @@
     "biome:check": "bunx --bun @biomejs/biome check --write --max-diagnostics=50"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
-    "@dotenvx/dotenvx": "^1.52.0",
-    "supabase": "^2.76.16",
+    "@biomejs/biome": "2.4.6",
+    "@dotenvx/dotenvx": "^1.53.0",
+    "supabase": "^2.76.17",
     "turbo": "^2.8.13",
     "typescript": "^5.9.3"
   },
@@ -38,7 +38,10 @@
     "catalogs": {
       "testing": {
         "jest": "^29.7.0",
-        "testing-library": "^14.1.0"
+        "testing-library": "^14.1.0",
+        "@types/jest": "30.0.0",
+        "jest-expo": "~55.0.9",
+        "@testing-library/react-native": "^13.3.3"
       },
       "ui": {
         "postcss": "^8.5.6",

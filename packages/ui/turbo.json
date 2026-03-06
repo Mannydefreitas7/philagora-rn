@@ -8,6 +8,10 @@
       "cache": false,
       "dependsOn": [
         "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "lib/**"
       ]
     },
     "check-types": {

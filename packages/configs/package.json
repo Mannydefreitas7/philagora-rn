@@ -5,10 +5,10 @@
   "private": true,
   "exports": {
     "./styles/shared": "./styles/shared.css",
-    "./postcss": "./postcss.config.js",
-    "./*": "./constants/*.ts",
-    "./typescript/base": "./ts/base.json",
-    "./typescript/react": "./ts/react.json"
+    "./constants/*": "./constants/*.ts",
+    "./ts/expo": "./ts/expo.json",
+    "./ts/react": "./ts/react.json",
+    "./postcss": "./postcss.config.js"
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules"

@@ -1,7 +1,6 @@
+import { BOTTOM_TAB, HEADER, SPACING } from "@repo/ui";
 import { useCallback, useMemo } from "react";
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
-import { BOTTOM_TAB, HEADER } from "@/constants/navigation";
-import { SPACING } from "@/constants/size";
 
 const useSpacing = () => {
   const { top, bottom } = useSafeAreaInsets();
@@ -15,11 +14,11 @@ const useSpacing = () => {
   );
 
   const tabHeight = useMemo(() => {
-    return bottom + BOTTOM_TAB.spacing.icon + BOTTOM_TAB.spacing.label + BOTTOM_TAB.spacing.paddingVertical;
+    return bottom + BOTTOM_TAB.icon + BOTTOM_TAB.label + BOTTOM_TAB.paddingVertical;
   }, [useSafeAreaFrame]);
 
   const headerHeight = useMemo(() => {
-    return top + SPACING.xxl + HEADER.spacing.paddingVertical;
+    return top + SPACING.xxl + HEADER.paddingVertical;
   }, [useSafeAreaInsets]);
 
   const primaryCardHeight = useMemo(() => {

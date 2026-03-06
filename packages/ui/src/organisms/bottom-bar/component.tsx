@@ -1,10 +1,9 @@
 import { oklabToHex } from "@repo/utils";
 import { BlurView } from "expo-blur";
-import type { HrefObject, Route, RouteSegments } from "expo-router";
 import { TabList, Tabs, TabTrigger } from "expo-router/ui";
 import { useWindowDimensions, View } from "react-native";
-import { TabButton } from "#molecules";
-import { GrainyGradient } from "#organisms/grainy-gradient";
+import { TabButton } from "~/molecules/tab-button";
+import { GrainyGradient } from "~/organisms/grainy-gradient";
 import { tabs } from "./data";
 import type { TBottomBarProps } from "./types";
 
