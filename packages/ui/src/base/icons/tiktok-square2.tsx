@@ -15,7 +15,7 @@ export interface IconProps extends SvgProps {
  * Usage:
  * <TikTokSquare2 size={24} color="#000" />
  */
-export const TikTokSquare2: React.FC<IconProps> = ({ size, color = "#000000", width, height, ...props }) => {
+const TikTokSquare2 = ({ size, color = "#000000", width, height, ...props }: IconProps) => {
   const w = size ?? width ?? 24;
   const h = size ?? height ?? 24;
 

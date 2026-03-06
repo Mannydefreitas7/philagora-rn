@@ -1,4 +1,4 @@
-import type * as React from "react";
+import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
 type IconProps = SvgProps & {
@@ -6,7 +6,7 @@ type IconProps = SvgProps & {
   color?: string;
 };
 
-const TiktokSquareFill: React.FC<IconProps> = ({ size = 24, color = "#000", ...props }) => {
+const TiktokSquare = ({ size = 24, color = "#000", ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Defs>
@@ -24,6 +24,6 @@ const TiktokSquareFill: React.FC<IconProps> = ({ size = 24, color = "#000", ...p
   );
 };
 
-TiktokSquareFill.displayName = "TiktokSquareFill";
+TiktokSquare.displayName = "TiktokSquareFill";
 
-export default TiktokSquareFill;
+export default React.memo(TiktokSquare);

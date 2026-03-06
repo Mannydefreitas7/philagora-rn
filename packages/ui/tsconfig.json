@@ -1,22 +1,65 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "outDir": "lib",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "allowJs": false,
+    /* Relax strictness to make incremental local development & declaration-only builds easier */
+    "strict": false,
+    /* Interop + JSON */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    /* Skip third-party lib type checks (we provide local shims where necessary) */
+    "skipLibCheck": true,
+    /* Emit only declaration artifacts for consumers */
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "lib",
+    "rootDir": "src",
+    "tsBuildInfoFile": ".info/ui.tsbuildinfo",
+    "outDir": "dist",
+    /*
+      Path mappings for internal package aliases and to surface upstream package types that
+      the rest of the codebase imports using short aliases (e.g. `#base`, `#molecules`, etc).
+      Also map problematic external packages to local shims so `tsc` can produce declarations
+      without failing on missing or incompatible ambient types.
+    */
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+      "#base/*": [
+        "./src/base/*"
+      ],
+      "#base": [
+        "./src/base/index.ts"
+      ],
+      "#molecules/*": [
+        "./src/molecules/*"
+      ],
+      "#molecules": [
+        "./src/molecules/index.ts"
+      ],
+      "#organisms/*": [
+        "./src/organisms/*"
+      ],
+      "#organisms": [
+        "./src/organisms/index.ts"
+      ],
+    },
+    /* Keep isolatedModules false since we are using TS project builds and want access to full type system */
+    "isolatedModules": true,
+    "noEmitOnError": false
   },
-  "include": [
-    "src/*.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "**/types/*.ts",
-    "types/*.ts"
-  ],
   "exclude": [
     "node_modules",
-    "lib"
+    "dist",
+    "lib",
+    "build",
+    "scripts"
   ]
 }

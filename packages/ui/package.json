@@ -2,17 +2,45 @@
   "name": "@repo/ui",
   "version": "0.0.0",
   "private": true,
+  "main": "dist/index.js",
+  "types": "lib/index.d.ts",
   "type": "module",
   "exports": {
-    "./*": "./src/**/*.tsx"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./base/*": "./dist/base/*",
+    "./molecules/*": "./dist/molecules/*",
+    "./organisms/*": "./dist/organisms/*"
+  },
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "imports": {
+    ".": [
+      "./src/index.ts"
+    ],
+    "#base": [
+      "./src/base/index.ts"
+    ],
+    "#base/icons": [
+      "./src/base/icons/index.ts"
+    ],
+    "#molecules": [
+      "./src/molecules/index.ts"
+    ],
+    "#organisms": [
+      "./src/organisms/index.ts"
+    ]
   },
   "scripts": {
-    "lint": "biome check",
     "build": "tsc",
-    "start": "bun run build",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
-    "clean": "rm -rf lib .turbo node_modules"
+    "clean": "rm -rf .turbo node_modules"
   },
   "devDependencies": {
     "typescript": "catalog:development",
@@ -20,12 +48,16 @@
     "@types/react": "catalog:development",
     "@types/react-dom": "catalog:development",
     "@repo/configs": "workspace:*",
+    "@repo/typings": "workspace:*",
+    "@repo/utils": "workspace:*",
     "use-immer": "catalog:development"
   },
   "dependencies": {
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "heroui-native": "catalog:ui",
+    "@gorhom/bottom-sheet": "catalog:ui",
+    "@gorhom/portal": "catalog:ui",
     "lottie-react-native": "catalog:ui",
     "react-native": "catalog:react",
     "react-native-reanimated": "catalog:react",

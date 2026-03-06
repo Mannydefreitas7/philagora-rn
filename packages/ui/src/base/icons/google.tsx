@@ -1,4 +1,4 @@
-import type * as React from "react";
+import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
 export type IconProps = SvgProps & {
@@ -20,7 +20,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <Google size={24} color="#111" />
  */
-const Google: React.FC<IconProps> = ({ size = 32, color = "#000", ...props }) => {
+const Google = ({ size = 32, color = "#000", ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">
@@ -42,5 +42,4 @@ const Google: React.FC<IconProps> = ({ size = 32, color = "#000", ...props }) =>
   );
 };
 
-export default Google;
-export { Google };
+export default React.memo(Google);

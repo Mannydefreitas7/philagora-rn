@@ -1,14 +1,14 @@
-import React, { ReactNode, useEffect } from "react";
-import { View, StyleSheet, LayoutChangeEvent } from "react-native";
-import Svg, { Defs, LinearGradient, Stop, Rect, Mask } from "react-native-svg";
+import React, { type ReactNode, useEffect } from "react";
+import { type LayoutChangeEvent, StyleSheet, View } from "react-native";
 import Animated, {
-  useSharedValue,
-  useAnimatedProps,
-  withRepeat,
-  withTiming,
   Easing,
   interpolate,
+  useAnimatedProps,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from "react-native-reanimated";
+import Svg, { Defs, LinearGradient, Mask, Rect, Stop } from "react-native-svg";
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
@@ -51,26 +51,10 @@ export const Glow: React.FC<GlowProps> = ({
 
   // Animated gradient position
   const animatedGradientProps = useAnimatedProps(() => {
-    const x1 = interpolate(
-      progress.value,
-      [0, 0.25, 0.5, 0.75, 1],
-      [0, 1, 0, -1, 0],
-    );
-    const y1 = interpolate(
-      progress.value,
-      [0, 0.25, 0.5, 0.75, 1],
-      [-1, 0, 1, 0, -1],
-    );
-    const x2 = interpolate(
-      progress.value,
-      [0, 0.25, 0.5, 0.75, 1],
-      [1, 0, -1, 0, 1],
-    );
-    const y2 = interpolate(
-      progress.value,
-      [0, 0.25, 0.5, 0.75, 1],
-      [0, 1, 0, -1, 0],
-    );
+    const x1 = interpolate(progress.value, [0, 0.25, 0.5, 0.75, 1], [0, 1, 0, -1, 0]);
+    const y1 = interpolate(progress.value, [0, 0.25, 0.5, 0.75, 1], [-1, 0, 1, 0, -1]);
+    const x2 = interpolate(progress.value, [0, 0.25, 0.5, 0.75, 1], [1, 0, -1, 0, 1]);
+    const y2 = interpolate(progress.value, [0, 0.25, 0.5, 0.75, 1], [0, 1, 0, -1, 0]);
 
     return {
       x1: `${x1 * 50 + 50}%`,
@@ -110,17 +94,10 @@ export const Glow: React.FC<GlowProps> = ({
             left: -glowSize,
           },
         ]}
-        pointerEvents="none"
-      >
-        <Svg
-          width={layout.width + glowSize * 2}
-          height={layout.height + glowSize * 2}
-        >
+        pointerEvents="none">
+        <Svg width={layout.width + glowSize * 2} height={layout.height + glowSize * 2}>
           <Defs>
-            <AnimatedLinearGradient
-              id="glowGradient"
-              animatedProps={animatedGradientProps}
-            >
+            <AnimatedLinearGradient id="glowGradient" animatedProps={animatedGradientProps}>
               <Stop offset="0%" stopColor={glowColor} stopOpacity="0" />
               <Stop offset="30%" stopColor={glowColor} stopOpacity="1" />
               <Stop offset="50%" stopColor={secondaryColor} stopOpacity="1" />

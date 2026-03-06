@@ -6,7 +6,7 @@
     "prebuild": "expo prebuild --clean",
     "start": "expo start -c --ios --dev-client",
     "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "expo run:ios --no-bundler",
     "lint": "expo lint",
     "test": "jest --runInBand",
     "clean": "watchman watch-del-all && rm -rf .expo .expo-shared .turbo node_modules ios android"
@@ -15,7 +15,8 @@
     "@babel/runtime": "^7.28.6",
     "@expo/vector-icons": "^15.1.1",
     "@gorhom/bottom-sheet": "catalog:ui",
-    "@gorhom/portal": "^1.0.14",
+    "@gorhom/portal": "catalog:ui",
+    "@repo/ui": "workspace:*",
     "@react-native-async-storage/async-storage": "catalog:react",
     "@react-native-community/netinfo": "12.0.1",
     "@reduxjs/toolkit": "catalog:react",

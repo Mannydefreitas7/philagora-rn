@@ -1,17 +1,12 @@
+import { memo } from "react";
 import { View } from "react-native";
-import { FONT_SIZE, HEADER } from "@/base/spacing";
-import AnimatedText from "@/organisms/animated-text";
+import { FONT_SIZE, HEADER } from "#base";
+import { AnimatedText } from "#organisms";
+import type { THeaderProps } from "./types";
 
-type TProps = {
-  title: string;
-  icon: React.ReactNode;
-  index?: number;
-  height?: number;
-  textColor: "white" | "black";
-}
 
-const Header = ({ title, icon, index, height, textColor }: TProps) => {
 
+const Header = ({ title, icon, index, height, textColor }: THeaderProps) => {
   const renderTitle = () => {
     return (
       <AnimatedText
@@ -41,4 +36,4 @@ const Header = ({ title, icon, index, height, textColor }: TProps) => {
     </View>
   );
 };
-export default Header;
+export default memo(Header);

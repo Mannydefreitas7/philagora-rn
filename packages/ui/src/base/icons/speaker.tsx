@@ -23,7 +23,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <Speaker size={20} color="#111" />
  */
-const Speaker: React.FC<IconProps> = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }) => {
+const Speaker = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">

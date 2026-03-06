@@ -1,6 +1,6 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+import React from "react";
 import type { SvgProps } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 type IconProps = SvgProps & {
   size?: number;
@@ -13,15 +13,9 @@ type IconProps = SvgProps & {
  * Usage:
  * <Profile2 size={24} color="#000" />
  */
-export default function Profile2({ size = 24, color = "#000", ...props }: IconProps) {
+const Profile2 = ({ size = 24, color = "#000", ...props }: IconProps) => {
   return (
-    <Svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      {...props}
-    >
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path
         d="M11.9999 11.29C13.1799 11.29 14.1399 10.33 14.1399 9.15001C14.1399 7.97001 13.1799 7.01001 11.9999 7.01001C10.8199 7.01001 9.85986 7.97001 9.85986 9.15001C9.85986 10.33 10.8199 11.29 11.9999 11.29Z"
         stroke={color}
@@ -47,4 +41,4 @@ export default function Profile2({ size = 24, color = "#000", ...props }: IconPr
   );
 }
 
-export const MemoProfile2 = React.memo(Profile2);
+export default React.memo(Profile2);

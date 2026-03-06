@@ -5,9 +5,8 @@ import { Chip, Card as HerouiCard, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
-import { useCarousel } from "@/organisms/carousel/context";
-import { Glow } from "@/base/glow";
-import { SPACING } from "@/base/spacing";
+import { Glow, SPACING } from "#base";
+import { useCarousel } from "#organisms";
 import type { TCardProps } from "./types";
 
 const AnimatedCard = Animated.createAnimatedComponent(HerouiCard);

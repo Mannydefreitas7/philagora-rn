@@ -18,7 +18,7 @@ export interface IconProps extends SvgProps {
  *
  * The component forwards other SvgProps to the root <Svg /> element.
  */
-export const TiktokSquareIcon: React.FC<IconProps> = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }) => {
+const TiktokSquare = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Defs>
@@ -54,4 +54,4 @@ export const TiktokSquareIcon: React.FC<IconProps> = ({ size = 24, color = "#000
   );
 };
 
-export default React.memo(TiktokSquareIcon);
+export default React.memo(TiktokSquare);

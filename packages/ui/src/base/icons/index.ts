@@ -11,6 +11,12 @@
  */
 export { default as Agora } from "./agora";
 export { default as Bell } from "./bell";
+export { default as Court } from "./court";
+export { default as CourtFill } from "./court-fill";
+export { default as Explore } from "./explore";
+export { default as ExploreFill } from "./explore-fill";
+export { default as Events } from "./events";
+export { default as EventsFill } from "./events-fill";
 export { default as Github } from "./github";
 export { default as Google } from "./google";
 export { default as Instagram } from "./instagram";

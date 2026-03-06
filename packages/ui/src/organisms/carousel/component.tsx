@@ -8,9 +8,8 @@ import {
   type ViewToken,
 } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
-import { SPACING } from "@/base/spacing";
-import { PhCard } from "@/molecules/card";
-import type { ICardState } from "@/molecules/card/types";
+import { SPACING } from "#base";
+import { type ICardState, PhCard } from "#molecules";
 import { CarouselProvider, useCarousel } from "./context";
 import { DATA } from "./data";
 import type { TCarouselProps } from "./types";

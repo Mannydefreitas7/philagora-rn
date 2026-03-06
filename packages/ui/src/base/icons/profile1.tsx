@@ -1,4 +1,4 @@
-import type * as React from "react";
+import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
 export type IconProps = SvgProps & {
@@ -25,7 +25,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <Profile1 color="#000" size={24} />
  */
-export const Profile1: React.FC<IconProps> = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }) => {
+const Profile = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }: IconProps) => {
   // Use a unique clipPath id to avoid collisions when multiple icons are rendered.
   const clipId = "clip0_profile1";
 
@@ -63,4 +63,4 @@ export const Profile1: React.FC<IconProps> = ({ color = "#000", size = 24, strok
   );
 };
 
-export default Profile1;
+export default React.memo(Profile);

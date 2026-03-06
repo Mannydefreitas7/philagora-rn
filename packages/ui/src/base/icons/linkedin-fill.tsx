@@ -13,7 +13,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <LinkedinFill size={24} color="#000" />
  */
-const LinkedinFill: React.FC<IconProps> = ({ size = 24, color = "#000", ...props }) => {
+const LinkedinFill = ({ size = 24, color = "#000", ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path

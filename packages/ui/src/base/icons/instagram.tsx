@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import * as React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
@@ -19,7 +18,7 @@ interface IconProps extends SvgProps {
  *
  * Any other SvgProps are forwarded to the root <Svg /> element.
  */
-const InstagramIcon: FC<IconProps> = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }) => {
+const Instagram = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0_instagram)">
@@ -55,4 +54,4 @@ const InstagramIcon: FC<IconProps> = ({ color = "#000", size = 24, strokeWidth =
   );
 };
 
-export default React.memo(InstagramIcon);
+export default React.memo(Instagram);

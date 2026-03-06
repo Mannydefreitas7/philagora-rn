@@ -13,7 +13,7 @@ export interface IconProps extends SvgProps {
  * Usage:
  * <Linkedin size={24} color="#000" />
  */
-export const Linkedin: React.FC<IconProps> = ({ size = 24, color = "#000", ...props }) => {
+const Linkedin = ({ size = 24, color = "#000", ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0_linkedin)">

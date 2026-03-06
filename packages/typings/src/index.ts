@@ -13,8 +13,8 @@
  * runtime types).
  */
 
-import type { ITab } from "@/types/navigation";
 import type { IAuthPayload } from "./auth";
+import type { ITab } from "./navigation";
 import type { IUser, IUserState } from "./user";
 /**
  * Export a small namespace of types that might be helpful when consuming

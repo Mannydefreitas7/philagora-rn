@@ -1,7 +1,7 @@
-import type React from "react";
+import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
-export type PinterestSquareProps = SvgProps & {
+export type IconProps = SvgProps & {
   size?: number;
   color?: string;
   strokeWidth?: number;
@@ -18,12 +18,12 @@ export type PinterestSquareProps = SvgProps & {
  * - strokeWidth: stroke width (default: 1.5)
  * - any other SvgProps are forwarded to the root <Svg>
  */
-export const PinterestSquareIcon: React.FC<PinterestSquareProps> = ({
+const PinterestSquare = ({
   size = 24,
   color = "#000",
   strokeWidth = 1.5,
   ...props
-}) => {
+}: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">
@@ -59,4 +59,4 @@ export const PinterestSquareIcon: React.FC<PinterestSquareProps> = ({
   );
 };
 
-export default PinterestSquareIcon;
+export default React.memo(PinterestSquare);

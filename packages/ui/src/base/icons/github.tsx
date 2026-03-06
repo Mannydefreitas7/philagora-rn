@@ -1,7 +1,7 @@
-import type * as React from "react";
+import React from "react";
 import Svg, { Path, type SvgProps } from "react-native-svg";
 
-type Props = SvgProps & {
+type IconProps = SvgProps & {
   /**
    * Size in pixels for both width and height. Defaults to 32 to match the original SVG.
    */
@@ -18,7 +18,7 @@ type Props = SvgProps & {
  * Usage:
  * <GithubIcon size={24} color="#111" />
  */
-const GithubIcon: React.FC<Props> = ({ size = 32, color = "#000", ...props }) => {
+const Github = ({ size = 32, color = "#000", ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path
@@ -32,5 +32,4 @@ const GithubIcon: React.FC<Props> = ({ size = 32, color = "#000", ...props }) =>
   );
 };
 
-export default GithubIcon;
-export { GithubIcon };
+export default React.memo(Github);

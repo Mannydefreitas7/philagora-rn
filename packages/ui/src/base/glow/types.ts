@@ -1,6 +1,9 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-type AnimationStyle =
+/**
+ * Animation styles supported by the Glow component.
+ */
+export type AnimationStyle =
   | "linear"
   | "pulse"
   | "wave"
@@ -9,14 +12,20 @@ type AnimationStyle =
   | "spinner"
   | "withoutEasing";
 
-interface GradientStop {
+/**
+ * A single gradient stop used by the glow gradient.
+ */
+export interface GradientStop {
   readonly offset: string;
   readonly color: string;
   readonly opacity: number;
 }
 
-interface GlowProps {
-  readonly children: Required<ReactNode>;
+/**
+ * Props for the `Glow` component.
+ */
+export interface GlowProps {
+  readonly children: ReactNode;
   readonly size?: number;
   readonly color?: string;
   readonly animated?: boolean;
@@ -31,9 +40,10 @@ interface GlowProps {
   readonly width?: number;
 }
 
-interface Layout {
+/**
+ * Layout information returned from `onLayout`.
+ */
+export interface Layout {
   readonly width: number;
   readonly height: number;
 }
-
-export { GlowProps, Layout, AnimationStyle, GradientStop };

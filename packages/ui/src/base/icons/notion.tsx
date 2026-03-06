@@ -1,4 +1,4 @@
-import type React from "react";
+import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
 type IconProps = SvgProps & {
@@ -14,7 +14,7 @@ type IconProps = SvgProps & {
  * - `size` (optional) — width & height in pixels (defaults to 24)
  * - All other `SvgProps` are forwarded to the root <Svg />
  */
-const NotionIcon: React.FC<IconProps> = ({ color = "#000", size = 24, ...props }) => {
+const NotionIcon = ({ color = "#000", size = 24, ...props }: IconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">
@@ -91,4 +91,4 @@ const NotionIcon: React.FC<IconProps> = ({ color = "#000", size = 24, ...props }
   );
 };
 
-export default NotionIcon;
+export default React.memo(NotionIcon);

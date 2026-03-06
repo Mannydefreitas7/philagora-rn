@@ -14,7 +14,7 @@ type IconProps = SvgProps & {
  * Usage:
  * <Bell width={24} height={24} color="#111" />
  */
-const Bell: React.FC<IconProps> = ({ color = "#000", width = 24, height = 24, ...rest }) => {
+const Bell = ({ color = "#000", width = 24, height = 24, ...rest }: IconProps) => {
   return (
     <Svg
       width={width}
