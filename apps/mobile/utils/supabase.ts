@@ -4,14 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient, processLock } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.EXPO_PUBLIC_SUPABASE_KEY;
 
 if (!supabaseUrl) {
 	throw new Error("Missing EXPO_PUBLIC_SUPABASE_URL");
 }
 
 if (!supabaseAnonKey) {
-	throw new Error("Missing EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+	throw new Error("Missing EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY or EXPO_PUBLIC_SUPABASE_KEY");
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {

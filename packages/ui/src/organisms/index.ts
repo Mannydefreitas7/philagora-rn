@@ -1,5 +1,5 @@
-export * as AnimatedText from "./animated-text";
-export * as Carousel from "./carousel";
-export * as GrainyGradient from "./grainy-gradient";
-export * as Navigation from "./navigation";
-export * as BottomBar from "./bottom-bar";
+export * from "./animated-text";
+export * from "./bottom-bar";
+export * from "./carousel";
+export * from "./grainy-gradient";
+export * from "./navigation";
