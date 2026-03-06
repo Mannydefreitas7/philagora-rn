@@ -1,18 +1,23 @@
 {
-	"$schema": "https://turborepo.dev/schema.json",
-	"ui": "tui",
-	"globalDependencies": [".env.development"],
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"cache": true,
-			"outputs": ["dist/**"]
-		},
-		"check-types": {
-			"dependsOn": ["^check-types"]
-		},
-		"clean": {
-			"cache": false
-		}
-	}
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "globalDependencies": [
+    ".env.development"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
 }
