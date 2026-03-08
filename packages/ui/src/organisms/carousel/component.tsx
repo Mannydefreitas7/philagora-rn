@@ -1,21 +1,14 @@
+import type { LegendListRenderItemProps } from "@legendapp/list";
+import { LegendList } from "@legendapp/list";
 import { useCallback, useMemo } from "react";
-import {
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
-  useWindowDimensions,
-  View,
-  type ViewabilityConfig,
-  type ViewToken,
-} from "react-native";
-import { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
+import { useWindowDimensions, View, type ViewabilityConfig, type ViewToken } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SPACING } from "../../base/spacing";
 import { type ICardState, PhCard } from "../../molecules/card";
 import { CarouselProvider, useCarousel } from "./context";
 import { DATA } from "./data";
 import type { TCarouselProps } from "./types";
-import { LegendList } from "@legendapp/list";
-import type { LegendListRenderItemProps } from "@legendapp/list";
 
 const VIEWABILITY_CONFIG: ViewabilityConfig = {
   waitForInteraction: false,
@@ -62,55 +55,15 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
     [FOCUSED_HEIGHT, PEEK_HEIGHT, SNAP_INTERVAL, animatedScrollY],
   );
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      animatedScrollY.value = withTiming(event.contentOffset.y, {
-        duration: 10,
-      });
-    },
-  });
-
   const keyExtractor = useCallback((item: ICardState, index: number) => item.id.toString(), []);
   const items = data.length > 0 && process.env.NODE_ENV !== "development" ? data : DATA;
   const snapOffsets = useMemo(() => {
     return items.map((_, index) => index * SNAP_INTERVAL);
   }, [items, SNAP_INTERVAL]);
 
-  const VELOCITY_THRESHOLD = 1.8;
-
-  const clampIndex = useCallback(
-    (index: number) => {
-      const maxIndex = Math.max(items.length - 1, 0);
-      return Math.min(Math.max(index, 0), maxIndex);
-    },
-    [items.length],
-  );
-
-  const getClosestIndex = useCallback(
-    (offsetY: number) => clampIndex(Math.round(offsetY / SNAP_INTERVAL)),
-    [SNAP_INTERVAL, clampIndex],
-  );
-
-  const getTargetIndexFromVelocity = useCallback(
-    (offsetY: number, velocityY: number) => {
-      const closestIndex = getClosestIndex(offsetY);
-      if (velocityY >= VELOCITY_THRESHOLD) return clampIndex(closestIndex + 1);
-      if (velocityY <= -VELOCITY_THRESHOLD) return clampIndex(closestIndex - 1);
-      return closestIndex;
-    },
-    [VELOCITY_THRESHOLD, clampIndex, getClosestIndex],
-  );
-
-  const onScrollEndDrag = useCallback(
-    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const offsetY = event.nativeEvent.contentOffset.y;
-      const velocityY = event.nativeEvent.velocity?.y ?? 0;
-      const targetIndex = getTargetIndexFromVelocity(offsetY, velocityY);
-      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: targetIndex });
-      dispatch({ type: "IS_SCROLLING", payload: false });
-    },
-    [dispatch],
-  );
+  const onScrollEndDrag = useCallback(() => {
+    dispatch({ type: "IS_SCROLLING", payload: false });
+  }, [dispatch]);
 
   const onScrollBeginDrag = useCallback(() => {
     dispatch({ type: "IS_SCROLLING", payload: true });
@@ -129,7 +82,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
         snapToIndices={snapOffsets}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
-        decelerationRate={'fast'}
+        decelerationRate={"fast"}
         contentContainerStyle={{ paddingBottom: bottom + tabHeight, rowGap: ITEM_GAP }}
         scrollEventThrottle={16}
         maintainVisibleContentPosition
