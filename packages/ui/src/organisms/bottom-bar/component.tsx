@@ -1,6 +1,6 @@
 import { oklabToHex } from "@repo/utils";
 import { BlurView } from "expo-blur";
-import { TabList, Tabs, TabTrigger, useTabSlot } from "expo-router/ui";
+import { TabList, TabTrigger, useTabSlot } from "expo-router/ui";
 import { useWindowDimensions, View } from "react-native";
 import { TabButton } from "../../molecules/tab-button";
 import { GrainyGradient } from "../grainy-gradient";

@@ -5,6 +5,22 @@
 @source "./node_modules/heroui-native/lib";
 @source "./node_modules/@repo/ui";
 
+@theme {
+    /* Base colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    /* Spaces */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    /* Font sizes */
+    --font-size-1: 12px;
+    --font-size-2: 14px;
+    --font-size-3: 16px;
+    /* Header */
+    --h-height: 56px;
+}
+
 @layer theme {
 
     /* Dark theme variables */
@@ -18,4 +34,12 @@
         --accent: var(--color-black);
         --accent-foreground: var(--color-white);
     }
+
+    .header {
+        @apply bg-transparent absolute px-5 w-full flex-row items-end h-header;
+    }
+}
+
+@utility h-header {
+    height: var(--header-height);
 }

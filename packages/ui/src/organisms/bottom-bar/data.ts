@@ -1,6 +1,7 @@
 import uuid from "react-native-uuid";
-import type { TBaseIconName, TIconName, TIconProps, TIconVariant } from "../../molecules/icon";
+import type { TIconProps, TIconVariant } from "../../molecules/icon";
 import type { TTab } from "./types";
+import type { TBaseIconName } from "../../molecules/types";
 
 const tabIcon = <T extends TIconVariant>(name: TBaseIconName): TIconProps => {
   return {
@@ -14,7 +15,7 @@ const tabIcon = <T extends TIconVariant>(name: TBaseIconName): TIconProps => {
 export const tabs: TTab[] = [
   {
     id: uuid.v4(),
-    name: "agora",
+    name: "Agora",
     route: "/(public)/(tabs)",
     icon: tabIcon("Agora"),
   },

@@ -1,20 +1,28 @@
-import { Header, Icon, useBottomBar } from "@repo/ui";
+import type { TIconProps } from "@repo/ui";
+import { GrainyGradient, Header, useBottomBar } from "@repo/ui";
 import { Stack, usePathname } from "expo-router";
+import { useMemo } from "react";
 import { useColor } from "@/hooks/use-color";
 import useCurrentTab from "@/hooks/use-current-tab";
 import useSpacing from "@/hooks/use-spacing";
+import { View } from "react-native";
 
 export default function PublicLayout() {
-  const { currentRoute, isHomeTab } = useCurrentTab();
+  const { isHomeTab } = useCurrentTab();
   const route = usePathname();
   const { activeTab } = useBottomBar(route);
   const { tabColor } = useColor({ scheme: "dark", condition: isHomeTab });
   const { headerHeight } = useSpacing();
 
-  const renderIcon = () => <Icon name={activeTab?.icon.name} size={24} color="#000" variant="outline" />;
+  const headerIcon = useMemo<TIconProps>(() => ({ ...activeTab.icon, variant: "fill" }), [activeTab.icon]);
 
   return (
-    <Stack initialRouteName="login">
+    <Stack initialRouteName="login" screenLayout={({ children }) => {
+      return <View className="flex-1 bg-white dark:bg-black">
+        <GrainyGradient />
+        {children}
+      </View>
+    }}>
       <Stack.Screen
         name="login"
         options={{
@@ -41,7 +49,7 @@ export default function PublicLayout() {
       />
       <Stack.Screen name="(tabs)">
         <Stack.Header asChild>
-          <Header title={currentRoute} icon={renderIcon()} textColor={tabColor} height={headerHeight} />
+          <Header title={activeTab.name} icon={headerIcon} textColor={tabColor} height={headerHeight} />
         </Stack.Header>
       </Stack.Screen>
     </Stack>

@@ -1,5 +1,4 @@
 import { default as Icon } from "./component";
 
-export type { TIconName, TIconProps, TIconVariant } from "./types";
+export type { TBaseIconName as TIconName, TIconProps, TIconVariant } from "./types";
 export { Icon };
-export * from "./types";

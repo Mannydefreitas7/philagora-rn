@@ -11,7 +11,7 @@ const TabButton = ({ icon, label, isFocused, ...props }: TabButtonProps) => {
   return (
     <Pressable {...props}>
       <View className="flex-col items-center gap-1">
-        <Icon {...icon} name={icon.name} size={SPACING.lg} color={color} />
+        <Icon {...icon} variant={isFocused ? "fill" : "outline"} name={icon.name} size={SPACING.lg} color={color} />
         <Text style={{ color }} className="font-semibold capitalize text-xs">
           {label}
         </Text>

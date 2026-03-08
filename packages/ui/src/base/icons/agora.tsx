@@ -1,50 +1,79 @@
-import * as React from "react";
-import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import React, { useEffect } from "react";
+import Animated, { useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
+import Svg, { Circle, type CircleProps } from "react-native-svg";
+import type { TIconVariant } from "../../molecules";
 
 interface IconProps {
   size?: number;
   color?: string;
+  variant?: TIconVariant;
 }
 
-export const Agora = ({ size = 24, color = "#000000" }: IconProps) => {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <Defs>
-        <ClipPath id="clip0_4418_3668">
-          <Rect width="24" height="24" fill="white" />
-        </ClipPath>
-      </Defs>
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-      <G clipPath="url(#clip0_4418_3668)">
-        <Path
-          d="M16.42 7.94923C18.86 10.3892 18.86 14.3492 16.42 16.7892C13.98 19.2292 10.02 19.2292 7.58 16.7892C5.14 14.3492 5.14 10.3892 7.58 7.94923C8.95 6.57923 10.81 5.97924 12.6 6.14924"
-          stroke={color}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <Path
-          d="M8.24999 21.6409C6.24999 20.8409 4.49999 19.3909 3.33999 17.3809C2.19999 15.4109 1.81999 13.2209 2.08999 11.1309"
-          stroke={color}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <Path
-          d="M5.8501 4.47937C7.5501 3.14937 9.68009 2.35938 12.0001 2.35938C14.2701 2.35938 16.3601 3.12936 18.0401 4.40936"
-          stroke={color}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <Path
-          d="M15.75 21.6409C17.75 20.8409 19.5 19.3909 20.66 17.3809C21.8 15.4109 22.18 13.2209 21.91 11.1309"
-          stroke={color}
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </G>
+export const Agora = ({ size = 24, color = "#000000", variant = "fill" }: IconProps) => {
+  const strokeWidth = size > 24 ? 2.5 : 1.5;
+  const radius = size / 2 - strokeWidth; // Adjust radius for stroke width
+  // Shared values for opacity animations
+  const opacityFill = useSharedValue(variant === "fill" ? 1 : 0);
+  const animatedRadius = useSharedValue(0); // Scale for the inner circle
+  const opacityOutline = useSharedValue(variant === "outline" ? 1 : 0);
+  const animatedProgress = useSharedValue(0); // For animating the dash offset
+
+  // Animate opacity when variant changes
+  useEffect(() => {
+    opacityFill.value = withTiming(variant === "fill" ? 0 : 1, { duration: 300 }); // 300ms transition
+    opacityOutline.value = withTiming(variant === "outline" ? 1 : 0, { duration: 300 });
+    animatedProgress.value = withTiming(variant === "fill" ? gapLength : 0, { duration: 500 });
+    animatedRadius.value = withTiming(variant === "fill" ? radius * 0.6 : 0, { duration: 500 });
+  }, [variant]);
+
+  const outerCircleProps = useAnimatedProps<CircleProps>(() => ({
+    strokeDashoffset: animatedProgress.value, // Trims from the end
+  }));
+
+  const innerCircleProps = useAnimatedProps<CircleProps>(() => ({
+    strokeDashoffset: animatedProgress.value,
+    strokeOpacity: opacityFill.value,
+  }));
+
+  const fillCircleProps = useAnimatedProps<CircleProps>(() => ({
+    r: animatedRadius.value, // Set the origin to the center of the circle
+  }));
+
+  const circumference = 2 * Math.PI * radius;
+  const dashLength = circumference / 6; // Fixed for 3 equal dashes
+  const gapLength = circumference / 9;
+  const dashArray = [dashLength, gapLength]; // Pattern: dash, gap, dash, gap, etc.
+
+  return (
+    <Svg width={size} height={size}>
+      <AnimatedCircle
+        animatedProps={outerCircleProps}
+        stroke={color}
+        strokeWidth={strokeWidth}
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        strokeDasharray={dashArray}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        fillOpacity={0}
+      />
+      <AnimatedCircle
+        animatedProps={innerCircleProps}
+        stroke={color}
+        strokeWidth={strokeWidth}
+        cx={size / 2}
+        cy={size / 2}
+        r={radius * 0.6}
+        strokeDasharray={33}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        strokeOpacity={1}
+        fillOpacity={0}
+      />
+      <AnimatedCircle animatedProps={fillCircleProps} cx={size / 2} cy={size / 2} fill={color} fillOpacity={1} />
     </Svg>
   );
 };

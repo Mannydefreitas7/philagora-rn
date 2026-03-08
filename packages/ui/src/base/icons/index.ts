@@ -10,14 +10,10 @@
  * Keep the list sorted alphabetically for easier maintenance.
  */
 export { default as Agora } from "./agora";
-export { default as AgoraFill } from "./agora-fill";
 export { default as Bell } from "./bell";
 export { default as Court } from "./court";
-export { default as CourtFill } from "./court-fill";
 export { default as Events } from "./events";
-export { default as EventsFill } from "./events-fill";
 export { default as Explore } from "./explore";
-export { default as ExploreFill } from "./explore-fill";
 export { default as Github } from "./github";
 export { default as Google } from "./google";
 export { default as Instagram } from "./instagram";
@@ -26,7 +22,6 @@ export { default as LinkedinFill } from "./linkedin-fill";
 export { default as Notion } from "./notion";
 export { default as PinterestSquare } from "./pinterest-square";
 export { default as Profile } from "./profile";
-export { default as ProfileFill } from "./profile-fill";
 export { default as Snapchat } from "./snapchat";
 export { default as Speaker } from "./speaker";
 export { default as StoryCircle } from "./story-circle";

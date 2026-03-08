@@ -1,24 +1,30 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "@repo/configs/ts/expo",
-	"compilerOptions": {
-		"rootDir": "./src",
-		"jsx": "react-jsx",
-		"noEmit": true,
-		"emitDeclarationOnly": true,
-		"resolveJsonModule": true,
-		"module": "esnext",
-		"baseUrl": ".",
-		"declarationDir": "lib",
-		"moduleResolution": "bundler",
-		"target": "esnext",
-		"strict": true,
-		"paths": {
-			"~/base/*": ["./src/base/*"],
-			"~/molecules/*": ["./src/molecules/*"],
-			"~/organisms/*": ["./src/organisms/*"]
-		}
-	},
-	"include": ["**/*.ts", "**/*.tsx"],
-	"exclude": ["dist", "tsup.config.ts"]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@repo/configs/ts/expo",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "emitDeclarationOnly": true,
+    "resolveJsonModule": true,
+    "module": "esnext",
+    "baseUrl": ".",
+    "declarationDir": "lib",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "strict": true,
+    "paths": {
+      "~/organisms/*": [
+        "./src/organisms/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "dist",
+    "tsup.config.ts"
+  ]
 }
