@@ -24,6 +24,8 @@
     "@types/node": "catalog:development",
     "@types/react": "catalog:development",
     "@types/react-dom": "catalog:development",
+    "@legendapp/list": "catalog:development",
+    "@legendapp/motion": "catalog:development",
     "@repo/configs": "workspace:*",
     "@repo/typings": "workspace:*",
     "@repo/utils": "workspace:*",

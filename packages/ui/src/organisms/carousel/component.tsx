@@ -7,17 +7,19 @@ import {
   type ViewabilityConfig,
   type ViewToken,
 } from "react-native";
-import Animated, { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
+import { useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SPACING } from "../../base/spacing";
 import { type ICardState, PhCard } from "../../molecules/card";
 import { CarouselProvider, useCarousel } from "./context";
 import { DATA } from "./data";
 import type { TCarouselProps } from "./types";
+import { LegendList } from "@legendapp/list";
+import type { LegendListRenderItemProps } from "@legendapp/list";
 
 const VIEWABILITY_CONFIG: ViewabilityConfig = {
   waitForInteraction: false,
-  viewAreaCoveragePercentThreshold: 100,
+  itemVisiblePercentThreshold: 80,
 };
 
 function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarouselProps) {
@@ -25,7 +27,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
 
   const PEEK_HEIGHT = height * 0.2;
   const ITEM_GAP = SPACING.md;
-  const FOCUSED_HEIGHT = height * 0.6;
+  const FOCUSED_HEIGHT = height * 0.75;
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
   const { dispatch } = useCarousel();
 
@@ -43,7 +45,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
   }, []);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: ICardState; index: number }) => {
+    ({ item, index }: LegendListRenderItemProps<ICardState, string | undefined>) => {
       return (
         <PhCard
           {...item}
@@ -68,7 +70,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
     },
   });
 
-  const keyExtractor = useCallback((item: ICardState) => item.id.toString(), []);
+  const keyExtractor = useCallback((item: ICardState, index: number) => item.id.toString(), []);
   const items = data.length > 0 && process.env.NODE_ENV !== "development" ? data : DATA;
   const snapOffsets = useMemo(() => {
     return items.map((_, index) => index * SNAP_INTERVAL);
@@ -114,38 +116,26 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
     dispatch({ type: "IS_SCROLLING", payload: true });
   }, [dispatch]);
 
-  const onMomentumScrollEnd = useCallback(
-    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const offsetY = event.nativeEvent.contentOffset.y;
-      const finalIndex = getClosestIndex(offsetY);
-      dispatch({ type: "UPDATE_CURRENT_INDEX", payload: finalIndex });
-
-    },
-    [dispatch, getClosestIndex],
-  );
-
-  const headerOffset = headerHeight - (SPACING.xl + tabHeight);
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <View className="flex-1">
-      <Animated.FlatList
+      <LegendList
         {...props}
         data={items}
-        disableIntervalMomentum
+        snapToAlignment="start"
+        pagingEnabled
+        snapToInterval={SNAP_INTERVAL}
+        snapToIndices={snapOffsets}
         viewabilityConfig={VIEWABILITY_CONFIG}
         onViewableItemsChanged={onViewableItemsChanged}
         decelerationRate={'fast'}
-        snapToOffsets={snapOffsets}
+        contentContainerStyle={{ paddingBottom: bottom + tabHeight, rowGap: ITEM_GAP }}
         scrollEventThrottle={16}
+        maintainVisibleContentPosition
         onScrollBeginDrag={onScrollBeginDrag}
-        showsVerticalScrollIndicator={false}
-
-        onScroll={scrollHandler}
         onScrollEndDrag={onScrollEndDrag}
-        onMomentumScrollEnd={onMomentumScrollEnd}
-        contentInset={{ top: headerHeight + top, bottom }}
-        contentContainerClassName="px-4 gap-y-4 py-36"
+        showsVerticalScrollIndicator={false}
         progressViewOffset={headerHeight}
         renderItem={renderItem}
         pinchGestureEnabled={false}

@@ -7,11 +7,11 @@ import useCurrentTab from "@/hooks/use-current-tab";
 import { oklabToHex } from "@/utils/convert";
 
 export default function TabLayout() {
-  const { activeColor, color } = useCurrentTab();
+  const { activeColor, color, isHomeTab } = useCurrentTab();
   const { theme } = useUniwind();
   const { width } = useWindowDimensions();
   const styles = useResolveClassNames(
-    "bottom-safe translate-y-3 flex-1 absolute py-3 px-8 rounded-full  border-neutral-200  dark:border-neutral-700 overflow-hidden mx-6",
+    "bottom-safe translate-y-3 flex-1 absolute py-3 px-8 rounded-full overflow-hidden mx-6",
   );
 
   const flattendStyles = StyleSheet.flatten([styles, { width: width - 48 }]);
@@ -19,7 +19,7 @@ export default function TabLayout() {
     <Tabs>
       <TabSlot />
       <TabList asChild>
-        <GlassView glassEffectStyle={theme === 'dark' ? 'clear' : "regular"} style={flattendStyles}>
+        <GlassView glassEffectStyle={theme === 'dark' || isHomeTab ? 'clear' : "regular"} style={flattendStyles}>
           {tabs.map((tab) => (
             <TabTrigger key={tab.id} name={tab.name} href={tab.route} asChild>
               <TabButton

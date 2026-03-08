@@ -41,5 +41,5 @@
 }
 
 @utility h-header {
-    height: var(--header-height);
+    height: var(--h-height);
 }

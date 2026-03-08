@@ -5,11 +5,11 @@ import { useUniwind } from "uniwind";
 
 const useCurrentTab = () => {
   const segments = useSegments<["(public)", "login"] | ["(public)", "(tabs)"]>();
-  const currentRoute = useMemo(() => segments.pop(), [segments.length]);
+  const currentRoute = useMemo(() => segments[1], [segments.length]);
   const { theme } = useUniwind();
 
   const isHomeTab = useMemo(() => {
-    return !!currentRoute && currentRoute === "(tabs)";
+    return currentRoute && currentRoute === "(tabs)";
   }, [currentRoute]);
 
   const isDark = useMemo(() => theme === "dark", [theme]);

@@ -14,7 +14,7 @@ type TUseColorParams<
 export const useColor = (params?: TUseColorParams<boolean>) => {
   const systemScheme = useColorScheme();
   const isDark = useMemo(
-    () => (params && params.scheme === "dark" && !!params.condition) || systemScheme === "dark",
+    () => (params && params.scheme === "dark" && params.condition) || systemScheme === "dark",
     [systemScheme, params],
   );
   // We determine the active color and the regular color based on the theme and the condition
@@ -25,5 +25,10 @@ export const useColor = (params?: TUseColorParams<boolean>) => {
   const color = useMemo(() => oklabToHex(colorToken), [colorToken]);
   const tabColor = useMemo<'white' | 'black'>(() => (isDark ? 'white' : 'black'), [isDark]);
 
-  return { activeColor, color, tabColor };
+  const backgroundColor = useMemo(() => (isDark ? colors.black : colors.white), [isDark]);
+
+  const black = colors.black;
+  const white = colors.white;
+
+  return { activeColor, color, tabColor, backgroundColor, systemScheme, black, white };
 };

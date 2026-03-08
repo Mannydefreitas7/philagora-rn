@@ -13,7 +13,8 @@
     "clean": "rm -rf node_modules .turbo bun.lock && turbo run clean",
     "biome:format": "bunx --bun @biomejs/biome format --write",
     "biome:lint": "bunx --bun @biomejs/biome lint --write",
-    "biome:check": "bunx --bun @biomejs/biome check --write --max-diagnostics=50"
+    "biome:check": "bunx --bun @biomejs/biome check --write --max-diagnostics=50",
+    "legend": "npx @legendapp/kit@latest"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
@@ -67,6 +68,9 @@
         "@types/node": "^22.15.3",
         "@types/react": "~19.2.10",
         "@types/react-dom": "~19.1.7",
+        "@legendapp/list": "^2.0.19",
+        "@legendapp/motion": "^2.5.3",
+        "@legendapp/state": "^3.0.0-beta.45",
         "immer": "^11.1.4",
         "add": "^2.0.6",
         "zustand-x": "^6.2.1",

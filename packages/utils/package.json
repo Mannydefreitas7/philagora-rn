@@ -13,6 +13,14 @@
   "devDependencies": {
     "@repo/configs": "workspace:*",
     "@types/node": "catalog:development",
-    "typescript": "catalog:development"
+    "typescript": "catalog:development",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "react-native": "catalog:react",
+    "@types/react": "catalog:development",
+    "@types/react-dom": "catalog:development",
+    "@legendapp/list": "catalog:development",
+    "@legendapp/motion": "catalog:development",
+    "@legendapp/state": "catalog:development"
   }
 }

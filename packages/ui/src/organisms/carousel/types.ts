@@ -1,4 +1,4 @@
-import { SharedValue } from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import type { ICardState } from "../../molecules/card";
 
 export type TCarouselProps = Omit<
@@ -24,7 +24,12 @@ export interface CarouselState<T extends ICardState = ICardState> {
 
 // Actions
 /// Filters out the readonly types
-type TMutableKey = "UPDATE_CURRENT_INDEX" | "UPDATE_VIEWABLE_ITEMS" | "IS_SCROLLING" | "SCROLL_Y" | "UPDATE_ACTIVE_CARD_ID";
+type TMutableKey =
+  | "UPDATE_CURRENT_INDEX"
+  | "UPDATE_VIEWABLE_ITEMS"
+  | "IS_SCROLLING"
+  | "SCROLL_Y"
+  | "UPDATE_ACTIVE_CARD_ID";
 /// Carousel Actions.
 export type TAction = {
   type: TMutableKey;
