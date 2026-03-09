@@ -4,9 +4,12 @@
   "workspaces": {
     "": {
       "name": "philagora",
+      "dependencies": {
+        "@legendapp/state": "^3.0.0-beta.45",
+      },
       "devDependencies": {
         "@biomejs/biome": "2.4.6",
-        "@dotenvx/dotenvx": "^1.53.0",
+        "@dotenvx/dotenvx": "^1.54.1",
         "supabase": "^2.77.0",
         "turbo": "^2.8.14",
         "typescript": "^5.9.3",
@@ -141,6 +144,7 @@
         "react": "catalog:react",
         "react-dom": "catalog:react",
         "react-native": "catalog:react",
+        "supabase": "^2.77.0",
         "tailwindcss": "catalog:ui",
         "typescript": "catalog:development",
       },
@@ -482,7 +486,7 @@
 
     "@davstack/store": ["@davstack/store@1.4.6", "", { "dependencies": { "immer": "^10.0.4", "react-dom": "^18.2.0", "zustand": ">=4.3.9" } }, "sha512-3P83DRJJLowgzE4wGxJhPl9H566KLlm1CmeL9tfN1wrRdlz6KE7Q1x8Sy1lzHBAPonhPwTl5CrTiJrrCEWzzOw=="],
 
-    "@dotenvx/dotenvx": ["@dotenvx/dotenvx@1.53.0", "", { "dependencies": { "commander": "^11.1.0", "dotenv": "^17.2.1", "eciesjs": "^0.4.10", "execa": "^5.1.1", "fdir": "^6.2.0", "ignore": "^5.3.0", "object-treeify": "1.1.33", "picomatch": "^4.0.2", "which": "^4.0.0" }, "bin": { "dotenvx": "src/cli/dotenvx.js" } }, "sha512-OnsVuJ5O2WCUMXBnyuYah08/I6Tnt1FEZ2PGH9skSRuRh3LK5UoGa6Bzi5Toj/F/0mbeFfv+eNKTsYRoGgRh3Q=="],
+    "@dotenvx/dotenvx": ["@dotenvx/dotenvx@1.54.1", "", { "dependencies": { "commander": "^11.1.0", "dotenv": "^17.2.1", "eciesjs": "^0.4.10", "execa": "^5.1.1", "fdir": "^6.2.0", "ignore": "^5.3.0", "object-treeify": "1.1.33", "picomatch": "^4.0.2", "which": "^4.0.0" }, "bin": { "dotenvx": "src/cli/dotenvx.js" } }, "sha512-41gU3q7v05GM92QPuPUf4CmUw+mmF8p4wLUh6MCRlxpCkJ9ByLcY9jUf6MwrMNmiKyG/rIckNxj9SCfmNCmCqw=="],
 
     "@ecies/ciphers": ["@ecies/ciphers@0.2.5", "", { "peerDependencies": { "@noble/ciphers": "^1.0.0" } }, "sha512-GalEZH4JgOMHYYcYmVqnFirFsjZHeoGMDt9IxEnM9F7GRUUyUksJ7Ou53L83WHJq3RWKD3AcBpo0iQh0oMpf8A=="],
 
@@ -698,7 +702,7 @@
 
     "@legendapp/motion": ["@legendapp/motion@2.5.3", "", { "dependencies": { "@legendapp/tools": "2.0.1" }, "peerDependencies": { "nativewind": ">=4.0.0", "react": ">=16", "react-native": "*" } }, "sha512-IcNiStiK3qG5LaIPLC8fVV0BHIrkf7EY5HfOv3xbuMH0z4D945yaaEDafP5bboHf/uj9XRjTQHVTtZgwpMNlHw=="],
 
-    "@legendapp/state": ["@legendapp/state@2.1.15", "", { "dependencies": { "use-sync-external-store": "^1.2.0" }, "peerDependencies": { "react": ">=16.8.0" }, "optionalPeers": ["react"] }, "sha512-7/8Rgg7m38eznupr36QJeSkrtbhVxaRtQvRMjdBigSm+HW3ZIFgMtUX1DqZ2hJxbPqqAJamw5s+TLs8dRstUNw=="],
+    "@legendapp/state": ["@legendapp/state@3.0.0-beta.45", "", { "dependencies": { "use-sync-external-store": "^1.2.2" }, "peerDependencies": { "expo-sqlite": "^15.0.0" }, "optionalPeers": ["expo-sqlite"] }, "sha512-tH1fYel89xS8IMa3A6SE7R5UpVWcOOdtImcHgNwfnf4qU90LqnewLlsnSRRdWsQT59wayU/Ly2yHesGwlr8bEA=="],
 
     "@legendapp/tools": ["@legendapp/tools@2.0.1", "", { "peerDependencies": { "react": ">=16" }, "optionalPeers": ["react"] }, "sha512-Kxt0HWvWElRK6oybHRzcYxdgaKGwuaiRNreS7usW7QuHXRIHaH4yMcW2YNRG4DHE5fpefv+Bno/BohQcCE4FaA=="],
 
@@ -2532,7 +2536,7 @@
 
     "@react-navigation/core/react-is": ["react-is@19.2.4", "", {}, "sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA=="],
 
-    "@repo/utils/@legendapp/state": ["@legendapp/state@3.0.0-beta.45", "", { "dependencies": { "use-sync-external-store": "^1.2.2" }, "peerDependencies": { "expo-sqlite": "^15.0.0" }, "optionalPeers": ["expo-sqlite"] }, "sha512-tH1fYel89xS8IMa3A6SE7R5UpVWcOOdtImcHgNwfnf4qU90LqnewLlsnSRRdWsQT59wayU/Ly2yHesGwlr8bEA=="],
+    "@repo/mobile/@legendapp/state": ["@legendapp/state@2.1.15", "", { "dependencies": { "use-sync-external-store": "^1.2.0" }, "peerDependencies": { "react": ">=16.8.0" }, "optionalPeers": ["react"] }, "sha512-7/8Rgg7m38eznupr36QJeSkrtbhVxaRtQvRMjdBigSm+HW3ZIFgMtUX1DqZ2hJxbPqqAJamw5s+TLs8dRstUNw=="],
 
     "@supabase/realtime-js/ws": ["ws@8.19.0", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg=="],
 

@@ -20,7 +20,7 @@ function InternalCarousel({ data, tabHeight, headerHeight, ...props }: TCarousel
 
   const PEEK_HEIGHT = height * 0.2;
   const ITEM_GAP = SPACING.md;
-  const FOCUSED_HEIGHT = height * 0.75;
+  const FOCUSED_HEIGHT = height * 0.7;
   const SNAP_INTERVAL = FOCUSED_HEIGHT + ITEM_GAP;
   const { dispatch } = useCarousel();
 

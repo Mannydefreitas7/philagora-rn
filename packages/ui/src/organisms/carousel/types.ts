@@ -17,7 +17,7 @@ export interface CarouselState<T extends ICardState = ICardState> {
   visibleItems: T[];
   isScrolling: boolean;
   aciveCardId?: string;
-  scrollY?: SharedValue<number>;
+  scrollY?: number;
   previousIndex?: number;
   nextIndex?: number;
 }

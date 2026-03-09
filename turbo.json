@@ -11,6 +11,13 @@
       ],
       "cache": true
     },
+    "types:generate": {
+      "cache": true,
+      "dependsOn": [
+        "^types:generate",
+        "build"
+      ]
+    },
     "check-types": {
       "dependsOn": [
         "^check-types"

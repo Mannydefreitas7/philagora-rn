@@ -1,8 +1,8 @@
+import { PhCarousel } from "@repo/ui";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollShadow, useThemeColor } from "heroui-native";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { PhCarousel } from "@repo/ui";
 import useSpacing from "@/hooks/use-spacing";
 
 export default function HomeScreen() {
@@ -13,7 +13,7 @@ export default function HomeScreen() {
   return (
     <View className="relative flex-1">
       <ScrollShadow
-        size={headerHeight}
+        size={headerHeight + top}
         isEnabled
         className="flex-1"
         color={'black'}
