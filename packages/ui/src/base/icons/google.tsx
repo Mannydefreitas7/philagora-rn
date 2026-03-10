@@ -1,18 +1,7 @@
 import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
-export type IconProps = SvgProps & {
-  /**
-   * Size (both width and height) of the icon in pixels.
-   * Defaults to 32 to match the original svg file.
-   */
-  size?: number;
-  /**
-   * Stroke color used by the icon paths.
-   * Defaults to black (#000).
-   */
-  color?: string;
-};
+import type { TIconProps } from "../types";
 
 /**
  * Google icon converted from SVG to react-native-svg.
@@ -20,7 +9,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <Google size={24} color="#111" />
  */
-const Google = ({ size = 32, color = "#000", ...props }: IconProps) => {
+const Google = ({ size = 32, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">

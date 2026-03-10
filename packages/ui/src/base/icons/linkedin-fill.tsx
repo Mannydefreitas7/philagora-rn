@@ -2,10 +2,7 @@ import * as React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { Path } from "react-native-svg";
 
-export type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-};
+import type { TIconProps } from "../types";
 
 /**
  * LinkedIn (filled) icon as a React Native SVG component.
@@ -13,7 +10,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <LinkedinFill size={24} color="#000" />
  */
-const LinkedinFill = ({ size = 24, color = "#000", ...props }: IconProps) => {
+const LinkedinFill = ({ size = 24, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path

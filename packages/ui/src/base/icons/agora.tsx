@@ -1,17 +1,11 @@
 import React, { useEffect } from "react";
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 import Svg, { Circle, type CircleProps } from "react-native-svg";
-import type { TIconVariant } from "../../molecules";
-
-interface IconProps {
-  size?: number;
-  color?: string;
-  variant?: TIconVariant;
-}
+import type { TIconProps } from "../types";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export const Agora = ({ size = 24, color = "#000000", variant = "fill" }: IconProps) => {
+export const Agora = ({ size = 24, color = "#000000", variant = "fill" }: TIconProps) => {
   const strokeWidth = size > 24 ? 2.5 : 1.5;
   const radius = size / 2 - strokeWidth; // Adjust radius for stroke width
   // Shared values for opacity animations

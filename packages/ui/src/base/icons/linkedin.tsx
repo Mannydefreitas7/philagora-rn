@@ -2,10 +2,7 @@ import React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 
-export interface IconProps extends SvgProps {
-  size?: number;
-  color?: string;
-}
+import type { TIconProps } from "../types";
 
 /**
  * Linkedin icon as a React Native SVG component.
@@ -13,7 +10,7 @@ export interface IconProps extends SvgProps {
  * Usage:
  * <Linkedin size={24} color="#000" />
  */
-const Linkedin = ({ size = 24, color = "#000", ...props }: IconProps) => {
+const Linkedin = ({ size = 24, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0_linkedin)">

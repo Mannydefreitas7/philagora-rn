@@ -1,14 +1,19 @@
 {
-	"name": "@repo/server",
-	"description": "Server backend package running the local supabase",
-	"version": "0.0.0",
-	"author": {
-		"name": "Emmanuel De Freitas",
-		"email": "emmanuel@philagora.io"
-	},
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"start": "bunx supabase start"
-	}
+  "name": "@repo/server",
+  "description": "Server backend package running the local supabase",
+  "version": "0.0.0",
+  "author": {
+    "name": "Emmanuel De Freitas",
+    "email": "emmanuel@philagora.io"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bunx supabase start --dns-resolver=https",
+    "stop": "bunx supabase stop",
+    "type:generate": "bunx supabase gen types typescript --local > ../../packages/typings/src/database.ts"
+  },
+  "dependencies": {
+    "supabase": "catalog:development"
+  }
 }

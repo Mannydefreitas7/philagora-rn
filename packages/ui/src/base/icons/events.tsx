@@ -1,14 +1,11 @@
 import * as React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
-import type { TIconVariant } from "../../molecules";
+import type { TIconVariant } from "../../molecules/types";
+import { TIconProps } from "../types";
 
-interface IconProps {
-  size?: number;
-  color?: string;
-  variant?: TIconVariant;
-}
 
-const Events = ({ size = 24, color = "#000000", variant }: IconProps) => {
+
+const Events = ({ size = 24, color = "#000000", variant }: TIconProps) => {
   const strokeWidth = 2; // Default stroke width for outline variant
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">

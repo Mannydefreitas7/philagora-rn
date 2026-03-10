@@ -1,10 +1,6 @@
 import * as React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
-
-export interface IconProps extends SvgProps {
-  size?: number;
-  color?: string;
-}
+import type { TIconProps } from "../types";
 
 /**
  * TikTok square icon (outlined)
@@ -15,7 +11,7 @@ export interface IconProps extends SvgProps {
  * Usage:
  * <TikTokSquare2 size={24} color="#000" />
  */
-const TikTokSquare2 = ({ size, color = "#000000", width, height, ...props }: IconProps) => {
+const TikTokSquare2 = ({ size, color = "#000000", width, height, ...props }: TIconProps) => {
   const w = size ?? width ?? 24;
   const h = size ?? height ?? 24;
 

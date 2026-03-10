@@ -5,109 +5,116 @@ import * as ExpoLinking from "expo-linking";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSessionStore from "@/stores/session";
 import useUserStore from "@/stores/user";
-import { supabase } from "@/utils/supabase";
+import supabase from "@/utils/supabase";
 
 function mapUser(user: User): IUser {
-	return {
-		id: user.id,
-		email: user.email ?? undefined,
-		name: (user.user_metadata?.full_name as string | undefined) ?? (user.user_metadata?.name as string | undefined),
-	};
+  return {
+    id: user.id,
+    email: user.email ?? undefined,
+    name: (user.user_metadata?.full_name as string | undefined) ?? (user.user_metadata?.name as string | undefined),
+  };
 }
 
 export function useSupabaseAuth() {
-	const setToken = useSessionStore((state) => state.setToken);
-	const logout = useSessionStore((state) => state.logout);
-	const setUser = useUserStore((state) => state.setUser);
-	const clearUser = useUserStore((state) => state.clearUser);
-	const configScheme = Constants.expoConfig?.scheme;
-	const scheme = typeof configScheme === "string" ? configScheme : (configScheme?.[0] ?? "mobile");
-	const resetPasswordRedirectTo = useMemo(() => ExpoLinking.createURL("reset-password", { scheme }), [scheme]);
+  const setToken = useSessionStore((state) => state.setToken);
+  const logout = useSessionStore((state) => state.logout);
+  const setUser = useUserStore((state) => state.setUser);
+  const clearUser = useUserStore((state) => state.clearUser);
+  const configScheme = Constants.expoConfig?.scheme;
+  const scheme = typeof configScheme === "string" ? configScheme : (configScheme?.[0] ?? "mobile");
+  const resetPasswordRedirectTo = useMemo(() => ExpoLinking.createURL("reset-password", { scheme }), [scheme]);
 
-	const [initializing, setInitializing] = useState(true);
-	const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
-	const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
-	const [resetPasswordSent, setResetPasswordSent] = useState(false);
+  const [initializing, setInitializing] = useState(true);
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+  const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
+  const [resetPasswordSent, setResetPasswordSent] = useState(false);
 
-	const resetPassword = useCallback(
-		async (email: string) => {
-			setResetPasswordError(null);
-			setResetPasswordSent(false);
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    logout()
+    clearUser();
+  }, [clearUser, logout]);
 
-			const normalizedEmail = email.trim().toLowerCase();
-			if (!normalizedEmail) {
-				setResetPasswordError("Email is required.");
-				return { error: new Error("Email is required.") };
-			}
+  const resetPassword = useCallback(
+    async (email: string) => {
+      setResetPasswordError(null);
+      setResetPasswordSent(false);
 
-			setResetPasswordLoading(true);
+      const normalizedEmail = email.trim().toLowerCase();
+      if (!normalizedEmail) {
+        setResetPasswordError("Email is required.");
+        return { error: new Error("Email is required.") };
+      }
 
-			const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
-				redirectTo: resetPasswordRedirectTo,
-			});
+      setResetPasswordLoading(true);
 
-			setResetPasswordLoading(false);
+      const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+        redirectTo: resetPasswordRedirectTo,
+      });
 
-			if (error) {
-				setResetPasswordError(error.message);
-				return { error };
-			}
+      setResetPasswordLoading(false);
 
-			setResetPasswordSent(true);
-			return { error: null };
-		},
-		[resetPasswordRedirectTo],
-	);
+      if (error) {
+        setResetPasswordError(error.message);
+        return { error };
+      }
 
-	const applySession = (session: Session | null) => {
-		if (session?.access_token) {
-			setToken(session.access_token);
-		} else {
-			logout();
-		}
+      setResetPasswordSent(true);
+      return { error: null };
+    },
+    [resetPasswordRedirectTo],
+  );
 
-		if (session?.user) {
-			setUser(mapUser(session.user));
-		} else {
-			clearUser();
-		}
-	};
+  const applySession = (session: Session | null) => {
+    if (session?.access_token) {
+      setToken(session.access_token);
+    } else {
+      logout();
+    }
 
-	const startSession = useCallback(async (isMounted: boolean) => {
-		const { data } = await supabase.auth.getSession();
-		if (!isMounted) return;
-		applySession(data.session ?? null);
-	}, []);
+    if (session?.user) {
+      setUser(mapUser(session.user));
+    } else {
+      clearUser();
+    }
+  };
 
-	useEffect(() => {
-		let isMounted = true;
+  const startSession = useCallback(async (isMounted: boolean) => {
+    const { data } = await supabase.auth.getSession();
+    if (!isMounted) return;
+    applySession(data.session ?? null);
+  }, []);
 
-		startSession(isMounted).finally(() => {
-			if (isMounted) setInitializing(false);
-		});
+  useEffect(() => {
+    let isMounted = true;
 
-		const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-			if (!isMounted) return;
-			applySession(session ?? null);
-		});
+    startSession(isMounted).finally(() => {
+      if (isMounted) setInitializing(false);
+    });
 
-		return () => {
-			isMounted = false;
-			data.subscription.unsubscribe();
-		};
-	}, [clearUser, logout, setToken, setUser]);
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return;
+      applySession(session ?? null);
+    });
 
-	return useMemo(
-		() => ({
-			initializing,
-			resetPassword,
-			resetPasswordLoading,
-			resetPasswordError,
-			resetPasswordSent,
-			resetPasswordRedirectTo,
-		}),
-		[initializing, resetPassword, resetPasswordError, resetPasswordLoading, resetPasswordRedirectTo, resetPasswordSent],
-	);
+    return () => {
+      isMounted = false;
+      data.subscription.unsubscribe();
+    };
+  }, [clearUser, logout, setToken, setUser]);
+
+  return useMemo(
+    () => ({
+      signOut,
+      initializing,
+      resetPassword,
+      resetPasswordLoading,
+      resetPasswordError,
+      resetPasswordSent,
+      resetPasswordRedirectTo,
+    }),
+    [initializing, resetPassword, resetPasswordError, resetPasswordLoading, resetPasswordRedirectTo, resetPasswordSent],
+  );
 }
 
 export default useSupabaseAuth;

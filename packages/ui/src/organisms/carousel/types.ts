@@ -1,5 +1,4 @@
-import type { SharedValue } from "react-native-reanimated";
-import type { ICardState } from "../../molecules/card";
+import type { ICardState } from "../../molecules/types";
 
 export type TCarouselProps = Omit<
   CarouselState,

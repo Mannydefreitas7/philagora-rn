@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo } from "react";
 import { useImmerReducer } from "use-immer";
-import type { ICardState } from "../../molecules/card";
+import type { ICardState } from "../../molecules/types";
 import { initialState } from "./data";
 import type { CarouselState, ICarouselContext, TAction } from "./types";
 

@@ -1,16 +1,7 @@
 import React from "react";
 import Svg, { Path, type SvgProps } from "react-native-svg";
 
-type IconProps = SvgProps & {
-  /**
-   * Size in pixels for both width and height. Defaults to 32 to match the original SVG.
-   */
-  size?: number;
-  /**
-   * Stroke / fill color for the icon. Defaults to `#000` (black).
-   */
-  color?: string;
-};
+import type { TIconProps } from "../types";
 
 /**
  * Github icon converted from the original SVG to a React Native SVG component.
@@ -18,7 +9,7 @@ type IconProps = SvgProps & {
  * Usage:
  * <GithubIcon size={24} color="#111" />
  */
-const Github = ({ size = 32, color = "#000", ...props }: IconProps) => {
+const Github = ({ size = 32, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path

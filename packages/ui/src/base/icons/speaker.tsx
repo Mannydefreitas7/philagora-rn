@@ -1,21 +1,7 @@
 import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
-export type IconProps = SvgProps & {
-  /**
-   * Icon size in pixels (both width and height)
-   * Defaults to 24 to match the viewBox scale of 24.
-   */
-  size?: number;
-  /**
-   * Stroke / fill color for the icon paths
-   */
-  color?: string;
-  /**
-   * Stroke width used for stroked paths
-   */
-  strokeWidth?: number;
-};
+import type { TIconProps } from "../types";
 
 /**
  * Speaker icon as a React Native SVG component.
@@ -23,7 +9,7 @@ export type IconProps = SvgProps & {
  * Usage:
  * <Speaker size={20} color="#111" />
  */
-const Speaker = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }: IconProps) => {
+const Speaker = ({ size = 24, color = "#000", strokeWidth = 1.5, ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">

@@ -1,11 +1,6 @@
 import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
-
-export type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-  strokeWidth?: number;
-};
+import type { TIconProps } from "../types";
 
 /**
  * PinterestSquareIcon
@@ -23,7 +18,7 @@ const PinterestSquare = ({
   color = "#000",
   strokeWidth = 1.5,
   ...props
-}: IconProps) => {
+}: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">

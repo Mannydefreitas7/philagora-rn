@@ -1,17 +1,12 @@
 import * as React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
-import type { TIconVariant } from "../../molecules";
+import type { TIconVariant } from "../../molecules/types";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-
-interface IconProps {
-  size?: number;
-  color?: string;
-  variant?: TIconVariant;
-}
+import { TIconProps } from "../types";
 
 const AnimatedG = Animated.createAnimatedComponent(G);
 
-const Court = ({ size = 24, color = "#000000", variant }: IconProps) => {
+const Court = ({ size = 24, color = "#000000", variant }: TIconProps) => {
   return (
     <Svg width={size} height={size}>
 

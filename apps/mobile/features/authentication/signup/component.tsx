@@ -2,17 +2,20 @@ import { UITextfield } from "@repo/ui";
 import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
-import { Text, View } from "react-native";
+import { Text, useColorScheme, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Logo from "@/assets/logo-philagora-black.svg";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 import useSignupStore from "./store";
+import AppleButton from "@/features/authentication/apple-auth";
+import { AppleAuthenticationButtonStyle, AppleAuthenticationButtonType } from "expo-apple-authentication";
+import { useUniwind } from "uniwind";
+
 
 export default function SignupFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
-  const { top } = useSafeAreaInsets();
+  const theme = useColorScheme();
   const { values, submitting, error, setField, signup } = useSignupStore();
 
   const schema = useMemo(
@@ -28,18 +31,18 @@ export default function SignupFeature() {
   const { errors: validationErrors, validateForm } = useValidation(values, schema);
 
   const onRegister = async () => {
-    // const isValid = validateForm();
-    // if (!isValid) return;
+    const isValid = validateForm();
+    if (!isValid) return;
 
-    // const { error: signupError } = await signup();
-    // if (signupError) return;
+    const { error: signupError } = await signup();
+    if (signupError) return;
 
     router.replace("/(public)/(tabs)");
   };
 
   return (
-    <KeyboardAwareScrollView pinchGestureEnabled={false}>
-      <View className="justify-center bg-transparent px-5 py-8">
+    <KeyboardAwareScrollView pinchGestureEnabled={false} keyboardDismissMode="on-drag" snapToAlignment="center" centerContent className="flex-1">
+      <View className="justify-center bg-transparent px-5">
         <View className="mb-2 flex-row items-center gap-x-3 px-3">
           <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
           <View className="-mt-2">
@@ -52,7 +55,7 @@ export default function SignupFeature() {
 
         <View className="mt-2 gap-y-3">
           <UITextfield
-            placeholder="John"
+            placeholder="John Smith"
             keyboardType="name-phone-pad"
             autoCapitalize="words"
             labelProps={{ value: "Full name" }}
@@ -76,7 +79,6 @@ export default function SignupFeature() {
             inputMode="email"
             importantForAutofill="yes"
             autoCapitalize="none"
-            labelProps={{ value: "Email" }}
             value={values.email}
             enterKeyHint="next"
             onChangeText={(text) => setField("email", text)}
@@ -123,6 +125,7 @@ export default function SignupFeature() {
             <Text className="text-accent">Sign in</Text>
           </Link>
         </View>
+        <AppleButton className="mt-4" buttonType={AppleAuthenticationButtonType.SIGN_UP} buttonStyle={theme === "dark" ? AppleAuthenticationButtonStyle.WHITE : AppleAuthenticationButtonStyle.BLACK} />
       </View>
     </KeyboardAwareScrollView>
   );

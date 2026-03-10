@@ -2,10 +2,7 @@ import React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { Path } from "react-native-svg";
 
-type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-};
+import type { TIconProps } from "../types";
 
 /**
  * Profile2 icon (converted from SVG)
@@ -13,7 +10,7 @@ type IconProps = SvgProps & {
  * Usage:
  * <Profile2 size={24} color="#000" />
  */
-const Profile2 = ({ size = 24, color = "#000", ...props }: IconProps) => {
+const Profile2 = ({ size = 24, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Path

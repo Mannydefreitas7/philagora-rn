@@ -30,12 +30,12 @@ export default function LoginFeature() {
     [],
   );
 
-  const { errors: validationErrors } = useValidation(values, schema);
+  const { errors: validationErrors, validateForm } = useValidation(values, schema);
 
   const handleSubmit = async () => {
     // Disabling for testing purposes
-    // const isValid = validateForm();
-    // if (!isValid) return;
+    const isValid = validateForm();
+    if (!isValid) return;
     // const { error } = await login();
     // if (error) return;
 
@@ -43,8 +43,8 @@ export default function LoginFeature() {
   };
 
   return (
-    <KeyboardAwareScrollView bottomOffset={40} automaticallyAdjustKeyboardInsets>
-      <View className="mt-safe-offset-8 flex-1 flex-col justify-center gap-y-4 bg-transparent px-6 py-8">
+    <KeyboardAwareScrollView automaticallyAdjustKeyboardInsets>
+      <View className="flex-1 flex-col justify-center gap-y-4 bg-transparent px-6 py-8">
         <View className="flex-col items-center">
           <Logo stroke={foreground} strokeWidth={45} width={120} height={120} strokeLinecap="round" />
           <Text className="mt-1 text-3xl font-bold text-black dark:text-white">Philagora</Text>

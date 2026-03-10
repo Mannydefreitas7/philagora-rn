@@ -2,30 +2,53 @@
  * icons index
  *
  * Exports all icon components from this directory so they can be imported as:
- * import { Bell, Github, Google } from "@repo/ui/base/icons";
+ * import { icons } from "@repo/ui/base/icons";
  *
  * These icons are implemented as React Native components using `react-native-svg`
  * (files named `*.tsx` in this directory).
  *
  * Keep the list sorted alphabetically for easier maintenance.
  */
-export { default as Agora } from "./agora";
-export { default as Bell } from "./bell";
-export { default as Court } from "./court";
-export { default as Events } from "./events";
-export { default as Explore } from "./explore";
-export { default as Github } from "./github";
-export { default as Google } from "./google";
-export { default as Instagram } from "./instagram";
-export { default as Linkedin } from "./linkedin";
-export { default as LinkedinFill } from "./linkedin-fill";
-export { default as Notion } from "./notion";
-export { default as PinterestSquare } from "./pinterest-square";
-export { default as Profile } from "./profile";
-export { default as Snapchat } from "./snapchat";
-export { default as Speaker } from "./speaker";
-export { default as StoryCircle } from "./story-circle";
-export { default as TiktokSquare } from "./tiktok-square";
-export { default as TiktokSquareFill } from "./tiktok-square-fill";
-export { default as TiktokSquare2 } from "./tiktok-square2";
-export { default as Twitch2 } from "./twitch2";
+import Agora from "./agora";
+import Bell from "./bell";
+import Court from "./court";
+import Events from "./events";
+import Explore from "./explore";
+import Github from "./github";
+import Google from "./google";
+import Instagram from "./instagram";
+import Linkedin from "./linkedin";
+import LinkedinFill from "./linkedin-fill";
+import Notion from "./notion";
+import PinterestSquare from "./pinterest-square";
+import Profile from "./profile";
+import Snapchat from "./snapchat";
+import Speaker from "./speaker";
+import StoryCircle from "./story-circle";
+import TiktokSquare from "./tiktok-square";
+import TiktokSquareFill from "./tiktok-square-fill";
+import TiktokSquare2 from "./tiktok-square2";
+import Twitch2 from "./twitch2";
+
+export const icons = {
+  Agora,
+  Bell,
+  Court,
+  Events,
+  Explore,
+  Github,
+  Google,
+  Instagram,
+  Linkedin,
+  LinkedinFill,
+  Notion,
+  PinterestSquare,
+  Profile,
+  Snapchat,
+  Speaker,
+  StoryCircle,
+  TiktokSquare,
+  TiktokSquareFill,
+  TiktokSquare2,
+  Twitch2,
+};

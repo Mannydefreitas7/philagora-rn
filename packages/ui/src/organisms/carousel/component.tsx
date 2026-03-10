@@ -5,7 +5,8 @@ import { useWindowDimensions, View, type ViewabilityConfig, type ViewToken } fro
 import { useSharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SPACING } from "../../base/spacing";
-import { type ICardState, PhCard } from "../../molecules/card";
+import type { ICardState } from "../../molecules/types";
+import { PhCard } from "../../molecules/card";
 import { CarouselProvider, useCarousel } from "./context";
 import { DATA } from "./data";
 import type { TCarouselProps } from "./types";

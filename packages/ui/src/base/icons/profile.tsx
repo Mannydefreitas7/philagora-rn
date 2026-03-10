@@ -1,27 +1,10 @@
 import React from "react";
-import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
-import type { TIconVariant } from "../../molecules";
+import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import type { TIconProps } from "../types";
 
-export type IconProps = SvgProps & {
-  /**
-   * Icon color (applies to stroke)
-   * default: black
-   */
-  color?: string;
-  /**
-   * Icon size in pixels (width and height)
-   * default: 24
-   */
-  size?: number;
-  /**
-   * Stroke width
-   * default: 1.5
-   */
-  strokeWidth?: number;
-  variant?: TIconVariant;
-};
 
-const Profile = ({ color = "#000", size = 24, variant, ...props }: IconProps) => {
+
+const Profile = ({ color = "#000", size = 24, variant, ...props }: TIconProps) => {
   // Use a unique clipPath id to avoid collisions when multiple icons are rendered.
   const clipId = "clip0_profile1";
   const strokeWidth = 2; // Default stroke width for outline variant

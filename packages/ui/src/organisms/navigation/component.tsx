@@ -2,7 +2,7 @@ import { memo } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
 import { FONT_SIZE, SPACING } from "../../base/spacing";
-import { Icon } from "../../molecules/icon";
+import { Icon } from "../../molecules";
 import { AnimatedText } from "../animated-text";
 import type { THeaderProps } from "./types";
 

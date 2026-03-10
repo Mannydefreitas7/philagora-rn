@@ -1,6 +1,6 @@
 import type { ITab } from "@repo/typings";
 import type { TabTriggerSlotProps } from "expo-router/ui";
-import type { TIconProps } from "../icon";
+import type { TIconProps } from "../../base/types";
 
 export type TabButtonProps = TabTriggerSlotProps & {
   icon: TIconProps;

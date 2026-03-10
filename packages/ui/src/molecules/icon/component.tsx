@@ -1,6 +1,6 @@
-import Animated, { StretchInX, StretchOutX } from "react-native-reanimated";
 import { iconList } from "./data";
-import type { TBaseIconName, TIconProps, TKey } from "./types";
+import type { TBaseIconName, TKey } from "./types";
+import type { TIconProps } from "../../types";
 
 function InternalIcon(props: TIconProps) {
   const getIcon = (name: TBaseIconName) => {

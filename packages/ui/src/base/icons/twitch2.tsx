@@ -1,18 +1,11 @@
 import * as React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import type { TIconProps } from "../types";
 
-type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-  strokeWidth?: number;
-  /**
-   * Optional id prefix to avoid clipPath id collisions when rendering multiple icons.
-   */
-  id?: string;
-};
 
-const Twitch2 = ({ size = 24, color = "#000", strokeWidth = 1.5, id, ...props }: IconProps) => {
+
+const Twitch2 = ({ size = 24, color = "#000", strokeWidth = 1.5, id, ...props }: TIconProps) => {
   // Generate a stable-ish unique id per component instance to avoid clipPath collisions.
   const clipId = React.useMemo(() => {
     return id ?? `twitch2_clip_${Math.random().toString(36).slice(2, 9)}`;

@@ -1,11 +1,25 @@
 {
-	"extends": ["//"],
-	"$schema": "https://turborepo.dev/schema.json",
-	"tasks": {
-		"start": {
-			"cache": false,
-			"interactive": true,
-			"persistent": true
-		}
-	}
+  "extends": [
+    "//"
+  ],
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "start": {
+      "cache": false,
+      "interactive": true,
+      "persistent": true,
+      "description": "Start the server backend",
+      "dependsOn": [
+        "^start",
+        "types:generate"
+      ]
+    },
+    "types:generate": {
+      "cache": true,
+      "description": "Generate TypeScript types from the local Supabase database",
+      "dependsOn": [
+        "^types:generate"
+      ]
+    }
+  }
 }

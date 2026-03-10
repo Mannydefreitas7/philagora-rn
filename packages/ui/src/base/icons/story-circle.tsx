@@ -1,11 +1,9 @@
 import React from "react";
 import type { SvgProps } from "react-native-svg";
+import type { TIconProps } from "../types";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 
-type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-};
+
 
 /**
  * StoryCircle icon converted from SVG to react-native-svg
@@ -13,7 +11,7 @@ type IconProps = SvgProps & {
  * Usage:
  * <StoryCircle size={32} color="#000" />
  */
-const StoryCircle = ({ size = 32, color = "#000000", ...props }: IconProps) => {
+const StoryCircle = ({ size = 32, color = "#000000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0_story_circle)">

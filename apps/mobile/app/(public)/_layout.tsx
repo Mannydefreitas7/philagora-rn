@@ -1,9 +1,8 @@
-import type { TIconProps } from "@repo/ui";
 import { GrainyGradient, Header, useBottomBar } from "@repo/ui";
+import type { TIconProps } from "@repo/ui/types";
 import { Stack, usePathname } from "expo-router";
 import { useMemo } from "react";
 import { View } from "react-native";
-import { useUniwind } from "uniwind";
 import { useColor } from "@/hooks/use-color";
 import useCurrentTab from "@/hooks/use-current-tab";
 import useSpacing from "@/hooks/use-spacing";
@@ -42,15 +41,10 @@ export default function PublicLayout() {
         name="register"
         options={{
           animationMatchesGesture: true,
-          animation: "fade",
+          animation: "slide_from_bottom",
           animationDuration: 200,
           presentation: "fullScreenModal",
-          headerStyle: {
-            backgroundColor: "transparent",
-          },
-          headerShadowVisible: false,
-          headerTitle: "",
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <Stack.Screen name="(tabs)">

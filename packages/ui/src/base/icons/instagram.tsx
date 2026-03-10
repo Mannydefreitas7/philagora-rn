@@ -1,12 +1,9 @@
 import * as React from "react";
 import type { SvgProps } from "react-native-svg";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import type { TIconProps } from "../types";
 
-interface IconProps extends SvgProps {
-  color?: string;
-  size?: number;
-  strokeWidth?: number;
-}
+
 
 /**
  * Instagram icon converted from SVG to react-native-svg
@@ -18,7 +15,7 @@ interface IconProps extends SvgProps {
  *
  * Any other SvgProps are forwarded to the root <Svg /> element.
  */
-const Instagram = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }: IconProps) => {
+const Instagram = ({ color = "#000", size = 24, strokeWidth = 1.5, ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0_instagram)">

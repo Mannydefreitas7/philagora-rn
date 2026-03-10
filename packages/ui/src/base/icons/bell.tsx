@@ -1,20 +1,8 @@
 import React from "react";
-import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
+import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import { TIconProps } from "../types";
 
-type IconProps = SvgProps & {
-  /**
-   * Color used to fill the icon. Defaults to `#000`.
-   */
-  color?: string;
-};
-
-/**
- * Bell icon (converted from SVG to react-native-svg)
- *
- * Usage:
- * <Bell width={24} height={24} color="#111" />
- */
-const Bell = ({ color = "#000", width = 24, height = 24, ...rest }: IconProps) => {
+const Bell = ({ color = "#000", width = 24, height = 24, ...rest }: TIconProps) => {
   return (
     <Svg
       width={width}

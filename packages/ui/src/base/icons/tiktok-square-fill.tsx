@@ -1,12 +1,8 @@
 import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
+import type { TIconProps } from "../types";
 
-type IconProps = SvgProps & {
-  size?: number;
-  color?: string;
-};
-
-const TiktokSquare = ({ size = 24, color = "#000", ...props }: IconProps) => {
+const TiktokSquare = ({ size = 24, color = "#000", ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <Defs>

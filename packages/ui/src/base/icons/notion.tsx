@@ -1,10 +1,7 @@
 import React from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect, type SvgProps } from "react-native-svg";
 
-type IconProps = SvgProps & {
-  color?: string;
-  size?: number;
-};
+import type { TIconProps } from "../types";
 
 /**
  * Notion icon as a React Native SVG component.
@@ -14,7 +11,7 @@ type IconProps = SvgProps & {
  * - `size` (optional) — width & height in pixels (defaults to 24)
  * - All other `SvgProps` are forwarded to the root <Svg />
  */
-const NotionIcon = ({ color = "#000", size = 24, ...props }: IconProps) => {
+const NotionIcon = ({ color = "#000", size = 24, ...props }: TIconProps) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
       <G clipPath="url(#clip0)">
