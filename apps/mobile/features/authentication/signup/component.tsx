@@ -14,133 +14,126 @@ import useSignupStore from "./store";
 import useToast from "@/hooks/use-toast";
 
 export default function SignupFeature() {
-  const router = useRouter();
-  const foreground = useThemeColor("foreground");
-  const { values, submitting, error, setField, signup } = useSignupStore();
-  const { show } = useToast();
+	const router = useRouter();
+	const foreground = useThemeColor("foreground");
+	const { values, submitting, error, setField, signup } = useSignupStore();
+	const { show } = useToast();
 
+	const schema = useMemo(
+		() => ({
+			email: [validationRules.required("Email"), validationRules.email()],
+			password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
+			fullName: [validationRules.required("Full Name"), validationRules.minLength(2, "Full Name")],
+			confirm: [validationRules.required("Confirm Password"), validationRules.matchesField("password")],
+		}),
+		[],
+	);
 
-  const schema = useMemo(
-    () => ({
-      email: [validationRules.required("Email"), validationRules.email()],
-      password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
-      fullName: [validationRules.required("Full Name"), validationRules.minLength(2, "Full Name")],
-      confirm: [validationRules.required("Confirm Password"), validationRules.matchesField("password")],
-    }),
-    [],
-  );
+	const { errors: validationErrors, validateForm } = useValidation(values, schema);
 
-  const { errors: validationErrors, validateForm } = useValidation(values, schema);
+	const onRegister = async () => {
+		const isValid = validateForm();
+		if (!isValid) return;
 
-  const onRegister = async () => {
-    const isValid = validateForm();
-    if (!isValid) return;
+		const { error: signupError } = await signup();
+		if (signupError) throw new Error(signupError.message);
 
-    const { error: signupError } = await signup();
-    if (signupError) throw new Error(signupError.message);
+		router.replace("/(public)/(tabs)");
+	};
 
-    router.replace("/(public)/(tabs)");
-  };
+	return (
+		<KeyboardAwareScrollView
+			pinchGestureEnabled={false}
+			keyboardDismissMode="on-drag"
+			snapToAlignment="center"
+			centerContent
+			className="flex-1">
+			<View className="justify-center bg-transparent px-5">
+				<View className="mb-2 flex-row items-center gap-x-3 px-3">
+					<Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
+					<View className="-mt-2">
+						<Text className="w-full text-left text-3xl font-bold text-black dark:text-white">Sign up</Text>
+						<Text className="text-md w-full text-left text-neutral-600 dark:text-neutral-300">
+							Create an account to get started.
+						</Text>
+					</View>
+				</View>
 
-  return (
-    <KeyboardAwareScrollView
-      pinchGestureEnabled={false}
-      keyboardDismissMode="on-drag"
-      snapToAlignment="center"
-      centerContent
-      className="flex-1">
-      <View className="justify-center bg-transparent px-5">
-        <View className="mb-2 flex-row items-center gap-x-3 px-3">
-          <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
-          <View className="-mt-2">
-            <Text className="w-full text-left text-3xl font-bold text-black dark:text-white">Sign up</Text>
-            <Text className="text-md w-full text-left text-neutral-600 dark:text-neutral-300">
-              Create an account to get started.
-            </Text>
-          </View>
-        </View>
+				<View className="mt-2 gap-y-3">
+					<UITextfield
+						placeholder="John Smith"
+						keyboardType="name-phone-pad"
+						autoCapitalize="words"
+						labelProps={{ value: "Full name" }}
+						value={values.fullName}
+						enterKeyHint="next"
+						dataDetectorTypes="all"
+						returnKeyLabel="next"
+						returnKeyType="next"
+						textContentType="givenName"
+						onChangeText={(text) => setField("fullName", text)}
+						error={validationErrors.fullName}
+						isInvalid={!!validationErrors.fullName}
+					/>
 
-        <View className="mt-2 gap-y-3">
-          <UITextfield
-            placeholder="John Smith"
-            keyboardType="name-phone-pad"
-            autoCapitalize="words"
-            labelProps={{ value: "Full name" }}
-            value={values.fullName}
-            enterKeyHint="next"
-            dataDetectorTypes="all"
-            returnKeyLabel="next"
-            returnKeyType="next"
-            textContentType="givenName"
-            onChangeText={(text) => setField("fullName", text)}
-            error={validationErrors.fullName}
-            isInvalid={!!validationErrors.fullName}
-          />
+					<UITextfield
+						placeholder="you@example.com"
+						keyboardType="email-address"
+						textContentType="emailAddress"
+						spellCheck
+						autoCorrect={false}
+						inputMode="email"
+						importantForAutofill="yes"
+						autoCapitalize="none"
+						value={values.email}
+						enterKeyHint="next"
+						onChangeText={(text) => setField("email", text)}
+						returnKeyType="next"
+						error={validationErrors.email}
+						isInvalid={!!validationErrors.email}
+					/>
 
-          <UITextfield
-            placeholder="you@example.com"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            spellCheck
-            autoCorrect={false}
-            inputMode="email"
-            importantForAutofill="yes"
-            autoCapitalize="none"
-            value={values.email}
-            enterKeyHint="next"
-            onChangeText={(text) => setField("email", text)}
-            returnKeyType="next"
-            error={validationErrors.email}
-            isInvalid={!!validationErrors.email}
-          />
+					<UITextfield
+						placeholder="Password"
+						keyboardType="visible-password"
+						labelProps={{ value: "Password" }}
+						secureTextEntry
+						enterKeyHint="next"
+						value={values.password}
+						onChangeText={(text) => setField("password", text)}
+						error={validationErrors.password}
+						isInvalid={!!validationErrors.password}
+					/>
+					<UITextfield
+						placeholder="Confirm Password"
+						keyboardType="visible-password"
+						secureTextEntry
+						enterKeyHint="next"
+						value={values.confirm}
+						onChangeText={(text) => setField("confirm", text)}
+						returnKeyType="done"
+						error={validationErrors.confirm}
+						isInvalid={!!validationErrors.confirm}
+					/>
+				</View>
 
-          <UITextfield
-            placeholder="Password"
-            keyboardType="visible-password"
-            labelProps={{ value: "Password" }}
-            secureTextEntry
-            enterKeyHint="next"
-            value={values.password}
-            onChangeText={(text) => setField("password", text)}
-            error={validationErrors.password}
-            isInvalid={!!validationErrors.password}
-          />
-          <UITextfield
-            placeholder="Confirm Password"
-            keyboardType="visible-password"
-            secureTextEntry
-            enterKeyHint="next"
-            value={values.confirm}
-            onChangeText={(text) => setField("confirm", text)}
-            returnKeyType="done"
-            error={validationErrors.confirm}
-            isInvalid={!!validationErrors.confirm}
-          />
-        </View>
-
-        {error ? <Text className="mt-3 text-red-600">{error}</Text> : null}
-        <ErrorBoundary onError={(error) => {
-          console.log(error.message)
-          show({ title: "Authentication failed", description: error.message })
-        }}>
-          <View className="mt-8">
-            <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
-              {submitting ? "Creating..." : "Create account"}
-            </Button>
-          </View>
-          <View className="flex-row items-center justify-items-stretch gap-x-2 mt-2">
-            {Platform.OS === "ios" && <AppleButton />}
-            <GoogleButton />
-            <TikTokButton />
-          </View>
-        </ErrorBoundary>
-        <View className="mt-3 flex-row items-center justify-center gap-x-2">
-          <Text className="text-gray-500">Already have an account?</Text>
-          <Link href="/login" dismissTo replace>
-            <Text className="text-accent">Sign in</Text>
-          </Link>
-        </View>
-      </View>
-    </KeyboardAwareScrollView>
-  );
+				<View className="mt-8">
+					<Button variant="primary" onPress={onRegister} isDisabled={submitting}>
+						{submitting ? "Creating..." : "Create account"}
+					</Button>
+				</View>
+				<View className="flex-row items-center justify-items-stretch gap-x-2 mt-3">
+					{Platform.OS === "ios" && <AppleButton />}
+					<GoogleButton />
+					<TikTokButton />
+				</View>
+				<View className="mt-3 flex-row items-center justify-center gap-x-2">
+					<Text className="text-gray-500">Already have an account?</Text>
+					<Link href="/login" dismissTo replace>
+						<Text className="text-accent">Sign in</Text>
+					</Link>
+				</View>
+			</View>
+		</KeyboardAwareScrollView>
+	);
 }
