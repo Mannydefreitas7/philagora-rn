@@ -1,5 +1,7 @@
 export * from "./aurora";
 export * from "./card";
+export * from "./circle-loader";
+export * from "./circular-loader";
 export * from "./gooey-text";
 export * from "./icon";
 export * from "./inputs";

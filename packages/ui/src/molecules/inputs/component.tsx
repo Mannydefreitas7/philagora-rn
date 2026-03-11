@@ -1,4 +1,4 @@
-import * as React from "react";
+import { AnimatePresence, Motion } from "@legendapp/motion";
 import { FieldError, Input, Label, TextField } from "heroui-native";
 import type { UITextfieldProps } from "./types";
 
@@ -14,10 +14,28 @@ const UITextfield = ({ inputProps, error, labelProps, ...props }: UITextfieldPro
       )}
       <Input
         {...inputProps}
-        className="bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700"
+        className="bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 focus:border-accent error:border-danger rounded-full px-4"
         placeholder={props.placeholder}
       />
-      {props.isInvalid && error ? <FieldError>{error}</FieldError> : null}
+      <AnimatePresence>
+        {props.isInvalid && error ? (
+          <Motion.View
+            key={props.id}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              default: {
+                type: "spring",
+              },
+              opacity: {
+                type: "spring",
+              },
+            }}
+            exit={{ opacity: 0, y: -20 }}>
+            <FieldError>{error}</FieldError>
+          </Motion.View>
+        ) : null}
+      </AnimatePresence>
     </TextField>
   );
 };

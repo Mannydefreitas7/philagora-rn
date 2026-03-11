@@ -3,7 +3,6 @@ import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
 import { Platform, Text, View } from "react-native";
-import ErrorBoundary from "react-native-error-boundary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Logo from "@/assets/logo-philagora-black.svg";
 import AppleButton from "@/features/authentication/apple-auth";
@@ -12,128 +11,137 @@ import TikTokButton from "@/features/authentication/tiktok-auth";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 import useSignupStore from "./store";
 import useToast from "@/hooks/use-toast";
+import { Motion } from "@legendapp/motion";
 
 export default function SignupFeature() {
-	const router = useRouter();
-	const foreground = useThemeColor("foreground");
-	const { values, submitting, error, setField, signup } = useSignupStore();
-	const { show } = useToast();
+  const router = useRouter();
+  const foreground = useThemeColor("foreground");
+  const { values, submitting, error, setField, signup } = useSignupStore();
+  const { show } = useToast();
 
-	const schema = useMemo(
-		() => ({
-			email: [validationRules.required("Email"), validationRules.email()],
-			password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
-			fullName: [validationRules.required("Full Name"), validationRules.minLength(2, "Full Name")],
-			confirm: [validationRules.required("Confirm Password"), validationRules.matchesField("password")],
-		}),
-		[],
-	);
+  const schema = useMemo(
+    () => ({
+      email: [validationRules.required("Email"), validationRules.email()],
+      password: [validationRules.required("Password"), validationRules.minLength(8, "Password")],
+      fullName: [validationRules.required("Full Name"), validationRules.minLength(2, "Full Name")],
+      confirm: [validationRules.required("Confirm Password"), validationRules.matchesField("password")],
+    }),
+    [],
+  );
 
-	const { errors: validationErrors, validateForm } = useValidation(values, schema);
+  const { errors: validationErrors, validateForm, isSubmitDisabled } = useValidation(values, schema);
 
-	const onRegister = async () => {
-		const isValid = validateForm();
-		if (!isValid) return;
+  const onRegister = async () => {
+    const isValid = validateForm();
+    if (!isValid) return;
 
-		const { error: signupError } = await signup();
-		if (signupError) throw new Error(signupError.message);
+    const { error: signupError } = await signup();
+    if (signupError) {
+      show({ title: "Signup Failed", type: "danger", description: signupError.message });
+      return;
+    }
 
-		router.replace("/(public)/(tabs)");
-	};
+    if (error) {
+      show({ title: "Signup Failed", type: "danger", description: error });
+      return;
+    }
 
-	return (
-		<KeyboardAwareScrollView
-			pinchGestureEnabled={false}
-			keyboardDismissMode="on-drag"
-			snapToAlignment="center"
-			centerContent
-			className="flex-1">
-			<View className="justify-center bg-transparent px-5">
-				<View className="mb-2 flex-row items-center gap-x-3 px-3">
-					<Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
-					<View className="-mt-2">
-						<Text className="w-full text-left text-3xl font-bold text-black dark:text-white">Sign up</Text>
-						<Text className="text-md w-full text-left text-neutral-600 dark:text-neutral-300">
-							Create an account to get started.
-						</Text>
-					</View>
-				</View>
+    router.replace("/(public)/(tabs)");
+  };
 
-				<View className="mt-2 gap-y-3">
-					<UITextfield
-						placeholder="John Smith"
-						keyboardType="name-phone-pad"
-						autoCapitalize="words"
-						labelProps={{ value: "Full name" }}
-						value={values.fullName}
-						enterKeyHint="next"
-						dataDetectorTypes="all"
-						returnKeyLabel="next"
-						returnKeyType="next"
-						textContentType="givenName"
-						onChangeText={(text) => setField("fullName", text)}
-						error={validationErrors.fullName}
-						isInvalid={!!validationErrors.fullName}
-					/>
+  return (
+    <KeyboardAwareScrollView
+      pinchGestureEnabled={false}
+      keyboardDismissMode="on-drag"
+      snapToAlignment="center"
+      centerContent
+      className="flex-1">
+      <Motion.View className="justify-center bg-transparent px-5">
+        <View className="mb-2 flex-row items-center gap-x-3 px-3">
+          <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
+          <View className="-mt-2">
+            <Text className="w-full text-left text-3xl font-bold text-black dark:text-white">Sign up</Text>
+            <Text className="text-md w-full text-left text-neutral-600 dark:text-neutral-300">
+              Create an account to get started.
+            </Text>
+          </View>
+        </View>
 
-					<UITextfield
-						placeholder="you@example.com"
-						keyboardType="email-address"
-						textContentType="emailAddress"
-						spellCheck
-						autoCorrect={false}
-						inputMode="email"
-						importantForAutofill="yes"
-						autoCapitalize="none"
-						value={values.email}
-						enterKeyHint="next"
-						onChangeText={(text) => setField("email", text)}
-						returnKeyType="next"
-						error={validationErrors.email}
-						isInvalid={!!validationErrors.email}
-					/>
+        <View className="mt-2 gap-y-3">
+          <UITextfield
+            placeholder="John Smith"
+            keyboardType="name-phone-pad"
+            autoCapitalize="words"
+            labelProps={{ value: "Full name" }}
+            value={values.fullName}
+            enterKeyHint="next"
+            dataDetectorTypes="all"
+            returnKeyLabel="next"
+            returnKeyType="next"
+            textContentType="givenName"
+            onChangeText={(text) => setField("fullName", text)}
+            error={validationErrors.fullName}
+            isInvalid={!!validationErrors.fullName}
+          />
 
-					<UITextfield
-						placeholder="Password"
-						keyboardType="visible-password"
-						labelProps={{ value: "Password" }}
-						secureTextEntry
-						enterKeyHint="next"
-						value={values.password}
-						onChangeText={(text) => setField("password", text)}
-						error={validationErrors.password}
-						isInvalid={!!validationErrors.password}
-					/>
-					<UITextfield
-						placeholder="Confirm Password"
-						keyboardType="visible-password"
-						secureTextEntry
-						enterKeyHint="next"
-						value={values.confirm}
-						onChangeText={(text) => setField("confirm", text)}
-						returnKeyType="done"
-						error={validationErrors.confirm}
-						isInvalid={!!validationErrors.confirm}
-					/>
-				</View>
+          <UITextfield
+            placeholder="you@example.com"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            spellCheck
+            autoCorrect={false}
+            inputMode="email"
+            importantForAutofill="yes"
+            autoCapitalize="none"
+            value={values.email}
+            enterKeyHint="next"
+            onChangeText={(text) => setField("email", text)}
+            returnKeyType="next"
+            error={validationErrors.email}
+            isInvalid={!!validationErrors.email}
+          />
 
-				<View className="mt-8">
-					<Button variant="primary" onPress={onRegister} isDisabled={submitting}>
-						{submitting ? "Creating..." : "Create account"}
-					</Button>
-				</View>
-				<View className="flex-row items-center justify-items-stretch gap-x-2 mt-3">
-					{Platform.OS === "ios" && <AppleButton />}
-					<GoogleButton />
-					<TikTokButton />
-				</View>
-				<View className="mt-3 flex-row items-center justify-center gap-x-2">
-					<Text className="text-gray-500">Already have an account?</Text>
-					<Link href="/login" dismissTo replace>
-						<Text className="text-accent">Sign in</Text>
-					</Link>
-				</View>
-			</View>
-		</KeyboardAwareScrollView>
-	);
+          <UITextfield
+            placeholder="Password"
+            keyboardType="visible-password"
+            labelProps={{ value: "Password" }}
+            secureTextEntry
+            enterKeyHint="next"
+            value={values.password}
+            onChangeText={(text) => setField("password", text)}
+            error={validationErrors.password}
+            isInvalid={!!validationErrors.password}
+          />
+          <UITextfield
+            placeholder="Confirm Password"
+            keyboardType="visible-password"
+            secureTextEntry
+            enterKeyHint="next"
+            value={values.confirm}
+            onChangeText={(text) => setField("confirm", text)}
+            returnKeyType="done"
+            error={validationErrors.confirm}
+            isInvalid={!!validationErrors.confirm}
+          />
+        </View>
+
+        <View className="mt-8">
+          <Button variant="primary" onPress={onRegister} isDisabled={isSubmitDisabled || submitting}>
+            {submitting ? "Creating..." : "Create account"}
+          </Button>
+        </View>
+        <View className="flex-row items-center justify-items-stretch gap-x-2 mt-3">
+          {Platform.OS === "ios" && <AppleButton />}
+          <GoogleButton />
+          <TikTokButton />
+        </View>
+        <View className="mt-3 flex-row items-center justify-center gap-x-2">
+          <Text className="text-gray-500">Already have an account?</Text>
+          <Link href="/login" dismissTo replace>
+            <Text className="text-accent">Sign in</Text>
+          </Link>
+        </View>
+      </Motion.View>
+    </KeyboardAwareScrollView >
+  );
 }
