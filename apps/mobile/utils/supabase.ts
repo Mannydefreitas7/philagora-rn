@@ -1,9 +1,5 @@
 import { observable } from "@legendapp/state";
-import {
-  configureSyncedSupabase,
-  type SyncedSupabaseConfig,
-  syncedSupabase,
-} from "@legendapp/state/sync-plugins/supabase";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { CompositeTypes, Database } from "@repo/typings/database";
 import { createClient, processLock, type SupabaseClient } from "@supabase/supabase-js";
@@ -41,6 +37,9 @@ class SupabaseInstance {
   }
 
   private constructor() {
+
+    console.log("Supabase client initializing...", process.env.EXPO_PUBLIC_SUPABASE_URL);
+
     this.supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || "";
     this.supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.EXPO_PUBLIC_SUPABASE_KEY;
     if (!this.isConfigured) this.configure();
@@ -48,9 +47,6 @@ class SupabaseInstance {
 
   // create an observable to store the session
   private configure() {
-    configureSyncedSupabase({
-      generateId: this.generateId,
-    });
     this.isConfigured = true;
     this.supabaseClient = this.setupClient();
   }
@@ -74,22 +70,6 @@ class SupabaseInstance {
       },
     });
     return supabase;
-  }
-
-  public collection<T extends TCollectionName = TCollectionName>(
-    table: T,
-    { ...options }: SyncedSupabaseConfig<CompositeTypes<{ schema: "public" }>, Database>,
-  ) {
-    if (!this.supabaseClient || !this.supabaseClient.schema) {
-      throw new Error("Supabase client is not initialized");
-    }
-    return syncedSupabase({
-      supabase: this.supabaseClient,
-      collection: table,
-      schema: "public",
-      realtime: true,
-      ...options,
-    });
   }
 
   public getClient(): SupabaseClient<Database> {

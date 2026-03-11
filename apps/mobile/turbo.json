@@ -1,29 +1,40 @@
 {
-	"extends": ["//"],
-	"tasks": {
-		"build": {
-			"cache": true,
-			"dependsOn": ["^build", "ios"]
-		},
-		"check-types": {
-			"dependsOn": ["^check-types"]
-		},
-		"prebuild": {
-			"cache": true,
-			"outputs": ["ios", "android"]
-		},
-		"start": {
-			"cache": false,
-			"persistent": true,
-			"interactive": true,
-			"with": ["@repo/server#start"]
-		},
-		"ios": {
-			"cache": true,
-			"dependsOn": ["prebuild"]
-		},
-		"android": {
-			"cache": true
-		}
-	}
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "cache": true,
+      "dependsOn": [
+        "^build",
+        "ios"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "prebuild": {
+      "cache": true,
+      "outputs": [
+        "ios",
+        "android"
+      ]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "interactive": true
+    },
+    "ios": {
+      "cache": true,
+      "dependsOn": [
+        "prebuild"
+      ]
+    },
+    "android": {
+      "cache": true
+    }
+  }
 }

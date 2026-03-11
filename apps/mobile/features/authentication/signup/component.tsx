@@ -2,21 +2,23 @@ import { UITextfield } from "@repo/ui";
 import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { useMemo } from "react";
-import { Text, useColorScheme, View } from "react-native";
+import { Platform, Text, View } from "react-native";
+import ErrorBoundary from "react-native-error-boundary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Logo from "@/assets/logo-philagora-black.svg";
+import AppleButton from "@/features/authentication/apple-auth";
+import GoogleButton from "@/features/authentication/google-auth";
+import TikTokButton from "@/features/authentication/tiktok-auth";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 import useSignupStore from "./store";
-import AppleButton from "@/features/authentication/apple-auth";
-import { AppleAuthenticationButtonStyle, AppleAuthenticationButtonType } from "expo-apple-authentication";
-import { useUniwind } from "uniwind";
-
+import useToast from "@/hooks/use-toast";
 
 export default function SignupFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
-  const theme = useColorScheme();
   const { values, submitting, error, setField, signup } = useSignupStore();
+  const { show } = useToast();
+
 
   const schema = useMemo(
     () => ({
@@ -35,13 +37,18 @@ export default function SignupFeature() {
     if (!isValid) return;
 
     const { error: signupError } = await signup();
-    if (signupError) return;
+    if (signupError) throw new Error(signupError.message);
 
     router.replace("/(public)/(tabs)");
   };
 
   return (
-    <KeyboardAwareScrollView pinchGestureEnabled={false} keyboardDismissMode="on-drag" snapToAlignment="center" centerContent className="flex-1">
+    <KeyboardAwareScrollView
+      pinchGestureEnabled={false}
+      keyboardDismissMode="on-drag"
+      snapToAlignment="center"
+      centerContent
+      className="flex-1">
       <View className="justify-center bg-transparent px-5">
         <View className="mb-2 flex-row items-center gap-x-3 px-3">
           <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
@@ -112,20 +119,27 @@ export default function SignupFeature() {
         </View>
 
         {error ? <Text className="mt-3 text-red-600">{error}</Text> : null}
-
-        <View className="mt-8">
-          <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
-            {submitting ? "Creating..." : "Create account"}
-          </Button>
-        </View>
-
+        <ErrorBoundary onError={(error) => {
+          console.log(error.message)
+          show({ title: "Authentication failed", description: error.message })
+        }}>
+          <View className="mt-8">
+            <Button variant="primary" onPress={onRegister} isDisabled={submitting}>
+              {submitting ? "Creating..." : "Create account"}
+            </Button>
+          </View>
+          <View className="flex-row items-center justify-items-stretch gap-x-2 mt-2">
+            {Platform.OS === "ios" && <AppleButton />}
+            <GoogleButton />
+            <TikTokButton />
+          </View>
+        </ErrorBoundary>
         <View className="mt-3 flex-row items-center justify-center gap-x-2">
           <Text className="text-gray-500">Already have an account?</Text>
           <Link href="/login" dismissTo replace>
             <Text className="text-accent">Sign in</Text>
           </Link>
         </View>
-        <AppleButton className="mt-4" buttonType={AppleAuthenticationButtonType.SIGN_UP} buttonStyle={theme === "dark" ? AppleAuthenticationButtonStyle.WHITE : AppleAuthenticationButtonStyle.BLACK} />
       </View>
     </KeyboardAwareScrollView>
   );

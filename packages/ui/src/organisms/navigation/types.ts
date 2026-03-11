@@ -1,4 +1,4 @@
-import type { TIconProps } from "../../molecules/types";
+import type { TIconProps } from "../../base/types";
 
 export type THeaderProps = {
   title: string;

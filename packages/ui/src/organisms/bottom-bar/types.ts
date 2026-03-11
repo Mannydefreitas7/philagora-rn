@@ -1,5 +1,5 @@
 import type { ITab } from "@repo/typings";
-import type { TIconProps } from "../../molecules/types";
+import type { TIconProps } from "../../types";
 
 export type TBottomBarProps = {
   children: React.ReactNode;

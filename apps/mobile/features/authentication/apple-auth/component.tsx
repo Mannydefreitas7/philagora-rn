@@ -1,36 +1,30 @@
-import * as AppleAuthentication from "expo-apple-authentication";
+import {
+  AppleAuthenticationButton,
+  AppleAuthenticationButtonStyle,
+  AppleAuthenticationButtonType,
+} from "expo-apple-authentication";
 import { useRouter } from "expo-router";
-import { Platform, Text, View } from "react-native";
-
+import { Button, cn } from "heroui-native";
+import { Platform, Text, useColorScheme, View } from "react-native";
 import useAppleAuthStore from "./store";
-import { cn } from "heroui-native";
+import { Apple } from "iconsax-react-nativejs";
 import type { TAppleAuthFeatureProps } from "./types";
 
-
-export default function AppleAuthFeature({ className, buttonStyle, buttonType }: TAppleAuthFeatureProps) {
+export default function AppleAuthFeature({ className, label }: TAppleAuthFeatureProps) {
   const router = useRouter();
   const { submitting, error, signInWithApple } = useAppleAuthStore();
-
+  const theme = useColorScheme();
   const handleSignIn = async () => {
     const { error: authError } = await signInWithApple();
-    if (authError) return;
+    if (authError) throw authError;
+    if (error) throw new Error(error);
     router.replace("/(public)/(tabs)");
   };
 
-  if (Platform.OS !== "ios") return null;
-
   return (
-    <View className={cn(className, "w-full")}>
-      <AppleAuthentication.AppleAuthenticationButton
-        buttonType={buttonType ?? AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={buttonStyle ?? AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-        cornerRadius={50}
-
-        style={{ width: "100%", height: 50 }}
-        onPress={handleSignIn}
-      />
-
-      {error ? <Text className="mt-3 text-sm text-red-600">{error}</Text> : null}
-    </View>
+    <Button onPress={handleSignIn} variant="primary" className="flex flex-auto">
+      <Apple color={theme === "dark" ? "black" : "white"} size={16} vectorEffect="default" variant="Bold" />
+      <Button.Label className="text-white dark:text-black">{submitting ? "Signing in..." : "Apple"}</Button.Label>
+    </Button>
   );
 }

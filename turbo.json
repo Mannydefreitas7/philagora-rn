@@ -11,6 +11,22 @@
       ],
       "cache": true
     },
+    "@repo/server#start": {
+      "env": [
+        "EXPO_PUBLIC_SUPABASE_AUTH",
+        "EXPO_PUBLIC_SUPABASE_URL",
+        "SUPABASE_AUTH_EXTERNAL_APPLE_SECRET",
+        "EXPO_PUBLIC_DATABASE_URL",
+        "OPENAI_API_KEY"
+      ]
+    },
+    "@repo/mobile#start": {
+      "passThroughEnv": [
+        "EXPO_PUBLIC_SUPABASE_URL",
+        "EXPO_PUBLIC_SUPABASE_AUTH",
+        "EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY"
+      ]
+    },
     "check-types": {
       "dependsOn": [
         "^check-types"

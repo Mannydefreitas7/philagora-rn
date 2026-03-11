@@ -147,9 +147,9 @@ max_indexes = 5
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "env(EXPO_PUBLIC_SUPABASE_AUTH)"
+site_url = "env(EXPO_PUBLIC_SUPABASE_URL)"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["env(EXPO_PUBLIC_SUPABASE_AUTH)"]
+additional_redirect_urls = ["env(EXPO_PUBLIC_SUPABASE_URL)"]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to the local API URL (http://127.0.0.1:<port>/auth/v1).
@@ -235,7 +235,7 @@ otp_expiry = 3600
 
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
-enable_signup = true
+enable_signup = false
 # If enabled, users need to confirm their phone number before signing in.
 enable_confirmations = false
 # Template for sending OTP to users
@@ -300,7 +300,7 @@ max_frequency = "5s"
 # `twitter`, `x`, `slack`, `spotify`, `workos`, `zoom`.
 [auth.external.apple]
 enabled = true
-client_id = "com.philagora.mobile"
+client_id = "com.philagora.service.io"
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
 secret = "env(SUPABASE_AUTH_EXTERNAL_APPLE_SECRET)"
 # Overrides the default auth redirectUrl.
@@ -309,7 +309,7 @@ redirect_uri = ""
 # or any other third-party OIDC providers.
 url = ""
 # If enabled, the nonce check will be skipped. Required for local sign in with Google auth.
-skip_nonce_check = false
+skip_nonce_check = true
 # If enabled, it will allow the user to successfully authenticate when the provider does not return an email address.
 email_optional = false
 
@@ -325,9 +325,9 @@ enabled = false
 
 # Use Auth0 as a third-party provider alongside Supabase Auth.
 [auth.third_party.auth0]
-enabled = false
-# tenant = "my-auth0-tenant"
-# tenant_region = "us"
+enabled = true
+tenant = "my-auth0-tenant"
+tenant_region = "us"
 
 # Use AWS Cognito (Amplify) as a third-party provider alongside Supabase Auth.
 [auth.third_party.aws_cognito]
@@ -344,7 +344,7 @@ enabled = false
 # OAuth server configuration
 [auth.oauth_server]
 # Enable OAuth server functionality
-enabled = false
+enabled = true
 # Path for OAuth consent flow UI
 authorization_url_path = "/oauth/consent"
 # Allow dynamic client registration

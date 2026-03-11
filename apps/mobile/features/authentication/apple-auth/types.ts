@@ -1,4 +1,4 @@
-import { AppleAuthenticationButtonStyle, AppleAuthenticationButtonType } from "expo-apple-authentication";
+import type { AppleAuthenticationButtonStyle, AppleAuthenticationButtonType } from "expo-apple-authentication";
 
 // Domain entity — mirrors the shape of an Apple-authenticated user in auth.users
 export type AppleAuthItem = {
@@ -17,8 +17,14 @@ export type AppleAuthResult = {
   error: Error | null;
 };
 
+export enum AppleAuthButtonLabel {
+  SIGN_UP = "Sign up",
+  SIGN_IN = "Sign in",
+  CONTINUE = "Continue",
+
+}
+
 export type TAppleAuthFeatureProps = {
-  className?: string;
-  buttonStyle?: AppleAuthenticationButtonStyle;
-  buttonType?: AppleAuthenticationButtonType;
+  className?: string
+  label?: AppleAuthButtonLabel;
 };
