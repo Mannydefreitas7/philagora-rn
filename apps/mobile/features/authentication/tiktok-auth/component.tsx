@@ -1,11 +1,10 @@
-import { Icon } from "@repo/ui";
+import { CircularLoader, Icon } from "@repo/ui";
 import { useRouter } from "expo-router";
 import { Button } from "heroui-native";
 import { useColorScheme } from "react-native";
-
+import useToast from "@/hooks/use-toast";
 import useTikTokAuthStore from "./store";
 import type { TTikTokAuthFeatureProps } from "./types";
-import useToast from "@/hooks/use-toast";
 
 export default function TikTokAuthFeature({ className }: TTikTokAuthFeatureProps) {
 	const router = useRouter();
@@ -33,8 +32,18 @@ export default function TikTokAuthFeature({ className }: TTikTokAuthFeatureProps
 			className={`flex flex-auto border border-neutral-300 dark:border-neutral-800 ${className ?? ""}`}
 			onPress={handleSignIn}
 			isDisabled={submitting}>
-			<Icon variant="fill" name="TiktokSquare2" color={theme === "dark" ? "white" : "black"} size={22} />
-			<Button.Label>{submitting ? "Signing in..." : "TikTok"}</Button.Label>
+			{!submitting ? (
+				<CircularLoader
+					size={18}
+					strokeWidth={3}
+					activeColor={theme === "light" ? "black" : "white"}
+					enableBlur
+					gradientLength={20}
+				/>
+			) : (
+				<Icon name="TiktokSquare2" color={theme === "light" ? "black" : "white"} size={22} variant="fill" />
+			)}
+			<Button.Label>TikTok</Button.Label>
 		</Button>
 	);
 }

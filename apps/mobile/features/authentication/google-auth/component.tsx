@@ -6,6 +6,7 @@ import { useColorScheme } from "react-native";
 import useGoogleAuthStore from "./store";
 import type { TGoogleAuthFeatureProps } from "./types";
 import useToast from "@/hooks/use-toast";
+import { CircularLoader } from "@repo/ui";
 
 export default function GoogleAuthFeature({ className }: TGoogleAuthFeatureProps) {
 	const router = useRouter();
@@ -41,7 +42,17 @@ export default function GoogleAuthFeature({ className }: TGoogleAuthFeatureProps
 			className="flex flex-auto border border-neutral-300 dark:border-neutral-800"
 			onPress={handleSignIn}
 			isDisabled={submitting}>
-			<Google color={theme === "dark" ? "white" : "black"} size={16} variant="Bold" />
+			{!submitting ? (
+				<CircularLoader
+					size={18}
+					strokeWidth={3}
+					activeColor={theme === "light" ? "black" : "white"}
+					enableBlur
+					gradientLength={20}
+				/>
+			) : (
+				<Google color={theme === "light" ? "black" : "white"} size={16} vectorEffect="default" variant="Bold" />
+			)}
 			<Button.Label>{submitting ? "Signing in..." : "Google"}</Button.Label>
 		</Button>
 	);
