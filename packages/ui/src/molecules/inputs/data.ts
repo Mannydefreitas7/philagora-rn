@@ -1,4 +1,4 @@
-import type { UITextfieldItem } from "./types";
+import type { IconName, UITextfieldItem } from "./types";
 
 export const uITextfieldSeeds: UITextfieldItem[] = [
   {
@@ -21,3 +21,10 @@ export const uITextfieldSeeds: UITextfieldItem[] = [
     createdAt: "2024-01-03T00:00:00.000Z",
   },
 ];
+
+const getIcon = async (iconName: IconName) => {
+  const { [iconName]: icon } = await import(`iconsax-react-nativejs`);
+  return icon;
+};
+
+export { getIcon };

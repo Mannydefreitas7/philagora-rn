@@ -1,6 +1,6 @@
+import type { TIconProps } from "../../types";
 import { iconList } from "./data";
 import type { TBaseIconName, TKey } from "./types";
-import type { TIconProps } from "../../types";
 
 function InternalIcon(props: TIconProps) {
   const getIcon = (name: TBaseIconName) => {
@@ -10,9 +10,8 @@ function InternalIcon(props: TIconProps) {
 
   const IconComponent = getIcon(props.name);
   if (IconComponent) {
-    return <IconComponent {...props} />
-
-  };
+    return <IconComponent {...props} />;
+  }
 }
 
 export default InternalIcon;

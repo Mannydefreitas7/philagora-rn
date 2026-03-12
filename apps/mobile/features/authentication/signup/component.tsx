@@ -1,7 +1,7 @@
 import { UITextfield } from "@repo/ui";
 import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Logo from "@/assets/logo-philagora-black.svg";
@@ -11,13 +11,15 @@ import TikTokButton from "@/features/authentication/tiktok-auth";
 import useValidation, { validationRules } from "@/hooks/use-validation";
 import useSignupStore from "./store";
 import useToast from "@/hooks/use-toast";
-import { Motion } from "@legendapp/motion";
+import { AnimatePresence, Motion } from "@legendapp/motion";
+import { randomUUID } from "expo-crypto";
 
 export default function SignupFeature() {
   const router = useRouter();
   const foreground = useThemeColor("foreground");
   const { values, submitting, error, setField, signup } = useSignupStore();
   const { show } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
 
   const schema = useMemo(
     () => ({
@@ -29,7 +31,7 @@ export default function SignupFeature() {
     [],
   );
 
-  const { errors: validationErrors, validateForm, isSubmitDisabled } = useValidation(values, schema);
+  const { errors: validationErrors, validateForm, isSubmitDisabled, validateField } = useValidation(values, schema);
 
   const onRegister = async () => {
     const isValid = validateForm();
@@ -49,6 +51,9 @@ export default function SignupFeature() {
     router.replace("/(public)/(tabs)");
   };
 
+  const showConfirmPassword = useMemo(() => values.password.length > 0 && !validateField("password"), [
+    values.password, validateField]);
+
   return (
     <KeyboardAwareScrollView
       pinchGestureEnabled={false}
@@ -56,7 +61,7 @@ export default function SignupFeature() {
       snapToAlignment="center"
       centerContent
       className="flex-1">
-      <Motion.View className="justify-center bg-transparent px-5">
+      <Motion.View className="justify-center bg-transparent px-5" animateProps={{ flex: 1 }} transition={{ type: 'tween', duration: 200 }}>
         <View className="mb-2 flex-row items-center gap-x-3 px-3">
           <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
           <View className="-mt-2">
@@ -72,7 +77,6 @@ export default function SignupFeature() {
             placeholder="John Smith"
             keyboardType="name-phone-pad"
             autoCapitalize="words"
-            labelProps={{ value: "Full name" }}
             value={values.fullName}
             enterKeyHint="next"
             dataDetectorTypes="all"
@@ -82,13 +86,14 @@ export default function SignupFeature() {
             onChangeText={(text) => setField("fullName", text)}
             error={validationErrors.fullName}
             isInvalid={!!validationErrors.fullName}
+            prefix="Personalcard"
           />
 
           <UITextfield
             placeholder="you@example.com"
             keyboardType="email-address"
             textContentType="emailAddress"
-            spellCheck
+            spellCheck={false}
             autoCorrect={false}
             inputMode="email"
             importantForAutofill="yes"
@@ -99,30 +104,64 @@ export default function SignupFeature() {
             returnKeyType="next"
             error={validationErrors.email}
             isInvalid={!!validationErrors.email}
+            prefix="Sms"
           />
 
           <UITextfield
             placeholder="Password"
             keyboardType="visible-password"
-            labelProps={{ value: "Password" }}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             enterKeyHint="next"
+            returnKeyType="none"
+            isRequired
+            textContentType="newPassword"
+            valid={validateField("password")}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            spellCheck={false}
             value={values.password}
+            prefix="Lock"
             onChangeText={(text) => setField("password", text)}
             error={validationErrors.password}
             isInvalid={!!validationErrors.password}
+            suffix={showPassword ? "Eye" : "EyeSlash"}
+            onSuffixPress={() => setShowPassword(!showPassword)}
           />
-          <UITextfield
-            placeholder="Confirm Password"
-            keyboardType="visible-password"
-            secureTextEntry
-            enterKeyHint="next"
-            value={values.confirm}
-            onChangeText={(text) => setField("confirm", text)}
-            returnKeyType="done"
-            error={validationErrors.confirm}
-            isInvalid={!!validationErrors.confirm}
-          />
+          <AnimatePresence >
+            {showConfirmPassword ? (
+              <Motion.View
+                key={randomUUID()}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  default: {
+                    type: "spring",
+                  },
+                  opacity: {
+                    type: "spring",
+                  },
+                }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <UITextfield
+                  placeholder="Confirm Password"
+                  keyboardType="visible-password"
+                  secureTextEntry={!showPassword}
+                  enterKeyHint="next"
+                  value={values.confirm}
+                  prefix="Lock"
+                  //   onChangeText={handleOnConfirmChange}
+                  returnKeyType="done"
+                  submitBehavior="blurAndSubmit"
+                  autoCapitalize={'none'}
+                  autoCorrect={false}
+                  spellCheck={false}
+                  error={validationErrors.confirm}
+                  isInvalid={!!validationErrors.confirm}
+                />
+              </Motion.View>
+            ) : null}
+          </AnimatePresence>
         </View>
 
         <View className="mt-8">
