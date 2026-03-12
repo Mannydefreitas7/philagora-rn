@@ -42,7 +42,7 @@ export default function GoogleAuthFeature({ className }: TGoogleAuthFeatureProps
 			className="flex flex-auto border border-neutral-300 dark:border-neutral-800"
 			onPress={handleSignIn}
 			isDisabled={submitting}>
-			{!submitting ? (
+			{submitting ? (
 				<CircularLoader
 					size={18}
 					strokeWidth={3}

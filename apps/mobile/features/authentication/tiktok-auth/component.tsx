@@ -32,7 +32,7 @@ export default function TikTokAuthFeature({ className }: TTikTokAuthFeatureProps
 			className={`flex flex-auto border border-neutral-300 dark:border-neutral-800 ${className ?? ""}`}
 			onPress={handleSignIn}
 			isDisabled={submitting}>
-			{!submitting ? (
+			{submitting ? (
 				<CircularLoader
 					size={18}
 					strokeWidth={3}

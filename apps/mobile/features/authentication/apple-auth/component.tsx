@@ -40,7 +40,7 @@ export default function AppleAuthFeature(props: TAppleAuthFeatureProps) {
 			onPress={handleSignIn}
 			variant="secondary"
 			className="flex flex-auto border border-neutral-300 dark:border-neutral-800">
-			{!submitting ? (
+			{submitting ? (
 				<CircularLoader
 					size={18}
 					strokeWidth={3}
