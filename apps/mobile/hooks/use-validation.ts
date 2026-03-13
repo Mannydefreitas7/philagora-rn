@@ -164,21 +164,30 @@ export const validationRules = {
 export function useValidation<T extends FormValues>(values: T, schema: ValidationSchema<T>) {
   const [errors, setErrors] = useState<ValidationErrors<T>>({});
 
+  const getFieldValidity = useCallback(
+    (field: keyof T): boolean | undefined => {
+      const rules = schema[field];
+      if (!rules) return undefined;
+
+      const fieldValue = toInputValue(values[field]);
+      if (!fieldValue) return undefined;
+
+      return runRules(fieldValue, values, rules) === undefined;
+    },
+    [schema, values],
+  );
+
   const validateField = useCallback(
     (field: keyof T) => {
-      const rules = schema[field] ?? [];
+      const rules = schema[field];
+      if (!rules) return undefined;
+
       const fieldValue = toInputValue(values[field]);
-      const nextError = runRules(fieldValue, values, rules);
+      const error = runRules(fieldValue, values, rules);
 
-      // setErrors((prev) => {
-      // 	if (!nextError && !(field in prev)) return prev;
-      // 	return {
-      // 		...prev,
-      // 		[field]: nextError,
-      // 	};
-      // });
+      setErrors((prev) => ({ ...prev, [field]: error }));
 
-      return !!nextError;
+      return error === undefined;
     },
     [schema, values],
   );
@@ -227,6 +236,7 @@ export function useValidation<T extends FormValues>(values: T, schema: Validatio
     errors,
     hasErrors,
     isSubmitDisabled,
+    getFieldValidity,
     validateField,
     validateForm,
     clearFieldError,
