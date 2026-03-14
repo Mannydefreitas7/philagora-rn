@@ -39,7 +39,7 @@ const UITextfield = ({ inputProps, error, labelProps, prefix, suffix, onSuffixPr
       <InputGroup>
         {PrefixIcon && (
           <InputGroup.Prefix isDecorative className="pl-4">
-            <PrefixIcon color={props.valid ? successForeground : accentForeground} variant="Outline" size={14} />
+            <PrefixIcon color={props.valid ? successForeground : accentForeground} variant="Outline" size={15} />
           </InputGroup.Prefix>
         )}
         <InputGroup.Input
@@ -48,7 +48,7 @@ const UITextfield = ({ inputProps, error, labelProps, prefix, suffix, onSuffixPr
           secureTextEntry={props.secureTextEntry}
           onChangeText={props.onChangeText}
           onEndEditing={props.onEndEditing}
-          className="bg-neutral-100  dark:bg-neutral-800 border data-[valid=true]:border-2 border-neutral-200 dark:border-neutral-700 focus:border-accent error:border-danger rounded-full px-5 data-[valid=true]:border-green-500 overflow-hidden"
+          className="bg-neutral-100  dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 focus:border-accent error:border-danger rounded-full px-5 data-[valid=true]:border-green-500 overflow-hidden"
           placeholder={props.placeholder}
         />
         {SuffixIcon && (

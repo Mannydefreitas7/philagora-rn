@@ -114,7 +114,7 @@ export default function SignupFeature() {
       snapToAlignment="center"
       keyboardShouldPersistTaps="handled">
       <View
-        className="justify-center bg-transparent px-5">
+        className="justify-center bg-transparent px-5 pt-safe-offset-6">
         <View className="mb-2 flex-row items-center gap-x-3 px-3">
           <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
           <View className="-mt-2">

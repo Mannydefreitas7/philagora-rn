@@ -19,6 +19,8 @@
     --font-size-3: 16px;
     /* Header */
     --h-height: 56px;
+    /* Fonts */
+    --font-sans: 'Quicksand-Regular';
 }
 
 @layer theme {
@@ -42,4 +44,29 @@
 
 @utility h-header {
     height: var(--h-height);
+}
+
+@utility font-light {
+    font-family: 'Quicksand-Light';
+    font-weight: 300;
+}
+
+@utility font-normal {
+    font-family: 'Quicksand-Regular';
+    font-weight: 400;
+}
+
+@utility font-medium {
+    font-family: 'Quicksand-Medium';
+    font-weight: 500;
+}
+
+@utility font-semibold {
+    font-family: 'Quicksand-SemiBold';
+    font-weight: 600;
+}
+
+@utility font-bold {
+    font-family: 'Quicksand-Bold';
+    font-weight: 700;
 }

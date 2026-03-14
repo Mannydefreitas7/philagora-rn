@@ -104,7 +104,18 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Quicksand-Light.otf",
+            "./assets/fonts/Quicksand-Regular.otf",
+            "./assets/fonts/Quicksand-Medium.otf",
+            "./assets/fonts/Quicksand-SemiBold.otf",
+            "./assets/fonts/Quicksand-Bold.otf"
+          ]
+        }
+      ],
       "expo-web-browser"
     ],
     "experiments": {
