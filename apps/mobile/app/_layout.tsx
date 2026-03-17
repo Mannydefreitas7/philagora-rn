@@ -9,33 +9,35 @@ import useSupabaseAuth from "@/hooks/use-supabase-auth";
 import { Uniwind } from "uniwind";
 import useSpacing from "@/hooks/use-spacing";
 
+global.THREE = global.THREE || THREE;
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { initializing } = useSupabaseAuth();
-  const { headerHeight } = useSpacing();
+	const { initializing } = useSupabaseAuth();
+	const { headerHeight } = useSpacing();
 
-  useEffect(() => {
-    Uniwind.updateCSSVariables(Uniwind.currentTheme, {
-      '--h-height': headerHeight
-    });
-    if (initializing) SplashScreen.hide();
-  }, [initializing]);
+	useEffect(() => {
+		Uniwind.updateCSSVariables(Uniwind.currentTheme, {
+			"--h-height": headerHeight,
+		});
+		if (initializing) SplashScreen.hide();
+	}, [initializing]);
 
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-neutral-900">
-      <KeyboardProvider>
-        <HeroUINativeProvider
-          config={{
-            devInfo: {
-              stylingPrinciples: false,
-            },
-          }}>
-          <LinkPreviewContextProvider>
-            <Stack screenOptions={{ headerShown: false }} />
-          </LinkPreviewContextProvider>
-        </HeroUINativeProvider>
-      </KeyboardProvider>
-    </GestureHandlerRootView>
-  );
+	return (
+		<GestureHandlerRootView style={{ flex: 1 }} className="bg-white dark:bg-neutral-900">
+			<KeyboardProvider>
+				<HeroUINativeProvider
+					config={{
+						devInfo: {
+							stylingPrinciples: false,
+						},
+					}}>
+					<LinkPreviewContextProvider>
+						<Stack screenOptions={{ headerShown: false }} />
+					</LinkPreviewContextProvider>
+				</HeroUINativeProvider>
+			</KeyboardProvider>
+		</GestureHandlerRootView>
+	);
 }
