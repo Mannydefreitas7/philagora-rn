@@ -13,6 +13,9 @@
       "usesAppleSignIn": true,
       "appleTeamId": "FUU334NWUK"
     },
+    "web": {
+      "bundler": "metro"
+    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",

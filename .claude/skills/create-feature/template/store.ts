@@ -34,7 +34,7 @@
  * @example
  * ```ts
  * import { createStore } from "zustand-x";
- * import { supabase } from "@/utils/supabase";
+ * import supabase from "@/utils/supabase";
  * import type { DebateValues, DebateResult, DebateState } from "./types";
  *
  * const initialValues: DebateValues = {

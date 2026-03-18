@@ -1,7 +1,7 @@
 import { observable } from "@legendapp/state";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import type { CompositeTypes, Database } from "@repo/typings/database";
+import type { Database } from "@repo/typings/database";
 import { createClient, processLock, type SupabaseClient } from "@supabase/supabase-js";
 import generatedId from "react-native-uuid";
 

@@ -44,7 +44,7 @@
  * // 2. Imports
  * import { act, renderHook } from "@testing-library/react-native";
  * import { useStoreValue } from "zustand-x";
- * import { supabase } from "@/utils/supabase";
+ * import supabase from "@/utils/supabase";
  * import useDebateStore from "./store";
  * import { debateSeeds } from "./data";
  *

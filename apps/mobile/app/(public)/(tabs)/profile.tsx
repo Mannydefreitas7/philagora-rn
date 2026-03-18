@@ -2,7 +2,7 @@ import useSupabaseAuth from "@/hooks/use-supabase-auth";
 import { useRouter } from "expo-router";
 import { Button } from "heroui-native";
 import { useCallback } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function ProfileScreen() {
 

@@ -46,7 +46,7 @@ See templates below.
 
 ```typescript
 import { createStore } from "zustand-x";
-import { supabase } from "@/utils/supabase";
+import supabase from "@/utils/supabase";
 import type { <Feature>Values, <Feature>Result, <Feature>State } from "./types";
 
 const initialValues: <Feature>Values = {
@@ -173,7 +173,7 @@ jest.mock("@/utils/supabase", () => ({
 }));
 
 import { act } from "@testing-library/react-native";
-import { supabase } from "@/utils/supabase";
+import supabase from "@/utils/supabase";
 import use<Feature>Store from "./store";
 import { <feature>Seeds } from "./data";
 
