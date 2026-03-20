@@ -4,14 +4,17 @@ import { randomUUID } from "expo-crypto";
 import { Link, useRouter } from "expo-router";
 import { Button, useThemeColor } from "heroui-native";
 import { useCallback, useMemo, useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Platform, Text, useWindowDimensions, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { WebView } from "react-native-webview";
 import Logo from "@/assets/logo-philagora-black.svg";
 import AppleButton from "@/features/authentication/apple-auth";
 import GoogleButton from "@/features/authentication/google-auth";
 import TikTokButton from "@/features/authentication/tiktok-auth";
 import useToast from "@/hooks/use-toast";
 import useValidation, { validationRules } from "@/hooks/use-validation";
+import { DOMComponent } from "@repo/ui";
+
 import useSignupStore from "./store";
 
 export default function SignupFeature() {
@@ -20,6 +23,7 @@ export default function SignupFeature() {
   const { values, submitting, error, setField, signup } = useSignupStore();
   const { show } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const { width, height } = useWindowDimensions();
 
   const schema = useMemo(
     () => ({
@@ -31,7 +35,13 @@ export default function SignupFeature() {
     [],
   );
 
-  const { errors: validationErrors, validateForm, isSubmitDisabled, getFieldValidity, validateField } = useValidation(values, schema);
+  const {
+    errors: validationErrors,
+    validateForm,
+    isSubmitDisabled,
+    getFieldValidity,
+    validateField,
+  } = useValidation(values, schema);
 
   const onRegister = async () => {
     const isValid = validateForm();
@@ -83,7 +93,7 @@ export default function SignupFeature() {
               autoComplete="current-password"
               value={values.confirm}
               prefix="Lock"
-              valid={getFieldValidity('confirm')}
+              valid={getFieldValidity("confirm")}
               onChangeText={handleOnConfirmChange}
               returnKeyType="done"
               submitBehavior="blurAndSubmit"
@@ -113,10 +123,14 @@ export default function SignupFeature() {
       keyboardDismissMode="on-drag"
       snapToAlignment="center"
       keyboardShouldPersistTaps="handled">
-      <View
-        className="justify-center bg-transparent px-5 pt-safe-offset-6">
-        <View className="mb-2 flex-row items-center gap-x-3 px-3">
-          <Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />
+      <View className="justify-center bg-transparent pt-safe-offset">
+        {/*<WebView
+          source={{ uri: "https://my.spline.design/untitled-N0lLDykYVD6hcPAmcrGwRTkD-uQJ/" }}
+          style={{ height: height / 2.5, backgroundColor: "transparent" }}
+        />*/}
+        <DOMComponent dom={{}} height={height / 2.5} />
+        <View className="mb-2 flex-row items-center gap-x-3 px-6">
+          {/*<Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />*/}
           <View className="-mt-2">
             <Text className="w-full text-left text-3xl font-bold text-black dark:text-white">Sign up</Text>
             <Text className="text-md w-full text-left text-neutral-600 dark:text-neutral-300">
@@ -125,7 +139,7 @@ export default function SignupFeature() {
           </View>
         </View>
 
-        <View className="mt-2 gap-y-3">
+        <View className="mt-2 gap-y-3 px-5">
           <UITextfield
             placeholder="John Smith"
             keyboardType="name-phone-pad"
@@ -189,17 +203,17 @@ export default function SignupFeature() {
           {renderConditionalPassword}
         </View>
 
-        <View className="mt-8">
+        <View className="mt-8 px-5">
           <Button variant="primary" onPress={onRegister} isDisabled={isSubmitDisabled || submitting}>
             {submitting ? "Creating..." : "Create account"}
           </Button>
         </View>
-        <View className="flex-row items-center justify-items-stretch gap-x-2 mt-3">
+        <View className="flex-row items-center justify-items-stretch gap-x-2 mt-3 px-5">
           {Platform.OS === "ios" && <AppleButton />}
           <GoogleButton />
           <TikTokButton />
         </View>
-        <View className="mt-3 flex-row items-center justify-center gap-x-2">
+        <View className="mt-3 px-5 flex-row items-center justify-center gap-x-2">
           <Text className="text-gray-500">Already have an account?</Text>
           <Link href="/login" dismissTo replace>
             <Text className="text-accent">Sign in</Text>

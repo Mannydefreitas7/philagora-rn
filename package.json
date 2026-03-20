@@ -133,7 +133,9 @@
         "react-redux": "^9.2.0",
         "@react-native-async-storage/async-storage": "2.2.0",
         "react-native-svg-transformer": "^1.5.3",
-        "react-native-keyboard-controller": "^1.20.7"
+        "react-native-keyboard-controller": "^1.20.7",
+        "@splinetool/react-spline": "^4.1.0",
+        "@splinetool/runtime": "^1.12.69"
       }
     }
   }

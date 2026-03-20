@@ -76,7 +76,6 @@
     "react-native-screens": "catalog:react",
     "react-native-svg": "catalog:react",
     "react-native-svg-transformer": "catalog:react",
-    "react-native-url-polyfill": "catalog:react",
     "react-native-uuid": "catalog:react",
     "react-native-webview": "13.16.1",
     "react-native-web": "catalog:react",
