@@ -13,7 +13,7 @@ import GoogleButton from "@/features/authentication/google-auth";
 import TikTokButton from "@/features/authentication/tiktok-auth";
 import useToast from "@/hooks/use-toast";
 import useValidation, { validationRules } from "@/hooks/use-validation";
-import { DOMComponent } from "@repo/ui";
+import { HanaViewer } from "@repo/ui";
 
 import useSignupStore from "./store";
 
@@ -128,7 +128,7 @@ export default function SignupFeature() {
           source={{ uri: "https://my.spline.design/untitled-N0lLDykYVD6hcPAmcrGwRTkD-uQJ/" }}
           style={{ height: height / 2.5, backgroundColor: "transparent" }}
         />*/}
-        <DOMComponent dom={{}} height={height / 2.5} />
+        <HanaViewer dom={{ scrollEnabled: false, matchContents: true, style: { height } }} url="https://prod.spline.design/de2BW6nSMDSzw5d7-Im5/scene.hanacode" height={height / 2.5} />
         <View className="mb-2 flex-row items-center gap-x-3 px-6">
           {/*<Logo stroke={foreground} strokeWidth={45} width={48} height={48} strokeLinecap="round" />*/}
           <View className="-mt-2">

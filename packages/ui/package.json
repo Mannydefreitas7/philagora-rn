@@ -34,7 +34,7 @@
     "jest": "catalog:testing",
     "jest-expo": "catalog:testing",
     "@types/jest": "catalog:testing",
-    "tsup": "^8.5.0",
+    "tsup": "^8.5.1",
     "use-immer": "catalog:development"
   },
   "dependencies": {

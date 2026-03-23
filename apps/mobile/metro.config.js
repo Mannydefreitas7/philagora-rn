@@ -27,6 +27,17 @@ defaultConfig.resolver = {
 		...defaultConfig.resolver.assetExts.filter((ext) => ext !== "svg"),
 	],
 	sourceExts: [...defaultConfig.resolver.sourceExts, "svg", "js", "jsx", "json", "ts", "tsx", "cjs"],
+	// Route browser-only packages to stubs when bundling for native.
+	// 'use dom' components are bundled with platform='web' so they get the real file.
+	resolveRequest: (context, moduleName, platform) => {
+		if (moduleName === "@repo/utils/hana" && platform !== "web") {
+			return {
+				filePath: path.resolve(workspaceRoot, "packages/utils/src/hana/index.native.js"),
+				type: "sourceFile",
+			};
+		}
+		return context.resolveRequest(context, moduleName, platform);
+	},
 };
 
 // 2. Let Metro know where to resolve packages, and in what order

@@ -17,11 +17,11 @@
     "biome:check": "bunx --bun @biomejs/biome check --write --max-diagnostics=50"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.7",
-    "@dotenvx/dotenvx": "^1.54.1",
-    "turbo": "^2.8.16",
-    "typescript": "^5.9.3",
-    "react-native-error-boundary": "^3.1.0"
+    "@biomejs/biome": "^2.4.8",
+    "@dotenvx/dotenvx": "^1.57.2",
+    "react-native-error-boundary": "^3.1.0",
+    "turbo": "^2.8.20",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18"
@@ -108,6 +108,7 @@
         "@legendapp/state": "^3.0.0-beta.45",
         "supabase": "^2.77.1",
         "immer": "^11.1.4",
+        "lit": "^3.3.2",
         "add": "^2.0.6",
         "zustand-x": "^6.2.1",
         "use-immer": "^0.11.0",
@@ -131,6 +132,7 @@
         "@reduxjs/toolkit": "^2.11.2",
         "react-native-url-polyfill": "^3.0.0",
         "react-redux": "^9.2.0",
+        "@lit/react": "^1.0.8",
         "@react-native-async-storage/async-storage": "2.2.0",
         "react-native-svg-transformer": "^1.5.3",
         "react-native-keyboard-controller": "^1.20.7",

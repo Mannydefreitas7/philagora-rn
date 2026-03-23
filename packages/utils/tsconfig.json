@@ -2,11 +2,18 @@
   "compilerOptions": {
     "outDir": "dist"
   },
+  "typeAcquisition": {
+    "enable": true,
+    "include": [
+      "./src/hana/hana.d.ts"
+    ]
+  },
   "include": [
     "src/*.ts",
   ],
   "exclude": [
     "node_modules",
+    "src/hana/index.js",
     "dist"
   ]
 }
