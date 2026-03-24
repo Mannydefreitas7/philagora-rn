@@ -1,17 +1,27 @@
 {
-  "name": "@repo/utils",
+  "name": "@repo/hana",
   "version": "0.0.0",
   "private": true,
+  "main": "index.js",
+  "types": "index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "default": "./index.js",
+      "types": "./index.d.ts",
+      "require": "./index.js"
+    },
+    "react-native": {
+      "default": "./index.js",
+      "types": "./index.d.ts",
+      "require": "./index.js"
+    }
   },
   "scripts": {
     "check-types": "tsc --noEmit",
     "clean": "rm -rf .turbo node_modules"
   },
   "devDependencies": {
-    "@repo/configs": "workspace:*",
     "@types/node": "catalog:development",
     "typescript": "catalog:development",
     "react": "catalog:react",
@@ -19,9 +29,6 @@
     "react-dom": "catalog:react",
     "react-native": "catalog:react",
     "@types/react": "catalog:development",
-    "@types/react-dom": "catalog:development",
-    "@legendapp/list": "catalog:development",
-    "@legendapp/motion": "catalog:development",
-    "@legendapp/state": "catalog:development"
+    "@types/react-dom": "catalog:development"
   }
 }

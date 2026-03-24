@@ -1,4 +1,4 @@
-import Header from './component';
+import Header from "./component";
 
+export * from "./types";
 export { Header };
-export * from './types';

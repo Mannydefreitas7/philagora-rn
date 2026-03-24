@@ -1,11 +1,9 @@
 module.exports = (api) => {
 	api.cache(true);
-	// your presets and other configs
 	return {
+		// babel-preset-expo auto-adds react-native-worklets/plugin when the package is present
 		presets: ["babel-preset-expo"],
-		plugins: [
-			// other plugins
-			"react-native-worklets/plugin",
-		],
+		// @repo/hana is a pre-built ESM bundle; skip Babel transformation to avoid parse errors
+		ignore: [(filename) => !!filename && /packages[\\/]hana/.test(filename)],
 	};
 };
